@@ -1,0 +1,11 @@
+0	1	mikroCPIC1618.exe -MSF -DBG -pP18F46K80 -LHF -DL -O11111114 -fo16 -N"C:\Users\Nils\Desktop\PIC\home_control\test\test.mcppi" -SP"C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for PIC\Defs\" -SP"C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for PIC\uses\P18\" -SP"C:\Users\Nils\Desktop\PIC\home_control\test\" "test.c" "__Lib_Math.mcl" "__Lib_MathDouble.mcl" "__Lib_System.mcl" "__Lib_Delays.mcl"	 
+hint: 0	1139	Available RAM: 3628 [bytes], Available ROM: 65536 [bytes]	 
+diagnostics: 0	122	Compilation Started	test.c
+diagnostics: 26	123	Compiled Successfully	test.c
+diagnostics: 0	127	All files Compiled in 203 ms	 
+hint: 0	1144	Used RAM (bytes): 0 (1%)  Free RAM (bytes): 3628 (99%)	Used RAM (bytes): 0 (1%)  Free RAM (bytes): 3628 (99%)
+hint: 0	1144	Used ROM (bytes): 116 (1%)  Free ROM (bytes): 65420 (99%)	Used ROM (bytes): 116 (1%)  Free ROM (bytes): 65420 (99%)
+diagnostics: 0	125	Project Linked Successfully	test.mcppi
+diagnostics: 0	128	Linked in 62 ms	 
+diagnostics: 0	129	Project 'test.mcppi' completed: 327 ms	 
+diagnostics: 0	103	Finished successfully: 24 júl. 2016, 16:10:55	test.mcppi

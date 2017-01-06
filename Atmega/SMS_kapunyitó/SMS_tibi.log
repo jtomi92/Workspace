@@ -1,0 +1,21 @@
+0	1	mikroCPIC1618.exe -MSF -DBG -pP18F2420 -LHF -DL -O11111114 -fo10 -N"C:\Users\Nils\Desktop\PIC\SMS_kapunyitó\SMS_tibi.mcppi" -EH"C:\Users\Nils\Desktop\PIC\SMS_kapunyitó\SMS_gyuri_eeprom.ihex" -SP"C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for PIC\Defs\" -SP"C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for PIC\uses\P18\" -SP"C:\Users\Nils\Desktop\PIC\SMS_kapunyitó\" "SMS_gyuri.c" "__Lib_Math.mcl" "__Lib_MathDouble.mcl" "__Lib_System.mcl" "__Lib_Delays.mcl" "__Lib_CType.mcl" "__Lib_CString.mcl" "__Lib_CStdlib.mcl" "__Lib_Conversions.mcl" "__Lib_EEPROM_256.mcl" "__Lib_FLASH_w32_e64.mcl" "__Lib_UART_c67.mcl"	 
+hint: 0	1139	Available RAM: 747 [bytes], Available ROM: 16384 [bytes]	 
+diagnostics: 0	122	Compilation Started	__Lib_Delays.c
+diagnostics: 172	123	Compiled Successfully	__Lib_Delays.c
+diagnostics: 0	122	Compilation Started	SMS_gyuri.c
+warning: 766	1509	Generated baud rate is 9615 bps (error = 0.16 percent)	SMS_gyuri.c
+hint: 791	1163	Variable 'j' has been declared, but not used	SMS_gyuri.c
+diagnostics: 928	123	Compiled Successfully	SMS_gyuri.c
+hint: 455	1164	Variable 'p1' has been eliminated by optimizer	SMS_gyuri.c
+hint: 473	1164	Variable 'p1' has been eliminated by optimizer	SMS_gyuri.c
+hint: 497	1164	Variable 'p1' has been eliminated by optimizer	SMS_gyuri.c
+hint: 497	1164	Variable 'p2' has been eliminated by optimizer	SMS_gyuri.c
+hint: 545	1164	Variable 'i' has been eliminated by optimizer	SMS_gyuri.c
+hint: 595	1164	Variable 'i' has been eliminated by optimizer	SMS_gyuri.c
+diagnostics: 0	127	All files Compiled in 343 ms	 
+hint: 0	1144	Used RAM (bytes): 682 (91%)  Free RAM (bytes): 65 (9%)	Used RAM (bytes): 682 (91%)  Free RAM (bytes): 65 (9%)
+hint: 0	1144	Used ROM (bytes): 12287 (75%)  Free ROM (bytes): 4097 (25%)	Used ROM (bytes): 12287 (75%)  Free ROM (bytes): 4097 (25%)
+diagnostics: 0	125	Project Linked Successfully	SMS_tibi.mcppi
+diagnostics: 0	128	Linked in 188 ms	 
+diagnostics: 0	129	Project 'SMS_tibi.mcppi' completed: 952 ms	 
+diagnostics: 0	103	Finished successfully: 02 okt. 2016, 14:49:16	SMS_tibi.mcppi

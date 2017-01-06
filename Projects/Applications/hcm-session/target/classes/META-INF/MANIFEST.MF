@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Implementation-Title: hcm-session
+Implementation-Version: 1.0
+Built-By: tjozsa
+Implementation-Vendor-Id: com.jtech.apps
+Build-Jdk: 1.8.0_101
+Created-By: Maven Integration for Eclipse
+Implementation-Vendor: Pivotal Software, Inc.
+

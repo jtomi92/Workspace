@@ -1,0 +1,126 @@
+[2016-12-28T10:55:30.386Z] DEBUG [1766]  : Reading config file: /etc/elasticbeanstalk/.aws-eb-stack.properties
+[2016-12-28T10:55:30.386Z] DEBUG [1766]  : Checking if the command processor should execute...
+[2016-12-28T10:55:30.389Z] DEBUG [1766]  : Checking whether the command is applicable to instance (i-082a6d5e6bc181918)..
+[2016-12-28T10:55:30.389Z] INFO  [1766]  : Command is applicable to this instance (i-082a6d5e6bc181918)..
+[2016-12-28T10:55:30.390Z] DEBUG [1766]  : Checking if the received command stage is valid..
+[2016-12-28T10:55:30.390Z] INFO  [1766]  : No stage_num in command. Valid stage..
+[2016-12-28T10:55:30.390Z] INFO  [1766]  : Received command CMD-PreInit: 
+{
+  "api_version" : "1.0",
+  "request_id": "0",
+  "command_name": "CMD-PreInit"
+}
+
+[2016-12-28T10:55:30.390Z] INFO  [1766]  : Command processor should execute command.
+[2016-12-28T10:55:30.390Z] DEBUG [1766]  : Storing current stage..
+[2016-12-28T10:55:30.390Z] DEBUG [1766]  : Stage_num does not exist. Not saving null stage. Returning..
+[2016-12-28T10:55:30.390Z] DEBUG [1766]  : Reading config file: /etc/elasticbeanstalk/.aws-eb-stack.properties
+[2016-12-28T10:55:30.390Z] DEBUG [1766]  : Retrieving metadata for key: AWS::ElasticBeanstalk::Ext||_ContainerConfigFileContent||commands..
+[2016-12-28T10:55:30.391Z] DEBUG [1766]  : Retrieving metadata for key: AWS::ElasticBeanstalk::Ext||_API||_Commands..
+[2016-12-28T10:55:30.392Z] INFO  [1766]  : Found enabled addons: ["logpublish", "logstreaming"].
+[2016-12-28T10:55:30.394Z] INFO  [1766]  : Updating Command definition of addon logpublish.
+[2016-12-28T10:55:30.394Z] INFO  [1766]  : Updating Command definition of addon logstreaming.
+[2016-12-28T10:55:30.394Z] DEBUG [1766]  : Refreshing metadata...
+[2016-12-28T10:55:30.395Z] DEBUG [1766]  : Using cached environment metadata.
+[2016-12-28T10:55:30.396Z] DEBUG [1766]  : Retrieving metadata for key: AWS::ElasticBeanstalk::Ext||_ContainerConfigFileContent||commands..
+[2016-12-28T10:55:30.396Z] DEBUG [1766]  : Retrieving metadata for key: AWS::ElasticBeanstalk::Ext||_API||_Commands..
+[2016-12-28T10:55:30.397Z] INFO  [1766]  : Found enabled addons: ["logpublish", "logstreaming"].
+[2016-12-28T10:55:30.399Z] INFO  [1766]  : Updating Command definition of addon logpublish.
+[2016-12-28T10:55:30.399Z] INFO  [1766]  : Updating Command definition of addon logstreaming.
+[2016-12-28T10:55:30.399Z] DEBUG [1766]  : Retrieving metadata for key: AWS::CloudFormation::Init||Infra-WriteApplication2||files..
+[2016-12-28T10:55:30.401Z] DEBUG [1766]  : Retrieving metadata for key: AWS::ElasticBeanstalk::Ext||ManifestFileS3Key..
+[2016-12-28T10:55:31.302Z] INFO  [1766]  : Finding latest manifest from bucket 'elasticbeanstalk-eu-west-1-305362053369' with prefix 'resources/environments/e-6ptkmqijch/_runtime/versions/manifest_'.
+[2016-12-28T10:55:31.751Z] INFO  [1766]  : Found manifest with key 'resources/environments/e-6ptkmqijch/_runtime/versions/manifest_1482922422566'.
+[2016-12-28T10:55:31.763Z] INFO  [1766]  : Updated manifest cache: deployment ID 1 and serial 1.
+[2016-12-28T10:55:31.763Z] DEBUG [1766]  : Loaded definition of Command CMD-PreInit.
+[2016-12-28T10:55:31.763Z] INFO  [1766]  : Executing Initialization
+[2016-12-28T10:55:31.764Z] INFO  [1766]  : Executing command: CMD-PreInit...
+[2016-12-28T10:55:31.764Z] INFO  [1766]  : Executing command CMD-PreInit activities...
+[2016-12-28T10:55:31.764Z] DEBUG [1766]  : Setting environment variables..
+[2016-12-28T10:55:31.764Z] INFO  [1766]  : Running AddonsBefore for command CMD-PreInit...
+[2016-12-28T10:55:31.764Z] DEBUG [1766]  : Running stages of Command CMD-PreInit from stage 0 to stage 0...
+[2016-12-28T10:55:31.764Z] INFO  [1766]  : Running stage 0 of command CMD-PreInit...
+[2016-12-28T10:55:31.764Z] DEBUG [1766]  : Loaded 3 actions for stage 0.
+[2016-12-28T10:55:31.764Z] INFO  [1766]  : Running 1 of 3 actions: InfraWriteConfig...
+[2016-12-28T10:55:31.769Z] INFO  [1766]  : Running 2 of 3 actions: DownloadSourceBundle...
+[2016-12-28T10:55:32.659Z] INFO  [1766]  : Running 3 of 3 actions: PreInitHook...
+[2016-12-28T10:55:33.465Z] INFO  [1766]  : Running AddonsAfter for command CMD-PreInit...
+[2016-12-28T10:55:47.843Z] INFO  [1766]  : Command CMD-PreInit succeeded!
+[2016-12-28T10:55:47.844Z] INFO  [1766]  : Command processor returning results: 
+{"status":"SUCCESS","api_version":"1.0","results":[{"status":"SUCCESS","msg":"","returncode":0,"events":[]}]}
+[2016-12-28T10:56:23.797Z] DEBUG [1950]  : Reading config file: /etc/elasticbeanstalk/.aws-eb-stack.properties
+[2016-12-28T10:56:23.797Z] DEBUG [1950]  : Checking if the command processor should execute...
+[2016-12-28T10:56:23.800Z] DEBUG [1950]  : Checking whether the command is applicable to instance (i-082a6d5e6bc181918)..
+[2016-12-28T10:56:23.800Z] INFO  [1950]  : Command is applicable to this instance (i-082a6d5e6bc181918)..
+[2016-12-28T10:56:23.800Z] DEBUG [1950]  : Checking if the received command stage is valid..
+[2016-12-28T10:56:23.801Z] INFO  [1950]  : No stage_num in command. Valid stage..
+[2016-12-28T10:56:23.801Z] INFO  [1950]  : Received command CMD-Startup: {"execution_data":"{\"leader_election\":\"true\"}","instance_ids":["i-082a6d5e6bc181918"],"command_name":"CMD-Startup","api_version":"1.0","resource_name":"AWSEBAutoScalingGroup","request_id":"df044b09-cceb-11e6-9258-8f573c8fd509","command_timeout":"600"}
+[2016-12-28T10:56:23.801Z] INFO  [1950]  : Command processor should execute command.
+[2016-12-28T10:56:23.801Z] DEBUG [1950]  : Storing current stage..
+[2016-12-28T10:56:23.801Z] DEBUG [1950]  : Stage_num does not exist. Not saving null stage. Returning..
+[2016-12-28T10:56:23.801Z] DEBUG [1950]  : Reading config file: /etc/elasticbeanstalk/.aws-eb-stack.properties
+[2016-12-28T10:56:23.801Z] DEBUG [1950]  : Retrieving metadata for key: AWS::ElasticBeanstalk::Ext||_ContainerConfigFileContent||commands..
+[2016-12-28T10:56:23.802Z] DEBUG [1950]  : Retrieving metadata for key: AWS::ElasticBeanstalk::Ext||_API||_Commands..
+[2016-12-28T10:56:23.803Z] INFO  [1950]  : Found enabled addons: ["logpublish", "logstreaming"].
+[2016-12-28T10:56:23.805Z] INFO  [1950]  : Updating Command definition of addon logpublish.
+[2016-12-28T10:56:23.805Z] INFO  [1950]  : Updating Command definition of addon logstreaming.
+[2016-12-28T10:56:23.805Z] DEBUG [1950]  : Refreshing metadata...
+[2016-12-28T10:56:24.231Z] DEBUG [1950]  : Refreshed environment metadata.
+[2016-12-28T10:56:24.232Z] DEBUG [1950]  : Retrieving metadata for key: AWS::ElasticBeanstalk::Ext||_ContainerConfigFileContent||commands..
+[2016-12-28T10:56:24.233Z] DEBUG [1950]  : Retrieving metadata for key: AWS::ElasticBeanstalk::Ext||_API||_Commands..
+[2016-12-28T10:56:24.234Z] INFO  [1950]  : Found enabled addons: ["logpublish", "logstreaming"].
+[2016-12-28T10:56:24.237Z] INFO  [1950]  : Updating Command definition of addon logpublish.
+[2016-12-28T10:56:24.237Z] INFO  [1950]  : Updating Command definition of addon logstreaming.
+[2016-12-28T10:56:24.237Z] DEBUG [1950]  : Loaded definition of Command CMD-Startup.
+[2016-12-28T10:56:24.238Z] INFO  [1950]  : Executing Application deployment
+[2016-12-28T10:56:24.239Z] INFO  [1950]  : Executing command: CMD-Startup...
+[2016-12-28T10:56:24.239Z] INFO  [1950]  : Executing command CMD-Startup activities...
+[2016-12-28T10:56:24.239Z] DEBUG [1950]  : Setting environment variables..
+[2016-12-28T10:56:24.239Z] INFO  [1950]  : Running AddonsBefore for command CMD-Startup...
+[2016-12-28T10:56:24.239Z] DEBUG [1950]  : Running stages of Command CMD-Startup from stage 0 to stage 1...
+[2016-12-28T10:56:24.240Z] INFO  [1950]  : Running stage 0 of command CMD-Startup...
+[2016-12-28T10:56:24.240Z] INFO  [1950]  : Running leader election...
+[2016-12-28T10:56:24.654Z] INFO  [1950]  : Instance is Leader.
+[2016-12-28T10:56:24.655Z] DEBUG [1950]  : Loaded 7 actions for stage 0.
+[2016-12-28T10:56:24.655Z] INFO  [1950]  : Running 1 of 7 actions: HealthdLogRotation...
+[2016-12-28T10:56:24.668Z] INFO  [1950]  : Running 2 of 7 actions: HealthdHTTPDLogging...
+[2016-12-28T10:56:24.668Z] INFO  [1950]  : Running 3 of 7 actions: HealthdNginxLogging...
+[2016-12-28T10:56:24.669Z] INFO  [1950]  : Running 4 of 7 actions: EbExtensionPreBuild...
+[2016-12-28T10:56:25.160Z] INFO  [1950]  : Running 5 of 7 actions: AppDeployPreHook...
+[2016-12-28T10:56:27.335Z] INFO  [1950]  : Running 6 of 7 actions: EbExtensionPostBuild...
+[2016-12-28T10:56:27.825Z] INFO  [1950]  : Running 7 of 7 actions: InfraCleanEbExtension...
+[2016-12-28T10:56:27.829Z] INFO  [1950]  : Running stage 1 of command CMD-Startup...
+[2016-12-28T10:56:27.829Z] DEBUG [1950]  : Loaded 3 actions for stage 1.
+[2016-12-28T10:56:27.829Z] INFO  [1950]  : Running 1 of 3 actions: AppDeployEnactHook...
+[2016-12-28T10:56:35.481Z] INFO  [1950]  : Running 2 of 3 actions: AppDeployPostHook...
+[2016-12-28T10:56:35.481Z] INFO  [1950]  : Running 3 of 3 actions: PostInitHook...
+[2016-12-28T10:56:35.482Z] INFO  [1950]  : Running AddonsAfter for command CMD-Startup...
+[2016-12-28T10:56:36.327Z] INFO  [1950]  : Command CMD-Startup succeeded!
+[2016-12-28T10:56:36.328Z] INFO  [1950]  : Command processor returning results: 
+{"status":"SUCCESS","api_version":"1.0","results":[{"status":"SUCCESS","msg":"","returncode":0,"events":[]}]}
+[2016-12-28T10:59:06.040Z] DEBUG [2297]  : Reading config file: /etc/elasticbeanstalk/.aws-eb-stack.properties
+[2016-12-28T10:59:06.040Z] DEBUG [2297]  : Checking if the command processor should execute...
+[2016-12-28T10:59:06.044Z] DEBUG [2297]  : Checking whether the command is applicable to instance (i-082a6d5e6bc181918)..
+[2016-12-28T10:59:06.044Z] INFO  [2297]  : Command is applicable to this instance (i-082a6d5e6bc181918)..
+[2016-12-28T10:59:06.044Z] DEBUG [2297]  : Checking if the received command stage is valid..
+[2016-12-28T10:59:06.044Z] INFO  [2297]  : No stage_num in command. Valid stage..
+[2016-12-28T10:59:06.044Z] INFO  [2297]  : Received command CMD-BundleLogs: {"execution_data":"{\"aws_access_key_id\":\"ASIAIDBXBOK4GAABOKZA\",\"signature\":\"8sBXYCmqMjcbUMugFwhdw27UNrc=\",\"security_token\":\"FQoDYXdzECwaDH8DdHrYkwucYrPdXiLIAxWWNeCOImAB7DjhsOAAichrcuWvi8HIUrwzFmEgIw6zCjpOjQk3lUpQVMdFu4PjzcpBuFXucHiwjlRAGBWEgf8vmoz2s9o13KanDEzmKUBhS5GxuxVtG\\\/XTlBdwQ8\\\/Xh748V8l6sFe6bAWH\\\/I4IWu2W4RSFnfBTndT\\\/CKLR38fUxJz08gCjXh9w7FYi01lBNArioODBhpSoSuIorvprpDMLIv+QaycRxezIqpmeX8EMKg00IA+mC9F01Fk\\\/hR+rqb5SlBbpkt0F72QnnQ9VWyf8369jE9ObdE0EUqfGxt+g0ahLZ0gqBHLhQXXdCSRfZ0j0JzbAGHv6vTXp9IPJ0i9RWwG351YiSWCQD5AmjzchAdIki8IVTSQfyuxSEEAaf599Ppr\\\/KzoJ2bDFoAPMmSRl7dt2UmZq9rUfyPD6bE3j9jCb2ckSQJttMxvA5TmRmW2C\\\/Su7jERHh3K4RgqEEA6VlCo5cx659TrmV72dx7Jx2bmuCs0Pg1x+hhMlFw1S\\\/9jjmgb2FIbv0OolTOZ6Lcoog+B\\\/xO+u1wwJq00rdYahn\\\/IWv1MpVIGsvjZUPNTPnHAK26WegK9ODCYyIY4bbJUO0bNy1fWg\\\/Cjw8o3DBQ==\",\"policy\":\"eyJleHBpcmF0aW9uIjoiMjAxNi0xMi0yOFQxMToyOTowNC4xMzFaIiwiY29uZGl0aW9ucyI6W1sic3RhcnRzLXdpdGgiLCIkeC1hbXotbWV0YS10aW1lX3N0YW1wIiwiIl0sWyJzdGFydHMtd2l0aCIsIiR4LWFtei1tZXRhLXB1Ymxpc2hfbWVjaGFuaXNtIiwiIl0sWyJzdGFydHMtd2l0aCIsIiRrZXkiLCJyZXNvdXJjZXNcL2Vudmlyb25tZW50c1wvbG9nc1wvIl0sWyJzdGFydHMtd2l0aCIsIiR4LWFtei1tZXRhLWJhdGNoX2lkIiwiIl0sWyJzdGFydHMtd2l0aCIsIiR4LWFtei1tZXRhLWZpbGVfbmFtZSIsIiJdLFsic3RhcnRzLXdpdGgiLCIkeC1hbXotc2VjdXJpdHktdG9rZW4iLCIiXSxbInN0YXJ0cy13aXRoIiwiJENvbnRlbnQtVHlwZSIsIiJdLFsiZXEiLCIkYnVja2V0IiwiZWxhc3RpY2JlYW5zdGFsay1ldS13ZXN0LTEtMzA1MzYyMDUzMzY5Il0sWyJlcSIsIiRhY2wiLCJwcml2YXRlIl1dfQ==\"}","instance_ids":["i-082a6d5e6bc181918"],"data":"a55afb8a-ccec-11e6-8af2-f57a210a2ec8","command_name":"CMD-BundleLogs","api_version":"1.0","resource_name":"AWSEBAutoScalingGroup","request_id":"a55afb8a-ccec-11e6-8af2-f57a210a2ec8","command_timeout":"600"}
+[2016-12-28T10:59:06.044Z] INFO  [2297]  : Command processor should execute command.
+[2016-12-28T10:59:06.044Z] DEBUG [2297]  : Storing current stage..
+[2016-12-28T10:59:06.044Z] DEBUG [2297]  : Stage_num does not exist. Not saving null stage. Returning..
+[2016-12-28T10:59:06.044Z] DEBUG [2297]  : Reading config file: /etc/elasticbeanstalk/.aws-eb-stack.properties
+[2016-12-28T10:59:06.044Z] DEBUG [2297]  : Retrieving metadata for key: AWS::ElasticBeanstalk::Ext||_ContainerConfigFileContent||commands..
+[2016-12-28T10:59:06.045Z] DEBUG [2297]  : Retrieving metadata for key: AWS::ElasticBeanstalk::Ext||_API||_Commands..
+[2016-12-28T10:59:06.046Z] INFO  [2297]  : Found enabled addons: ["logpublish", "logstreaming"].
+[2016-12-28T10:59:06.048Z] INFO  [2297]  : Updating Command definition of addon logpublish.
+[2016-12-28T10:59:06.049Z] INFO  [2297]  : Updating Command definition of addon logstreaming.
+[2016-12-28T10:59:06.049Z] DEBUG [2297]  : Loaded definition of Command CMD-BundleLogs.
+[2016-12-28T10:59:06.049Z] INFO  [2297]  : Executing CMD-BundleLogs
+[2016-12-28T10:59:06.050Z] INFO  [2297]  : Executing command: CMD-BundleLogs...
+[2016-12-28T10:59:06.050Z] INFO  [2297]  : Executing command CMD-BundleLogs activities...
+[2016-12-28T10:59:06.050Z] DEBUG [2297]  : Setting environment variables..
+[2016-12-28T10:59:06.050Z] INFO  [2297]  : Running AddonsBefore for command CMD-BundleLogs...
+[2016-12-28T10:59:06.050Z] DEBUG [2297]  : Running stages of Command CMD-BundleLogs from stage 0 to stage 0...
+[2016-12-28T10:59:06.050Z] INFO  [2297]  : Running stage 0 of command CMD-BundleLogs...
+[2016-12-28T10:59:06.050Z] DEBUG [2297]  : Loaded 1 actions for stage 0.
+[2016-12-28T10:59:06.050Z] INFO  [2297]  : Running 1 of 1 actions: BundleLogs...

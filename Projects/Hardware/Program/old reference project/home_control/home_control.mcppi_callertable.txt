@@ -1,0 +1,14 @@
+main
+	__CC2DW
+	setup
+		setup_pic
+			UART1_Init
+			UART2_Init
+			UART1_Write_Text
+				UART1_Write
+Interrupt
+	wifi_serial_interrupt
+		UART1_Read
+	gprs_serial_interrupt
+		UART1_Read
+	system_clock
