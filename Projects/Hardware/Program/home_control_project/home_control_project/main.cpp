@@ -12,6 +12,7 @@ void decodeBuffer(char interface_){
 }
 void processIO(){
 	
+	// Processes wifi responses
 	if (__network_data.is_esp_read_line == 1){
 		
 		delay(100);
@@ -25,6 +26,12 @@ void processIO(){
 		WebApp();	
 		
 		__network_data.is_esp_read_line = 0;	
+	}
+	
+	// Processes gsm responses
+	if (__network_data.is_sim_read_line == 1){
+		
+		__network_data.is_sim_read_line = 0;
 	}
 	
 }
@@ -44,9 +51,9 @@ int main (void)
 	int i=0;
 	setup();
 	
-	for (i=0;i<1000;i++){
+	/*for (i=0;i<1000;i++){
 		 USART0_SendByte(eeprom_read_byte((uint8_t*)i));
-	}
+	}*/
 	 
 	while(1)
 	{

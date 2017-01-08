@@ -7,6 +7,9 @@
 #include <Utils.h>
 #include <HCM.h>
 
+#define UART0 0
+#define UART1 1
+
 void USART_Init(void){
 	UBRR0L = BAUD_PRESCALE;
 	UBRR0H = (BAUD_PRESCALE >> 8);
@@ -23,7 +26,7 @@ void USART1_SendByte(const char c){
 	UDR1 = c;
 }
 void USART1_SendString(const char s[]){
-	int i =0;
+	int i=0;
 	
 	while (s[i] != 0x00)
 	{
@@ -40,7 +43,7 @@ void USART0_SendByte(const char c){
 	UDR0 = c;
 }
 void USART0_SendString(const char s[]){
-	int i =0;
+	int i=0;
 	
 	while (s[i] != 0x00)
 	{
@@ -52,10 +55,47 @@ char USART0_ReceiveByte(){
 	while((UCSR0A &(1<<RXC0)) == 0);
 	return UDR0;
 }
-void turnOnSim900(const char pin){
-	digitalWrite(pin,1);
+
+void WIFI_Write_String(const char s[]){
+	if (WIFI_DIRECTION == UART0){
+		USART0_SendString(s);
+	} 
+	if (WIFI_DIRECTION == UART1){
+		USART1_SendString(s);
+	}
+}
+
+void GSM_Write_String(const char s[]){
+	if (GSM_DIRECTION == UART0){
+		USART0_SendString(s);
+	}
+	if (GSM_DIRECTION == UART1){
+		USART1_SendString(s);
+	}
+}
+
+void WIFI_Write_Byte(const char c){
+	if (WIFI_DIRECTION == UART0){
+		USART0_SendByte(c);
+	}
+	if (WIFI_DIRECTION == UART1){
+		USART1_SendByte(c);
+	}
+}
+
+void GSM_Write_Byte(const char c){
+	if (GSM_DIRECTION == UART0){
+		USART0_SendByte(c);
+	}
+	if (GSM_DIRECTION == UART1){
+		USART1_SendByte(c);
+	}
+}
+
+void turnOnSim900(){
+	digitalWrite(SIM_PWR,1);
 	_delay_ms(1000);
-	digitalWrite(pin,0);
+	digitalWrite(SIM_PWR,0);
 
 }
 void espPower(const char pin, const char status){
@@ -150,7 +190,6 @@ void defaultSettings() {
 	__system_var.detect_pins[2] = DETECT_2;
 	__system_var.detect_pins[3] = DETECT_3;
 	
-	setSource(ESP);
 	__system_var.timer0_overflow = 0;
 	__system_var.eeprom_position = 0;
 	__system_var.enabled_flag = 1;
@@ -173,17 +212,25 @@ void defaultSettings() {
 	__network_data.index_esp = 0;
 	__network_data.index_sim = 0;
 
+	// For reconnecting to the server/network
 	__system_time.connection_timer_buffer = 0;;
 	__system_time.connection_timer = 10;
 	
+	// Check server availability
 	__system_time.check_timer_buffer = 0;
 	__system_time.check_timer = 30; 
 	
+	// Check relay module connections
 	__system_time.relay_module_check_timer_buffer = 0;
 	__system_time.relay_module_check_timer = 5;
 	
+	// For Timers
 	__system_time.timer_check_timer_buffer = 0;
 	__system_time.timer_check_timer = 20;
+	
+	// Check network/gsm availability
+	__system_time.gsm_network_timer_buffer = 0;
+	__system_time.gsm_network_timer = 180;
 	
 
 	strcpy(__system_var.serial_number,"null");
@@ -254,11 +301,18 @@ void clearReadLine() {
 		__network_data.index_esp = 0;
 	}
 	if (__system_var.interface_ == SIM) {
-		memset(__network_data.sim_buffer, ' ', sizeof(__network_data.sim_buffer) - 1);
-		__network_data.is_sim_read_line = 0;
-		__network_data.index_sim = 0;
+		
 	}
+}
+void clearWIFIBuffer(){
+	memset(__network_data.esp_buffer, ' ', sizeof(__network_data.esp_buffer) - 1);
 	__network_data.is_esp_read_line = 0;
+	__network_data.index_esp = 0;
+}
+void clearGSMBuffer(){
+	memset(__network_data.sim_buffer, ' ', sizeof(__network_data.sim_buffer) - 1);
+	__network_data.is_sim_read_line = 0;
+	__network_data.index_sim = 0;
 }
 
 void initTimer(){
@@ -270,19 +324,41 @@ void initTimer(){
 	TIMSK0 |= (1 << TOIE0);
 }
 void powerUpModules(){
-	setSource(SIM);
-	USART0_SendString("AT\r\n");
-	if (readUntil("OK",3) == 0){
-		//turnOnSim900(SIM_PWR);
+	
+
+	if (HAS_GSM){
+		setSource(SIM);
+		GSM_Write_String("AT\r\n");
+		delay(500);
+		if (strstr(__network_data.sim_buffer,"OK") == 0){
+			turnOnSim900();
+			delay(2000);
+		}
+		GSM_Write_String("AT+CMGF=1\r\n");
+		delay(300);
+		GSM_Write_String("AT+CLTS=1\r\n");
+		delay(300);
+		GSM_Write_String("AT+CLIP=1\r\n");
+		delay(300);
 	}
-	espPower(ESP_PWR,1);
-	delay(500);
-	espPower(ESP_PWR,0);
-	delay(3000);
+	
+	if (HAS_WIFI){
+		espPower(ESP_PWR,1);
+		delay(500);
+		espPower(ESP_PWR,0);
+		delay(1000);
+		setSource(ESP);
+	}
+	
 }
 void atmegaSetup(){
-	pinMode(ESP_PWR,OUTPUT);
-	pinMode(SIM_PWR,OUTPUT);
+	if (HAS_WIFI){
+		pinMode(ESP_PWR,OUTPUT);
+	}
+	if (HAS_GSM){
+		pinMode(SIM_PWR,OUTPUT);
+	}
+		
 	pinMode(CS_1,OUTPUT);
 	pinMode(CS_2,OUTPUT);
 	pinMode(CS_3,OUTPUT);

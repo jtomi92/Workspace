@@ -27,19 +27,23 @@ $(document).ready(
 							var notifications = element.ns;
 							
 							if (connection != null && connection == 0){
-								var element = $("#"+serialNumber+"-connection-status");	
+								var element = document.getElementById(serialNumber+"-connection-status-offline");
 								if (element != null){
-									element.removeClass("alert-success");
-									element.addClass("alert-danger");
-									element.text("Device is OFFLINE");
+									element.style.display = "block";
+								}
+								var element = document.getElementById(serialNumber+"-connection-status-online");
+								if (element != null){
+									element.style.display = "none";
 								}
 								$.growl.disconnected({ message: serialNumber + " is now OFFLINE" });
 							} else if (connection != null && connection == 1){
-								var element = $("#"+serialNumber+"-connection-status");							
+								var element = document.getElementById(serialNumber+"-connection-status-offline");
 								if (element != null){
-									element.removeClass("alert-danger");
-									element.addClass("alert-success");
-									element.text("Device is ONLINE");
+									element.style.display = "none";
+								}
+								var element = document.getElementById(serialNumber+"-connection-status-online");
+								if (element != null){
+									element.style.display = "block";
 								}
 								$.growl.connected({ message: serialNumber + " is now ONLINE" });				
 							}
@@ -62,26 +66,27 @@ $(document).ready(
 									var stat = relay.sw; 
 									
 									if (stat == 1) {
-										var element = document.getElementById("relaystatus-"
+										var element = document.getElementById("relaystatus-on-"
 												+ serialNumber + "-" + moduleId + "-" + relayId);
 										if (element != null) {
-											element.innerHTML = "ON";
+											element.style.display = "inline";
 										}
-										var element = document.getElementById("relaystatus-"
+										var element = document.getElementById("relaystatus-off-"
 												+ serialNumber + "-" + moduleId + "-" + relayId);
 										if (element != null) {
-											element.className = "label label-success";
+											element.style.display = "none";
 										}
+										 
 									} else if (stat == 0) {
-										var element = document.getElementById("relaystatus-"
+										var element = document.getElementById("relaystatus-on-"
 												+ serialNumber + "-" + moduleId + "-" + relayId);
 										if (element != null) {
-											element.innerHTML = "OFF";
+											element.style.display = "none";
 										}
-										var element = document.getElementById("relaystatus-"
+										var element = document.getElementById("relaystatus-off-"
 												+ serialNumber + "-" + moduleId + "-" + relayId);
 										if (element != null) {
-											element.className = "label label-danger";
+											element.style.display = "inline";
 										}
 									}
 									
@@ -516,8 +521,8 @@ function switchRelay(serialNumber, moduleId, relayId) {
 	var header = $("meta[name='_csrf_header']").attr("content");
 	var userid = document.getElementById("userid").value;
 	var relaystatus;
-	if (document.getElementById("relaystatus-" + serialNumber + "-" + moduleId
-			+ "-" + relayId).innerHTML == "ON") {
+	var element = document.getElementById("relaystatus-on-" + serialNumber + "-" + moduleId + "-" + relayId);
+	if (element != null && element.style.display == "inline") {
 		relaystatus = 0;
 	} else {
 		relaystatus = 1;
@@ -569,26 +574,26 @@ function switchRelay(serialNumber, moduleId, relayId) {
 				var stat = fields[4];
 
 				if (stat == "1") {
-					var element = document.getElementById("relaystatus-"
+					var element = document.getElementById("relaystatus-on-"
 							+ serialNumber + "-" + moduleId + "-" + relayId);
 					if (element != null) {
-						element.innerHTML = "ON";
+						element.style.display = "inline";
 					}
-					var element = document.getElementById("relaystatus-"
+					var element = document.getElementById("relaystatus-off-"
 							+ serialNumber + "-" + moduleId + "-" + relayId);
 					if (element != null) {
-						element.className = "label label-success";
+						element.style.display = "none";
 					}
 				} else if (stat == "0") {
-					var element = document.getElementById("relaystatus-"
+					var element = document.getElementById("relaystatus-on-"
 							+ serialNumber + "-" + moduleId + "-" + relayId);
 					if (element != null) {
-						element.innerHTML = "OFF";
+						element.style.display = "none";
 					}
-					var element = document.getElementById("relaystatus-"
+					var element = document.getElementById("relaystatus-off-"
 							+ serialNumber + "-" + moduleId + "-" + relayId);
 					if (element != null) {
-						element.className = "label label-danger";
+						element.style.display = "inline";
 					}
 				}
 				var progressbars = $('div[id^="relay-progressbar-'

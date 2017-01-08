@@ -56,6 +56,9 @@ typedef struct {                  //SYSTIME
 	
 	int timer_check_timer;
 	int timer_check_timer_buffer;
+	
+	int gsm_network_timer;
+	int gsm_network_timer_buffer;
 
 } SYSTIME;
 typedef struct {                  //NETWORK

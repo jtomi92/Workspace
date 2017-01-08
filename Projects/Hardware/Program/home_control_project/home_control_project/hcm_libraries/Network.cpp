@@ -57,6 +57,9 @@ ISR(TIMER0_OVF_vect)
 			if (__system_time.timer_check_timer_buffer <= __system_time.timer_check_timer){
 				__system_time.timer_check_timer_buffer++;
 			}				
+			if (__system_time.gsm_network_timer_buffer <= __system_time.gsm_network_timer){
+				__system_time.gsm_network_timer_buffer++;
+			}
 		}
 		if (__system_time._sec == 60){
 			__system_time._min++;
@@ -272,9 +275,9 @@ char checkSerialNumber() {
 		sendToServer(buffer,CONNECTION);
 		//if (readUntil("OK", 2) == 0) return 0;
 	}
-	USART0_SendString("\nSERIALNUMBER=");
+	/*USART0_SendString("\nSERIALNUMBER=");
 	USART0_SendString(__system_var.serial_number);
-	USART0_SendString("\n");
+	USART0_SendString("\n");*/
 	delay(100);
 	return 1;
 }

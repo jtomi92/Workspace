@@ -31,6 +31,9 @@ extern const int HAS_WIFI;
 extern const int HAS_GSM;
 extern const int HAS_WS28;
 
+extern const int WIFI_DIRECTION;
+extern const int GSM_DIRECTION;
+
 extern const int EEPROM_SIZE;
 extern const int EEPROM_CFG_START;
 extern const int EEPROM_DATA_START;

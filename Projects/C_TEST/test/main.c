@@ -26,6 +26,27 @@ typedef struct {
 } __relay_setting;
 __relay_setting relaySetting;
 
+typedef struct {                  //NETWORK
+	char host[30];
+	char port[5];
+	char ssid[20];
+	char password[20];
+	char apn[10];
+
+	char is_esp_connected;
+	char is_sim_connected;
+	char is_server_connected;
+
+	char esp_buffer[300];
+	char sim_buffer[200];
+	char is_esp_read_line;
+	char is_sim_read_line;
+	unsigned int index_esp;
+	unsigned int index_sim;
+
+} NETWORK;
+NETWORK __network_data;
+
 typedef struct {                  //SYSTIME
 
 	int _year;
@@ -550,6 +571,76 @@ void processReadLine(char readLine[], int size){
     }
 }
 
+void processWebApp(){
+    char flag = 0;
+    char webapp[100] = "ssid=Tardis&password=77Ld7cr7dW&apn=online&host=192.168.0.27     \n\r";
+    strcpy(__network_data.esp_buffer,webapp);
+
+        if (strstr(__network_data.esp_buffer,"ssid") != 0){
+			int pos=0;
+			char *p1 = strstr(__network_data.esp_buffer,"ssid");
+			p1+=5;
+			memset(__network_data.ssid,' ',sizeof(__network_data.ssid)-1);
+			while (1){
+				if (pos == sizeof(__network_data.ssid))break;
+				if (*p1=='&'||*p1=='\r'||*p1=='\n')break;
+				__network_data.ssid[pos++] = *p1++;
+			}
+			__network_data.ssid[pos] = '\0';
+			flag++;
+			printf("SSID=%s\n", __network_data.ssid);
+		}
+		if (strstr(__network_data.esp_buffer,"password") != 0){
+			int pos=0;
+			char *p1 = strstr(__network_data.esp_buffer,"password");
+			p1+=9;
+			memset(__network_data.password,' ',sizeof(__network_data.password)-1);
+			while (1){
+				if (pos == sizeof(__network_data.password))break;
+				if (*p1=='&'||*p1=='\r'||*p1=='\n')break;
+				__network_data.password[pos++] = *p1++;
+			}
+			__network_data.password[pos] = '\0';
+			flag++;
+			printf("PASSWORD=%s\n", __network_data.password);
+		}
+
+		if (strstr(__network_data.esp_buffer,"apn") != 0){
+			int pos=0;
+			char *p1 = strstr(__network_data.esp_buffer,"apn");
+			p1+=4;
+			memset(__network_data.apn,' ',sizeof(__network_data.apn)-1);
+			while (1){
+				if (pos == sizeof(__network_data.apn))break;
+				if (*p1=='&'||*p1=='\r'||*p1=='\n')break;
+				__network_data.apn[pos++] = *p1++;
+			}
+			__network_data.apn[pos] = '\0';
+			flag++;
+			printf("APN=%s\n", __network_data.apn);
+		}
+
+		if (strstr(__network_data.esp_buffer,"host") != 0){
+			int pos=0;
+			char *p1 = strstr(__network_data.esp_buffer,"host");
+			p1+=5;
+			memset(__network_data.host,' ',sizeof(__network_data.host)-1);
+			while (1){
+				if (pos == sizeof(__network_data.host)-1)break;
+				if (*p1 == '\r' || *p1 == '\n') break;
+				if (!isalpha(*p1) && !isdigit(*p1) && *p1 != '.') break;
+				__network_data.host[pos++] = *p1++;
+			}
+			__network_data.host[pos] = '\0';
+			flag++;
+			printf("HOST=%sasd\n", __network_data.host);
+		}
+
+		if (flag == 4){
+			printf("LOL");
+		}
+}
+
 int main()
 {
     int pos = 0,i;
@@ -560,6 +651,7 @@ int main()
     char password[50];
     char apn[30];
     char readLine[200] = "AT OK BLABLABLBALBAAAA SWITCH;RELAY;1;1@ BLABLABLA BLA SWITCH;RELAY;2;1@ ASDASDASD";
+
 
     setupSystemTime();
 
@@ -653,6 +745,8 @@ int main()
 
     processReadLine(readLine, sizeof(readLine));
     processReadLine(readLine, sizeof(readLine));
+
+    processWebApp();
 
     return 0;
 }

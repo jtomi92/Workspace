@@ -108,12 +108,13 @@ void WebApp(){
 		
 		if (strstr(__network_data.esp_buffer,"host") != 0){
 			int pos=0;
-			char *p1 = strstr(__network_data.host,"host");
+			char *p1 = strstr(__network_data.esp_buffer,"host");
 			p1+=5;
 			memset(__network_data.host,' ',sizeof(__network_data.host)-1);
 			while (1){
 				if (pos == sizeof(__network_data.host))break;
-				if (!isalnum(*p1))break;
+				if (*p1 == '\r' || *p1 == '\n') break;
+				if (!isalpha(*p1) && !isdigit(*p1) && *p1 != '.') break;
 				__network_data.host[pos++] = *p1++;
 			}
 			__network_data.host[pos] = '\0';
@@ -404,5 +405,27 @@ void ProcessRelayTimers(){
 			} 
 		}
 		__system_time.timer_check_timer_buffer = 0;
+	}
+}
+
+/*
+ *	If GSM network disconnects or SIM900 randomly shuts down, this'll turn it back on.
+ */
+void checkGsmNetwork(){
+	
+	if (HAS_GSM){
+		if (__system_time.gsm_network_timer_buffer >= __system_time.gsm_network_timer){
+			clearGSMBuffer();
+			GSM_Write_String("AT+CREG?\r\n");
+			delay(300);
+			if (!(strstr(__network_data.sim_buffer,"+CREG: 0,1") != 0 || strstr(__network_data.sim_buffer,"+CREG: 0,5") != 0)){
+				clearGSMBuffer();	 
+				GSM_Write_String("AT\r\n");
+				if (strstr(__network_data.sim_buffer,"OK") != 0){
+					turnOnSim900();
+				}
+				turnOnSim900();
+			}
+		}
 	}
 }

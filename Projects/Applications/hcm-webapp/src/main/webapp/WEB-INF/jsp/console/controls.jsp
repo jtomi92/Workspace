@@ -17,13 +17,18 @@
 
 					<c:choose>
 						<c:when test="${ups.isConnected()}">
-							<div id="${ups.serialNumber}-connection-status"
-								style="text-align: center;"
+							<div id="${ups.serialNumber}-connection-status-online"
+								style="text-align: center; display:block;"
 								class="container-fluid alert-success">${localization['device-online']}</div>
+							<div id="${ups.serialNumber}-connection-status-offline"
+								style="text-align: center; display:none;" class="container-fluid alert-danger">${localization['device-offline']}</div>
 						</c:when>
 						<c:otherwise>
-							<div id="${ups.serialNumber}-connection-status"
-								style="text-align: center;" class="container-fluid alert-danger">${localization['device-offline']}</div>
+							<div id="${ups.serialNumber}-connection-status-offline"
+								style="text-align: center;  display:block;" class="container-fluid alert-danger">${localization['device-offline']}</div>
+							<div id="${ups.serialNumber}-connection-status-online"
+								style="text-align: center; display:none;"
+								class="container-fluid alert-success">${localization['device-online']}</div>
 						</c:otherwise>
 					</c:choose>
 
@@ -81,13 +86,19 @@
 												<td><c:choose>
 														<c:when
 															test="${empty relaysetting.relayStatus || relaysetting.relayStatus eq 'N'}">
-															<span
-																id="relaystatus-${ups.serialNumber}-${relaysetting.moduleId}-${relaysetting.relayId}"
+															<span style="display:inline;"
+																id="relaystatus-off-${ups.serialNumber}-${relaysetting.moduleId}-${relaysetting.relayId}"
 																class="label label-danger">${localization['state-off']}</span>
+															<span style="display:none;"
+																id="relaystatus-on-${ups.serialNumber}-${relaysetting.moduleId}-${relaysetting.relayId}"
+																class="label label-success">${localization['state-on']}</span>
 														</c:when>
 														<c:otherwise>
-															<span
-																id="relaystatus-${ups.serialNumber}-${relaysetting.moduleId}-${relaysetting.relayId}"
+															<span style="display:none;"
+																id="relaystatus-off-${ups.serialNumber}-${relaysetting.moduleId}-${relaysetting.relayId}"
+																class="label label-danger">${localization['state-off']}</span>
+															<span style="display:inline;"
+																id="relaystatus-on-${ups.serialNumber}-${relaysetting.moduleId}-${relaysetting.relayId}"
 																class="label label-success">${localization['state-on']}</span>
 														</c:otherwise>
 													</c:choose></td>

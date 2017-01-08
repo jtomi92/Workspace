@@ -6,6 +6,8 @@
  */ 
 #include <HwProperties.h>
 #define TRUE 1
+#define UART0 0;
+#define UART1 1;
 
 const char PRODUCT_NAME[] = "test product 1";
 
@@ -23,6 +25,9 @@ const int CONNECTION = 0;
 const int HAS_WIFI = TRUE;
 const int HAS_GSM = TRUE;
 const int HAS_WS28 = TRUE;
+
+const int WIFI_DIRECTION = UART0;
+const int GSM_DIRECTION = UART1;
 
 /////////////// EEPROM Stuff
 const int EEPROM_SIZE = 4096;
