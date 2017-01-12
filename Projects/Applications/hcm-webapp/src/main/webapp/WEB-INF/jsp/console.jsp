@@ -67,11 +67,19 @@
 </head>
 
 <body>
-
+	
 	<input type="hidden" id="userid" name="userid" value="${userid}">
 	<input type="hidden" id="username" name="username"
 		value="${pageContext.request.userPrincipal.name}">
-
+	
+	<input type="hidden" id="message-device-updated" name="message-device-updated" value="${localization['message-device-updated']}">
+	<input type="hidden" id="message-device-connected" name="message-device-connected" value="${localization['message-device-connected']}">
+	<input type="hidden" id="message-device-disconnected" name="message-device-disconnected" value="${localization['message-device-disconnected']}">
+	<input type="hidden" id="message-invalid-serial-number" name="message-invalid-serial-number" value="${localization['message-invalid-serial-number']}">
+	<input type="hidden" id="message-valid-serial-number" name="message-valid-serial-number" value="${localization['message-valid-serial-number']}">
+	<input type="hidden" id="message-invalid-user" name="message-invalid-user" value="${localization['message-invalid-user']}">
+	
+	
 	<jsp:include page="wrapper/header.jsp">
 		<jsp:param name="firstname" value="${firstname}" />
 	</jsp:include>

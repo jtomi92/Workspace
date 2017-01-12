@@ -227,7 +227,15 @@
 	$(document).ready(function loadProductDetails() {
 		var savedView = localStorage.getItem("currentProductValue");
 		if (savedView != 'null'){
-			showProductControls(savedView);
+			var index = savedView.slice(-1);
+			var selectLength = $('#product-picker option').length-1;
+
+			if (index > selectLength){
+				showProductControls('0');
+			} else {
+				showProductControls(savedView);
+			}
+			
 		} else if (savedView == 'null'){
 			showProductControls('0');
 		}

@@ -25,7 +25,6 @@ import com.jtech.apps.hcm.model.setting.ProductControlSetting;
 import com.jtech.apps.hcm.model.setting.ProductTriggerSetting;
 import com.jtech.apps.hcm.model.setting.ProductUser;
 import com.jtech.apps.hcm.model.setting.RelaySetting;
-import com.jtech.apps.hcm.model.setting.Setting;
 import com.jtech.apps.hcm.model.setting.TimerSetting;
 import com.jtech.apps.hcm.util.TimeUtil;
 import com.mysql.jdbc.StringUtils;
@@ -54,13 +53,16 @@ public class UserProductService {
 
 		logger.debug("Getting all UserProducts...");
 		List<UserProduct> userProducts = userProductDAO.getUserProducts();
-		for (UserProduct userProduct : userProducts) {
-			Connection connection = connectionService.getConnection(userProduct.getSerialNumber());
 
-			if (connection == null) {
-				userProduct.setConnected(false);
-			} else {
-				userProduct.setConnected(connection.getStatus().equals("CONNECTED"));
+		if (userProducts != null) {
+			for (UserProduct userProduct : userProducts) {
+				Connection connection = connectionService.getConnection(userProduct.getSerialNumber());
+
+				if (connection == null) {
+					userProduct.setConnected(false);
+				} else {
+					userProduct.setConnected(connection.getStatus().equals("CONNECTED"));
+				}
 			}
 		}
 		return userProducts;
@@ -85,19 +87,19 @@ public class UserProductService {
 		String message = "SWITCH;" + serialNumber + ";" + moduleId + ";" + relayId + ";" + state + "\n";
 		return sendToConsolePort(serialNumber, userId, message);
 	}
-	
-	public String update(Integer userId, String serialNumber){
+
+	public String update(Integer userId, String serialNumber) {
 		String message = "UPDATE;" + serialNumber + "\n";
 		return sendToConsolePort(serialNumber, userId, message);
 	}
-	
-	public String restart(Integer userId, String serialNumber){
+
+	public String restart(Integer userId, String serialNumber) {
 		String message = "RESTART;" + serialNumber + "\n";
 		return sendToConsolePort(serialNumber, userId, message);
 	}
-	
-	private String sendToConsolePort(String serialNumber, Integer userId, String message){
-		
+
+	private String sendToConsolePort(String serialNumber, Integer userId, String message) {
+
 		Connection connection = connectionService.getConnection(serialNumber);
 
 		if (connection == null || connection.getStatus().equals("DISCONNECTED")) {
@@ -120,8 +122,8 @@ public class UserProductService {
 			printWriter.flush();
 			String response = bufferedReader.readLine();
 			logger.info("Recieved response from USERSESSION=" + response);
-			
-			if (!StringUtils.isNullOrEmpty(response)){
+
+			if (!StringUtils.isNullOrEmpty(response)) {
 				return response;
 			}
 			// do something with the response
@@ -153,7 +155,7 @@ public class UserProductService {
 						+ connection.getConsolePort());
 			}
 		}
-		
+
 		return message;
 	}
 
@@ -165,19 +167,20 @@ public class UserProductService {
 	 */
 	public List<UserProduct> getUserProductByUserId(Integer userId) {
 		logger.debug("getUserProductByUserId userid:" + userId);
-		List<UserProduct> userProducts = getUserProducts();
-		List<UserProduct> ups = new LinkedList<UserProduct>();
 
-		for (UserProduct userProduct : userProducts) {
+		List<UserProduct> userProducts = userProductDAO.getUserProductsByUserId(userId);
+		if (userProducts != null) {
+			for (UserProduct userProduct : userProducts) {
+				Connection connection = connectionService.getConnection(userProduct.getSerialNumber());
 
-			List<ProductUser> productUsers = userProduct.getProductUsers();
-			for (ProductUser productUser : productUsers) {
-				if (productUser.getUserId().equals(userId)) {
-					ups.add(userProduct);
+				if (connection == null) {
+					userProduct.setConnected(false);
+				} else {
+					userProduct.setConnected(connection.getStatus().equals("CONNECTED"));
 				}
 			}
 		}
-		return ups;
+		return userProducts;
 	}
 
 	/**
@@ -187,38 +190,19 @@ public class UserProductService {
 	 * @return UserProduct
 	 */
 	public UserProduct getUserProductBySerialNumber(String serialNumber) {
-
 		logger.debug("getUserProductBySerialNumber serialNumber:" + serialNumber);
 
-		List<UserProduct> userProducts = getUserProducts();
+		UserProduct userProduct = userProductDAO.getUserProductBySerialNumber(serialNumber);
 
-		for (UserProduct userProduct : userProducts) {
-			if (userProduct.getSerialNumber().equals(serialNumber)) {
-				return userProduct;
+		if (userProduct != null) {
+			Connection connection = connectionService.getConnection(userProduct.getSerialNumber());
+			if (connection == null) {
+				userProduct.setConnected(false);
+			} else {
+				userProduct.setConnected(connection.getStatus().equals("CONNECTED"));
 			}
 		}
-		logger.error("getUserProductBySerialNumber serialNumber:" + serialNumber + " UserProduct not found...");
-		return null;
-	}
-
-	/**
-	 * getUserProductSetting function
-	 * 
-	 * @param serialNumber
-	 * @return Setting
-	 */
-	public Setting getUserProductSetting(String serialNumber) {
-
-		logger.debug("getUserProductSetting serialNumber:" + serialNumber);
-
-		List<Setting> settings = userProductDAO.getUserProductSettings(serialNumber);
-		for (Setting setting : settings) {
-			if (setting.isSelected()) {
-				return setting;
-			}
-		}
-		logger.error("getUserProductSetting serialNumber:" + serialNumber + " UserProductSetting not found...");
-		return null;
+		return userProduct;
 	}
 
 	/**
@@ -230,7 +214,7 @@ public class UserProductService {
 	public Integer updateUserProduct(UserProduct userProduct) {
 
 		String serialNumber = userProduct.getSerialNumber();
-		
+
 		logger.info("updateUserProduct serialNumber:" + serialNumber);
 
 		// Not existing product
@@ -239,23 +223,11 @@ public class UserProductService {
 			return 0;
 		}
 
-		// Only debugging
-		for (Setting setting : userProduct.getProductSettings()) {
-			for (RelaySetting relaySetting : setting.getRelaySettings()) {
-				for (ProductControlSetting pcs : relaySetting.getProductControlSettings()) {
-					// logger.debug("relay:" + relaySetting.getRelayId() + "user
-					// id:" + pcs.getUserId() + " access:" + (pcs.isAccess() ?
-					// "Y" : "N"));
-				}
-			}
-		}
-			
-		
 		return userProductDAO.updateUserProduct(userProduct);
 	}
-	
-	public Integer updateRelayStatus(String serialNumber, Integer moduleId, Integer relayId, Integer status){
-		
+
+	public Integer updateRelayStatus(String serialNumber, Integer moduleId, Integer relayId, Integer status) {
+
 		return userProductDAO.updateRelayStatus(serialNumber, moduleId, relayId, status);
 	}
 
@@ -267,9 +239,9 @@ public class UserProductService {
 	 * @param settingId
 	 * @return
 	 */
-	public Integer addRelaySetting(RelaySetting relaySetting, String serialNumber, Integer settingId) {
+	public Integer addRelaySetting(RelaySetting relaySetting, String serialNumber) {
 		logger.debug("addRelaySetting serialNumber:" + serialNumber);
-		return userProductDAO.addUserProductRelaySetting(relaySetting, serialNumber, settingId);
+		return userProductDAO.addUserProductRelaySetting(relaySetting, serialNumber);
 	}
 
 	/**
@@ -280,9 +252,9 @@ public class UserProductService {
 	 * @param settingId
 	 * @return
 	 */
-	public Integer updateRelaySetting(RelaySetting relaySetting, String serialNumber, Integer settingId) {
+	public Integer updateRelaySetting(RelaySetting relaySetting, String serialNumber) {
 		logger.debug("updateRelaySetting serialNumber:" + serialNumber);
-		return userProductDAO.updateUserProductRelaySetting(relaySetting, serialNumber, settingId);
+		return userProductDAO.updateUserProductRelaySetting(relaySetting, serialNumber);
 	}
 
 	/**
@@ -292,11 +264,11 @@ public class UserProductService {
 	 * @return
 	 */
 	public Integer addUserProduct(UserProduct userProduct) {
-		
+
 		List<UserProduct> userProducts = getUserProducts();
 
 		for (UserProduct up : userProducts) {
-			if (up.getSerialNumber().equals(userProduct.getSerialNumber())){
+			if (up.getSerialNumber().equals(userProduct.getSerialNumber())) {
 				logger.info("addUserProduct serialNumber:" + userProduct.getSerialNumber() + " already exist...");
 				return 0;
 			}
@@ -316,7 +288,7 @@ public class UserProductService {
 
 		boolean isValidUser = false;
 		boolean isValidSerial = false;
-		
+
 		logger.debug("registerProduct userId:" + userId + " serialNumber:" + serialNumber);
 
 		RegisteredProduct registeredProduct = productregistrationService
@@ -337,13 +309,13 @@ public class UserProductService {
 		if (isValidUser && isValidSerial) {
 
 			int err = productregistrationService.registerProduct(serialNumber);
-			
-			if (err == 0){
+
+			if (err == 0) {
 				logger.error("Error during productRegistration. serialNumber:" + serialNumber + " userId:" + userId);
 				return 0;
 			}
 
-			logger.info(serialNumber + " registered successfully.");	
+			logger.info(serialNumber + " registered successfully.");
 
 			ProductCategory pc = productCategoryService.getProductCategoryById(registeredProduct.getProductId());
 
@@ -370,22 +342,22 @@ public class UserProductService {
 			productControlSetting.setUserId(userProfile.getUserId());
 			productControlSetting.setAccess(true);
 			productControlSetting.setCallAccess(false);
-			
+
 			TimerSetting timerSetting = new TimerSetting();
 			timerSetting.setTimerId(1);
 			timerSetting.setStartTimer("8:00");
 			timerSetting.setEndTimer("17:00");
-			timerSetting.setStartWeekDays("mon,tue,wed,thu,fri,sat,sun");
-			timerSetting.setEndWeekDays("mon,tue,wed,thu,fri,sat,sun");
+			timerSetting.setStartWeekDays("");
+			timerSetting.setEndWeekDays("");
 			timerSetting.setTimerEnabled(false);
 
-			List<Setting> settings = pc.getSettings();
-			for (RelaySetting relaySetting : settings.get(0).getRelaySettings()) {
+			for (RelaySetting relaySetting : pc.getRelaySettings()) {
 				relaySetting.addProductControlSetting(productControlSetting);
 				relaySetting.addTimerSetting(timerSetting);
 				relaySetting.setRelayStatus("N");
 			}
-			userProduct.setProductSettings(settings);
+			userProduct.setRelaySettings(pc.getRelaySettings());
+			userProduct.setInputSettings(pc.getInputSettings());
 
 			userProduct.setProductUsers(productUsers);
 
@@ -424,22 +396,16 @@ public class UserProductService {
 
 		productTriggerSettings.add(pts);
 
-		List<Setting> settings = userProduct.getProductSettings();
-
-		for (Setting setting : settings) {
-			List<RelaySetting> relaySettings = setting.getRelaySettings();
-			for (RelaySetting relaySetting : relaySettings) {
-				relaySetting.setProductControlSettings(productControlSettings);
-			}
-			List<InputSetting> inputSettings = setting.getInputSettings();
-			for (InputSetting inputSetting : inputSettings) {
-				inputSetting.setProductTriggerSettings(productTriggerSettings);
-			}
-			setting.setRelaySettings(relaySettings);
-			setting.setInputSettings(inputSettings);
+		List<RelaySetting> relaySettings = userProduct.getRelaySettings();
+		for (RelaySetting relaySetting : relaySettings) {
+			relaySetting.setProductControlSettings(productControlSettings);
 		}
-
-		userProduct.setProductSettings(settings);
+		List<InputSetting> inputSettings = userProduct.getInputSettings();
+		for (InputSetting inputSetting : inputSettings) {
+			inputSetting.setProductTriggerSettings(productTriggerSettings);
+		}
+		userProduct.setRelaySettings(relaySettings);
+		userProduct.setInputSettings(inputSettings);
 
 		return userProduct;
 	}

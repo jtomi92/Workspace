@@ -1,0 +1,7 @@
+Dec 28 10:55:14 ip-172-31-31-13 crond[1551]: (CRON) STARTUP (1.4.4)
+Dec 28 10:55:14 ip-172-31-31-13 crond[1551]: (CRON) INFO (RANDOM_DELAY will be scaled with factor 55% if used.)
+Dec 28 10:55:14 ip-172-31-31-13 crond[1551]: (CRON) INFO (running with inotify support)
+Dec 28 10:56:02 ip-172-31-31-13 CROND[1929]: (root) CMD (/usr/sbin/awslogs-nanny > /dev/null 2>&1)
+Dec 28 10:57:01 ip-172-31-31-13 CROND[2225]: (root) CMD (/usr/sbin/awslogs-nanny > /dev/null 2>&1)
+Dec 28 10:58:01 ip-172-31-31-13 CROND[2253]: (root) CMD (/usr/sbin/awslogs-nanny > /dev/null 2>&1)
+Dec 28 10:59:01 ip-172-31-31-13 CROND[2281]: (root) CMD (/usr/sbin/awslogs-nanny > /dev/null 2>&1)

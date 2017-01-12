@@ -16,11 +16,11 @@
 				id="product-relay-control-${count.index}" style="display: none;">
 
 				<div class="page-header" style="text-align: center;">
-					<h3>Relay Settings</h3>
+					<h3>${localization['relay-settings']}</h3>
 				</div>
 
 				<div class="container-fluid" style="text-align: center;">
-					<label>Select Relays</label>
+					<label>${localization['select-relays']}</label>
 				</div>
 				<div id="product-relay-setting-dropdown-${count.index}"
 					style="text-align: center;" class="container-fluid">
@@ -28,7 +28,7 @@
 						name="product-relay-setting-picker" multiple="multiple"
 						onchange="showRelaySetting('product-relay-setting-picker-${count.index}','rel-setting-${count.index}');">
 						<c:forEach
-							items="${ups.productSettings.iterator().next().relaySettings}"
+							items="${ups.relaySettings}"
 							var="relaysetting" varStatus="count2">
 							<c:forEach items="${relaysetting.productControlSettings}"
 								var="pcs">
@@ -48,18 +48,18 @@
 							<table class="table table-striped" id="relaysettingtable">
 								<thead>
 									<tr>
-										<th>Module ID</th>
-										<th>Relay ID</th>
-										<th>Relay Name</th>
-										<th>Delay (sec)</th>
-										<th>Impulse Mode</th>
-										<th>Timers</th>
+										<th>${localization['module-id']}</th>
+										<th>${localization['relay-id']}</th>
+										<th>${localization['relay-name']}</th>
+										<th>${localization['delay']}</th>
+										<th>${localization['impulse']}</th>
+										<th>${localization['timers']}</th>
 									</tr>
 								</thead>
 								<tbody>
 
 									<c:forEach
-										items="${ups.productSettings.iterator().next().relaySettings}"
+										items="${ups.relaySettings}"
 										var="relaysetting" varStatus="count2">
 										<c:forEach items="${relaysetting.productControlSettings}"
 											var="pcs">
@@ -71,11 +71,11 @@
 													<td><input
 														id="${ups.serialNumber}-relayname-${count2.index}"
 														type="text" class="input-sm" style="width: 150px"
-														placeholder="${relaysetting.relayName}"></td>
+														value="${relaysetting.relayName}"></td>
 													<td><input
 														id="${ups.serialNumber}-delay-${count2.index}"
 														type="number" min="0" class="input-sm"
-														style="width: 100px" placeholder="${relaysetting.delay}"></td>
+														style="width: 100px" value="${relaysetting.delay}"></td>
 													<td><c:choose>
 															<c:when test="${relaysetting.impulseMode}">
 																<input id="${ups.serialNumber}-impulse-${count2.index}"
@@ -87,7 +87,7 @@
 															</c:otherwise>
 														</c:choose></td>
 													<td><button type="button" class="btn-primary btn"
-															onclick="showHideTags('relay-timers-${count.index}','div','relay-tmr-${count2.index}','relay')">EDIT</button></td>
+															onclick="showHideTags('relay-timers-${count.index}','div','relay-tmr-${count2.index}','relay')">${localization['edit']}</button></td>
 												</tr>
 											</c:if>
 										</c:forEach>
@@ -98,7 +98,7 @@
 					</div>
 					<div id="relay-timers-${count.index}" class="thumbnail">
 						<c:forEach
-							items="${ups.productSettings.iterator().next().relaySettings}"
+							items="${ups.relaySettings}"
 							var="relaysetting" varStatus="count2">
 
 							<c:set var="lastItem"
@@ -111,13 +111,13 @@
 									<table class="table">
 										<thead>
 											<tr>
-												<th>Module ID</th>
-												<th>Relay ID</th>
-												<th>Timer ID</th>
-												<th>Function</th>
-												<th>Days of Week</th>
-												<th>Timer</th>
-												<th>Enabled?</th>
+												<th>${localization['module-id']}</th>
+												<th>${localization['relay-id']}</th>
+												<th>${localization['timer-id']}</th>
+												<th>${localization['function']}</th>
+												<th>${localization['days-of-week']}</th>
+												<th>${localization['timer']}</th>
+												<th>${localization['enabled']}</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -125,7 +125,7 @@
 												<td>${relaysetting.moduleId}</td>
 												<td>${relaysetting.relayId}</td>
 												<td id="${ups.serialNumber}-timerid-${timerSetting.timerId}">${timerSetting.timerId}</td>
-												<td><label>Start Timer</label></td>
+												<td><label>${localization['start-timer']}</label></td>
 												<td><div class="dropup">
 														<select
 															id="weekday-picker-start-${ups.serialNumber}-${count2.index}-${count3.index}"
@@ -135,64 +135,64 @@
 
 															<c:choose>
 																<c:when test="${fn:containsIgnoreCase(weekday,'mon')}">
-																	<option selected value="mon">Monday</option>
+																	<option selected value="mon">${localization['monday']}</option>
 																</c:when>
 																<c:otherwise>
-																	<option value="mon">Monday</option>
+																	<option value="mon">${localization['monday']}</option>
 																</c:otherwise>
 															</c:choose>
 
 															<c:choose>
 																<c:when test="${fn:containsIgnoreCase(weekday,'tue')}">
-																	<option selected value="tue">Tuesday</option>
+																	<option selected value="tue">${localization['tuesday']}</option>
 																</c:when>
 																<c:otherwise>
-																	<option value="tue">Tuesday</option>
+																	<option value="tue">${localization['tuesday']}</option>
 																</c:otherwise>
 															</c:choose>
 
 															<c:choose>
 																<c:when test="${fn:containsIgnoreCase(weekday,'wed')}">
-																	<option selected value="wed">Wednesday</option>
+																	<option selected value="wed">${localization['wednesday']}</option>
 																</c:when>
 																<c:otherwise>
-																	<option value="wed">Wednesday</option>
+																	<option value="wed">${localization['wednesday']}</option>
 																</c:otherwise>
 															</c:choose>
 
 															<c:choose>
 																<c:when test="${fn:containsIgnoreCase(weekday,'thu')}">
-																	<option selected value="thu">Thursday</option>
+																	<option selected value="thu">${localization['thursday']}</option>
 																</c:when>
 																<c:otherwise>
-																	<option value="thu">Thursday</option>
+																	<option value="thu">${localization['thursday']}</option>
 																</c:otherwise>
 															</c:choose>
 
 															<c:choose>
 																<c:when test="${fn:containsIgnoreCase(weekday,'fri')}">
-																	<option selected value="fri">Friday</option>
+																	<option selected value="fri">${localization['friday']}</option>
 																</c:when>
 																<c:otherwise>
-																	<option value="fri">Friday</option>
+																	<option value="fri">${localization['friday']}</option>
 																</c:otherwise>
 															</c:choose>
 
 															<c:choose>
 																<c:when test="${fn:containsIgnoreCase(weekday,'sat')}">
-																	<option selected value="sat">Saturday</option>
+																	<option selected value="sat">${localization['saturday']}</option>
 																</c:when>
 																<c:otherwise>
-																	<option value="sat">Saturday</option>
+																	<option value="sat">${localization['saturday']}</option>
 																</c:otherwise>
 															</c:choose>
 
 															<c:choose>
 																<c:when test="${fn:containsIgnoreCase(weekday,'sun')}">
-																	<option selected value="sun">Sunday</option>
+																	<option selected value="sun">${localization['sunday']}</option>
 																</c:when>
 																<c:otherwise>
-																	<option value="sun">Sunday</option>
+																	<option value="sun">${localization['sunday']}</option>
 																</c:otherwise>
 															</c:choose>
 
@@ -227,7 +227,7 @@
 												<td></td>
 												<td></td>
 												<td></td>
-												<td><label>End Timer</label></td>
+												<td><label>${localization['end-timer']}</label></td>
 												<td><div class="dropup">
 														<select
 															id="weekday-picker-end-${ups.serialNumber}-${count2.index}-${count3.index}"
@@ -237,64 +237,64 @@
 
 															<c:choose>
 																<c:when test="${fn:containsIgnoreCase(weekday,'MO')}">
-																	<option selected value="mon">Monday</option>
+																	<option selected value="mon">${localization['monday']}</option>
 																</c:when>
 																<c:otherwise>
-																	<option value="mon">Monday</option>
+																	<option value="mon">${localization['monday']}</option>
 																</c:otherwise>
 															</c:choose>
 
 															<c:choose>
 																<c:when test="${fn:containsIgnoreCase(weekday,'TU')}">
-																	<option selected value="tue">Tuesday</option>
+																	<option selected value="tue">${localization['tuesday']}</option>
 																</c:when>
 																<c:otherwise>
-																	<option value="tue">Tuesday</option>
+																	<option value="tue">${localization['tuesday']}</option>
 																</c:otherwise>
 															</c:choose>
 
 															<c:choose>
 																<c:when test="${fn:containsIgnoreCase(weekday,'WE')}">
-																	<option selected value="wed">Wednesday</option>
+																	<option selected value="wed">${localization['wednesday']}</option>
 																</c:when>
 																<c:otherwise>
-																	<option value="wed">Wednesday</option>
+																	<option value="wed">${localization['wednesday']}</option>
 																</c:otherwise>
 															</c:choose>
 
 															<c:choose>
 																<c:when test="${fn:containsIgnoreCase(weekday,'TH')}">
-																	<option selected value="thu">Thursday</option>
+																	<option selected value="thu">${localization['thursday']}</option>
 																</c:when>
 																<c:otherwise>
-																	<option value="thu">Thursday</option>
+																	<option value="thu">${localization['thursday']}</option>
 																</c:otherwise>
 															</c:choose>
 
 															<c:choose>
 																<c:when test="${fn:containsIgnoreCase(weekday,'FR')}">
-																	<option selected value="fri">Friday</option>
+																	<option selected value="fri">${localization['friday']}</option>
 																</c:when>
 																<c:otherwise>
-																	<option value="fri">Friday</option>
+																	<option value="fri">${localization['friday']}</option>
 																</c:otherwise>
 															</c:choose>
 
 															<c:choose>
 																<c:when test="${fn:containsIgnoreCase(weekday,'SA')}">
-																	<option selected value="sat">Saturday</option>
+																	<option selected value="sat">${localization['saturday']}</option>
 																</c:when>
 																<c:otherwise>
-																	<option value="sat">Saturday</option>
+																	<option value="sat">${localization['saturday']}</option>
 																</c:otherwise>
 															</c:choose>
 
 															<c:choose>
 																<c:when test="${fn:containsIgnoreCase(weekday,'SU')}">
-																	<option selected value="sun">Sunday</option>
+																	<option selected value="sun">${localization['sunday']}</option>
 																</c:when>
 																<c:otherwise>
-																	<option value="sun">Sunday</option>
+																	<option value="sun">${localization['sunday']}</option>
 																</c:otherwise>
 															</c:choose>
 														</select>
@@ -315,7 +315,7 @@
 														<button
 															id="remove-setting-button-${ups.serialNumber}-${relaysetting.moduleId}-${relaysetting.relayId}-${timerSetting.timerId}"
 															onClick="deleteTimerSetting('${ups.serialNumber}','${relaysetting.moduleId}','${relaysetting.relayId}','${timerSetting.timerId}');"
-															type="button" class="btn-danger btn btn-sm">DELETE</button>
+															type="button" class="btn-danger btn btn-sm">${localization['delete']}</button>
 														<div
 															id="remove-setting-progressbar-${ups.serialNumber}-${relaysetting.moduleId}-${relaysetting.relayId}-${timerSetting.timerId}"
 															class="loader" style="display: none;" id="timex"></div>
@@ -328,8 +328,7 @@
 											<button
 												id="add-setting-button-${ups.serialNumber}-${relaysetting.moduleId}-${relaysetting.relayId}"
 												onClick="addTimerSetting('${ups.serialNumber}','${relaysetting.moduleId}','${relaysetting.relayId}');"
-												type="button" class="btn-primary btn btn-sm">ADD
-												TIMER</button>
+												type="button" class="btn-primary btn btn-sm">${localization['add-timer']}</button>
 											<div
 												id="add-setting-progressbar-${ups.serialNumber}-${relaysetting.moduleId}-${relaysetting.relayId}"
 												class="loader" style="display: none; text-align: right;"
@@ -352,11 +351,10 @@
 								class="loader" id="timex"></div>
 						    <button id="save-switch-${ups.serialNumber}"
 								onClick="updateProductSettings('${ups.serialNumber}','${count.index}');"
-								type="submit" class="btn-primary btn">SAVE SETTING</button>
+								type="submit" class="btn-primary btn">${localization['save-setting']}</button>
 						</c:when>
 						<c:otherwise>
-							<button disabled type="submit" class="btn-primary btn">SAVE
-								SETTING</button>
+							<button disabled type="submit" class="btn-primary btn">${localization['save-setting']}</button>
 						</c:otherwise>
 					</c:choose>
 				</div>

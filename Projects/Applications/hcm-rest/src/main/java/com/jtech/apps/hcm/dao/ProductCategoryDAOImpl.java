@@ -19,7 +19,6 @@ import com.jtech.apps.hcm.model.setting.InputSetting;
 import com.jtech.apps.hcm.model.setting.ProductControlSetting;
 import com.jtech.apps.hcm.model.setting.ProductTriggerSetting;
 import com.jtech.apps.hcm.model.setting.RelaySetting;
-import com.jtech.apps.hcm.model.setting.Setting;
 import com.jtech.apps.hcm.util.TimeUtil;
 
 @Repository
@@ -67,7 +66,8 @@ public class ProductCategoryDAOImpl implements ProductCategoryDAO {
 				ProductCategory productCategory = new ProductCategory();
 				productCategory = mapper.mapProductCategory(row);
 
-				productCategory.setSettings(getSettings(productCategory.getProductId()));
+				productCategory.setRelaySettings(getRelaySettings(productCategory.getProductId()));
+				productCategory.setInputSettings(getInputSettings(productCategory.getProductId()));
 
 				productCategories.add(productCategory);
 			}
@@ -76,32 +76,12 @@ public class ProductCategoryDAOImpl implements ProductCategoryDAO {
 		return productCategories;
 	}
 
-	public List<Setting> getSettings(Integer productId) {
-
-		List<Setting> settings = new LinkedList<Setting>();
-
-		String sql = "SELECT * FROM PRODUCT_DEFAULT_SETTINGS WHERE PRODUCT_ID = ?";
-
-		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql, productId);
-		for (Map<String, Object> row : rows) {
-
-			Setting setting = new Setting();
-			setting = mapper.mapSetting(row);
-			setting.setInputSettings(getInputSettings(productId, setting.getSettingId()));
-			setting.setRelaySettings(getRelaySettings(productId, setting.getSettingId()));
-			settings.add(setting);
-
-		}
-		return settings;
-
-	}
-
-	public List<InputSetting> getInputSettings(Integer productId, Integer settingId) {
+	public List<InputSetting> getInputSettings(Integer productId) {
 
 		List<InputSetting> inputSettings = new LinkedList<InputSetting>();
-		String sql = "SELECT * FROM PRODUCT_DEFAULT_INPUT_SETTINGS WHERE PRODUCT_ID = ? AND SETTING_ID = ?";
+		String sql = "SELECT * FROM PRODUCT_DEFAULT_INPUT_SETTINGS WHERE PRODUCT_ID = ?";
 
-		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql, productId, settingId);
+		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql, productId);
 		for (Map<String, Object> row : rows) {
 			InputSetting inputSetting = new InputSetting();
 			inputSetting = mapper.mapInputSetting(row);
@@ -112,12 +92,12 @@ public class ProductCategoryDAOImpl implements ProductCategoryDAO {
 		return inputSettings;
 	}
 
-	public List<RelaySetting> getRelaySettings(Integer productId, Integer settingId) {
+	public List<RelaySetting> getRelaySettings(Integer productId) {
 
 		List<RelaySetting> relaySettings = new LinkedList<RelaySetting>();
-		String sql = "SELECT * FROM PRODUCT_DEFAULT_RELAY_SETTINGS WHERE PRODUCT_ID = ? AND SETTING_ID = ?";
+		String sql = "SELECT * FROM PRODUCT_DEFAULT_RELAY_SETTINGS WHERE PRODUCT_ID = ?";
 
-		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql, productId, settingId);
+		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql, productId);
 		for (Map<String, Object> row : rows) {
 			RelaySetting relaySetting = new RelaySetting();
 			relaySetting = mapper.mapRelaySetting(row);
@@ -146,8 +126,11 @@ public class ProductCategoryDAOImpl implements ProductCategoryDAO {
 		parameters.put("LAST_UPDATE_DATE", TimeUtil.getTimeStamp());
 		parameters.put("PRODUCT_ID", pc.getProductId());
 
-		for (int index = 0; index < pc.getSettings().size(); index++) {
-			updateSetting(pc.getSettings().get(index), pc.getProductId());
+		for (int index = 0; index < pc.getRelaySettings().size(); index++) {
+			updateRelaySetting(pc.getRelaySettings().get(index), pc.getProductId());
+		}
+		for (int index = 0; index < pc.getInputSettings().size(); index++) {
+			updateInputSetting(pc.getInputSettings().get(index), pc.getProductId());
 		}
 
 		namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(jdbcTemplate.getDataSource());
@@ -155,37 +138,13 @@ public class ProductCategoryDAOImpl implements ProductCategoryDAO {
 		return namedParameterJdbcTemplate.update(sql, namedParameters);
 	}
 
-	public int updateSetting(Setting st, Integer productId) {
-
-		String sql = "UPDATE PRODUCT_DEFAULT_SETTINGS SET SETTING_NAME = :SETTING_NAME, SELECTED = :SELECTED, LAST_UPDATE_DATE = :LAST_UPDATE_DATE WHERE PRODUCT_ID = :PRODUCT_ID AND SETTING_ID = :SETTING_ID";
-
-		Map<String, Object> parameters = new HashMap<String, Object>();
-		parameters.put("SETTING_NAME", st.getSettingName());
-		parameters.put("SELECTED", st.isSelected() ? "Y" : "N");
-		parameters.put("LAST_UPDATE_DATE", TimeUtil.getTimeStamp());
-		parameters.put("PRODUCT_ID", productId);
-		parameters.put("SETTING_ID", st.getSettingId());
-
-		for (int index = 0; index < st.getRelaySettings().size(); index++) {
-			updateRelaySetting(st.getRelaySettings().get(index), productId, st.getSettingId());
-		}
-
-		for (int index = 0; index < st.getInputSettings().size(); index++) {
-			updateInputSetting(st.getInputSettings().get(index), productId, st.getSettingId());
-		}
-
-		namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(jdbcTemplate.getDataSource());
-		SqlParameterSource namedParameters = new MapSqlParameterSource(parameters);
-		return namedParameterJdbcTemplate.update(sql, namedParameters);
-	}
-
-	public int updateRelaySetting(RelaySetting rs, Integer productId, Integer settingId) {
+	public int updateRelaySetting(RelaySetting rs, Integer productId) {
 
 		String sql = "UPDATE PRODUCT_DEFAULT_RELAY_SETTINGS SET "
 				+ "RELAY_NAME = :RELAY_NAME, RELAY_STATUS = :RELAY_STATUS,"
 				+ "DELAY = :DELAY, RELAY_ENABLED = :RELAY_ENABLED, DELAY_ENABLED = :DELAY_ENABLED, "
 				+ "MODE = :MODE, LAST_UPDATE_DATE = :LAST_UPDATE_DATE "
-				+ "WHERE PRODUCT_ID = :PRODUCT_ID AND SETTING_ID = :SETTING_ID "
+				+ "WHERE PRODUCT_ID = :PRODUCT_ID"
 				+ "AND RELAY_ID = :RELAY_ID AND MODULE_ID = :MODULE_ID";
 
 		Map<String, Object> parameters = new HashMap<String, Object>();
@@ -197,7 +156,6 @@ public class ProductCategoryDAOImpl implements ProductCategoryDAO {
 		parameters.put("MODE", rs.isImpulseMode() ? "Y" : "N");
 		parameters.put("LAST_UPDATE_DATE", TimeUtil.getTimeStamp());
 		parameters.put("PRODUCT_ID", productId);
-		parameters.put("SETTING_ID", settingId);
 		parameters.put("RELAY_ID", rs.getRelayId());
 		parameters.put("MODULE_ID", rs.getModuleId());
 
@@ -206,13 +164,13 @@ public class ProductCategoryDAOImpl implements ProductCategoryDAO {
 		return namedParameterJdbcTemplate.update(sql, namedParameters);
 	}
 
-	public int updateInputSetting(InputSetting is, Integer productId, Integer settingId) {
+	public int updateInputSetting(InputSetting is, Integer productId) {
 
 		String sql = "UPDATE PRODUCT_DEFAULT_INPUT_SETTINGS SET " + "INPUT_NAME = :INPUT_NAME, "
 				+ "START_TIMER = :START_TIMER, " + "END_TIMER = :END_TIMER, " + "TIMER_ENABLED = :TIMER_ENABLED, "
 				+ "VALUE_POSTFIX = :VALUE_POSTFIX, " + "SAMPLE_RATE = :SAMPLE_RATE, "
 				+ "LAST_UPDATE_DATE = :LAST_UPDATE_DATE " + "WHERE PRODUCT_ID = :PRODUCT_ID "
-				+ "AND SETTING_ID = :SETTING_ID " + "AND INPUT_ID = :INPUT_ID";
+				+ "AND INPUT_ID = :INPUT_ID";
 
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("INPUT_NAME", is.getInputName());
@@ -223,7 +181,6 @@ public class ProductCategoryDAOImpl implements ProductCategoryDAO {
 		parameters.put("SAMPLE_RATE", is.getSampleRate());
 		parameters.put("LAST_UPDATE_DATE", TimeUtil.getTimeStamp());
 		parameters.put("PRODUCT_ID", productId);
-		parameters.put("SETTING_ID", settingId);
 		parameters.put("INPUT_ID", is.getInputId());
 
 		namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(jdbcTemplate.getDataSource());
@@ -258,8 +215,11 @@ public class ProductCategoryDAOImpl implements ProductCategoryDAO {
 		parameters.put("CREATION_DATE", TimeUtil.getTimeStamp());
 		parameters.put("LAST_UPDATE_DATE", TimeUtil.getTimeStamp());
 
-		for (int index = 0; index < productCategory.getSettings().size(); index++) {
-			addSetting(productCategory.getSettings().get(index), productCategory.getProductId());
+		for (int index = 0; index < productCategory.getRelaySettings().size(); index++) {
+			addRelaySetting(productCategory.getRelaySettings().get(index), productCategory.getProductId());
+		}
+		for (int index = 0; index < productCategory.getInputSettings().size(); index++) {
+			addInputSetting(productCategory.getInputSettings().get(index), productCategory.getProductId());
 		}
 
 		namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(jdbcTemplate.getDataSource());
@@ -268,41 +228,15 @@ public class ProductCategoryDAOImpl implements ProductCategoryDAO {
 
 	}
 
-	public int addSetting(Setting setting, Integer productId) {
-
-		String sql = "INSERT INTO PRODUCT_DEFAULT_SETTINGS (" + "SETTING_ID," + "PRODUCT_ID," + "SETTING_NAME,"
-				+ "SELECTED," + "CREATION_DATE," + "LAST_UPDATE_DATE) VALUES " + "(:SETTING_ID," + ":PRODUCT_ID,"
-				+ ":SETTING_NAME," + ":SELECTED," + ":CREATION_DATE," + ":LAST_UPDATE_DATE)";
-		Map<String, Object> parameters = new HashMap<String, Object>();
-		parameters.put("SETTING_ID", setting.getSettingId());
-		parameters.put("PRODUCT_ID", productId);
-		parameters.put("SETTING_NAME", setting.getSettingName());
-		parameters.put("SELECTED", setting.isSelected() ? "Y" : "N");
-		parameters.put("CREATION_DATE", TimeUtil.getTimeStamp());
-		parameters.put("LAST_UPDATE_DATE", TimeUtil.getTimeStamp());
-
-		for (int index = 0; index < setting.getRelaySettings().size(); index++) {
-			addRelaySetting(setting.getRelaySettings().get(index), productId, setting.getSettingId());
-		}
-		for (int index = 0; index < setting.getInputSettings().size(); index++) {
-			addInputSetting(setting.getInputSettings().get(index), productId, setting.getSettingId());
-		}
-
-		namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(jdbcTemplate.getDataSource());
-		SqlParameterSource namedParameters = new MapSqlParameterSource(parameters);
-		return namedParameterJdbcTemplate.update(sql, namedParameters);
-	}
-
-	public int addRelaySetting(RelaySetting relaySetting, Integer productId, Integer settingId) {
-		String sql = "INSERT INTO PRODUCT_DEFAULT_RELAY_SETTINGS (PRODUCT_ID,SETTING_ID,"
+	public int addRelaySetting(RelaySetting relaySetting, Integer productId) {
+		String sql = "INSERT INTO PRODUCT_DEFAULT_RELAY_SETTINGS (PRODUCT_ID,"
 				+ "RELAY_ID, MODULE_ID, RELAY_NAME, RELAY_STATUS, DELAY, RELAY_ENABLED,"
 				+ "DELAY_ENABLED, CREATION_DATE, LAST_UPDATE_DATE) VALUES (:PRODUCT_ID,"
-				+ ":SETTING_ID,:RELAY_ID, :MODULE_ID, :RELAY_NAME, :RELAY_STATUS,"
+				+ ":RELAY_ID, :MODULE_ID, :RELAY_NAME, :RELAY_STATUS,"
 				+ ":DELAY, :RELAY_ENABLED, :DELAY_ENABLED, :CREATION_DATE, :LAST_UPDATE_DATE)";
 
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("PRODUCT_ID", productId);
-		parameters.put("SETTING_ID", settingId);
 		parameters.put("MODULE_ID", relaySetting.getModuleId());
 		parameters.put("RELAY_ID", relaySetting.getRelayId());
 		parameters.put("RELAY_NAME", relaySetting.getRelayName());
@@ -318,17 +252,16 @@ public class ProductCategoryDAOImpl implements ProductCategoryDAO {
 		return namedParameterJdbcTemplate.update(sql, namedParameters);
 	}
 
-	public int addInputSetting(InputSetting inputSetting, Integer productId, Integer settingId) {
+	public int addInputSetting(InputSetting inputSetting, Integer productId) {
 
-		String sql = "INSERT INTO PRODUCT_DEFAULT_INPUT_SETTINGS (" + "PRODUCT_ID," + "SETTING_ID," + "INPUT_ID,"
+		String sql = "INSERT INTO PRODUCT_DEFAULT_INPUT_SETTINGS (" + "PRODUCT_ID," + "INPUT_ID,"
 				+ "INPUT_NAME," + "START_TIMER," + "END_TIMER," + "TIMER_ENABLED," + "VALUE_POSTFIX," + "SAMPLE_RATE,"
-				+ "CREATION_DATE," + "LAST_UPDATE_DATE) VALUES (" + ":PRODUCT_ID," + ":SETTING_ID," + ":INPUT_ID,"
+				+ "CREATION_DATE," + "LAST_UPDATE_DATE) VALUES (" + ":PRODUCT_ID," + ":INPUT_ID,"
 				+ ":INPUT_NAME," + ":START_TIMER," + ":END_TIMER," + ":TIMER_ENABLED," + ":VALUE_POSTFIX,"
 				+ ":SAMPLE_RATE," + ":CREATION_DATE," + ":LAST_UPDATE_DATE)";
 
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("PRODUCT_ID", productId);
-		parameters.put("SETTING_ID", settingId);
 		parameters.put("INPUT_ID", inputSetting.getInputId());
 		parameters.put("INPUT_NAME", inputSetting.getInputName());
 		parameters.put("START_TIMER", inputSetting.getStartTimer());

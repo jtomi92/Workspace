@@ -7,10 +7,9 @@ import com.jtech.apps.hcm.model.setting.InputSetting;
 import com.jtech.apps.hcm.model.setting.ProductControlSetting;
 import com.jtech.apps.hcm.model.setting.ProductTriggerSetting;
 import com.jtech.apps.hcm.model.setting.RelaySetting;
-import com.jtech.apps.hcm.model.setting.Setting;
 import com.jtech.apps.hcm.model.setting.TimerSetting;
 
-public class UserProductMapper {
+public class UserProductMapper{
 
 	public UserProduct mapUserProduct(Map<String, Object> row) {
 
@@ -27,17 +26,6 @@ public class UserProductMapper {
 		userProduct.setLastUpdateDate((String) row.get("LAST_UPDATE_DATE"));
 
 		return userProduct;
-	}
-
-	public Setting mapSetting(Map<String, Object> row) {
-
-		Setting setting = new Setting();
-		setting.setSettingId((Integer) row.get("SETTING_ID"));
-		setting.setSettingName((String) row.get("SETTING_NAME"));
-		setting.setSelected(row.get("SELECTED").toString().equals("Y"));
-		setting.setCreationDate((String) row.get("CREATION_DATE"));
-		setting.setLastUpdateDate((String) row.get("LAST_UPDATE_DATE"));
-		return setting;
 	}
 
 	public InputSetting mapInputSetting(Map<String, Object> row) {

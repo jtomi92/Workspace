@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #define TRUE 1
 #define FALSE 0
@@ -272,11 +273,11 @@ while (eepromReadAttribute(container,sizeof(container),"RS",0) != 0){
         } else if (strstr(p2,"UA")){
             char *p3, *save_ptr3; int i=0;
             p2 = strtok_r(0,":",&save_ptr2);
-            p3 = strtok(p2,",",&save_ptr3);
+            p3 = strtok_r(p2,",",&save_ptr3);
 
             while (p3 != 0){
                 relaySetting.users[i++] = atoi(p3);
-                p3 = strtok(0,",",&save_ptr3);
+                p3 = strtok_r(0,",",&save_ptr3);
             }
         }
         p1 = strtok_r(0,";",&save_ptr1);
@@ -373,7 +374,6 @@ void getAccessPointSetting(char ssid[], char password[], char apn[]){
     } else {
         strcpy(apn,NETWORK_APN);
     }
-
 }
 
 void initializeTimerSettingIds(){
@@ -461,10 +461,10 @@ while (eepromReadAttribute(container,sizeof(container),"TS",0) != 0){
         } else if (strstr(p2,"SW")){
             char *p3, *save_ptr3; int i=0;
             p2 = strtok_r(0,":",&save_ptr2);
-            p3 = strtok(p2,",",&save_ptr3);
+            p3 = strtok_r(p2,",",&save_ptr3);
             while (p3 != 0){
                 timerSetting.start_week[i++] = atoi(p3);
-                p3 = strtok(0,",",&save_ptr3);
+                p3 = strtok_r(0,",",&save_ptr3);
             }
         } else if (strstr(p2,"ET")){
             p2 = strtok_r(0,":",&save_ptr2);
@@ -473,11 +473,11 @@ while (eepromReadAttribute(container,sizeof(container),"TS",0) != 0){
         } else if (strstr(p2,"EW")){
             char *p3, *save_ptr3; int i=0;
             p2 = strtok_r(0,":",&save_ptr2);
-            p3 = strtok(p2,",",&save_ptr3);
+            p3 = strtok_r(p2,",",&save_ptr3);
 
             while (p3 != 0){
                 timerSetting.end_week[i++] = atoi(p3);
-                p3 = strtok(0,",",&save_ptr3);
+                p3 = strtok_r(0,",",&save_ptr3);
             }
         }
         p1 = strtok_r(0,";",&save_ptr1);
@@ -641,6 +641,28 @@ void processWebApp(){
 		}
 }
 
+void readAPInfo(){
+    char asd[100], *p;
+
+    strcpy(asd,"asdasdasffo    1,CONNECT ASDASD");
+    p = strstr(asd,",CONNECT");
+    printf("CONNECTION=%c\n",*(p-1));
+}
+
+void saveAPInfo(){
+    char buffer[160];
+	strcpy(buffer,"#AP;SSID:");
+	strcat(buffer,"Tardis");
+	strcat(buffer,";PWD:");
+	strcat(buffer,"asdasdasd");
+	strcat(buffer,";APN:");
+	strcat(buffer,"online");
+	strcat(buffer,"#");
+	printf("%s\n",buffer);
+	eepromSaveCfg(buffer,20);
+}
+
+
 int main()
 {
     int pos = 0,i;
@@ -651,6 +673,7 @@ int main()
     char password[50];
     char apn[30];
     char readLine[200] = "AT OK BLABLABLBALBAAAA SWITCH;RELAY;1;1@ BLABLABLA BLA SWITCH;RELAY;2;1@ ASDASDASD";
+
 
 
     setupSystemTime();
@@ -747,6 +770,6 @@ int main()
     processReadLine(readLine, sizeof(readLine));
 
     processWebApp();
-
+    readAPInfo();
     return 0;
 }

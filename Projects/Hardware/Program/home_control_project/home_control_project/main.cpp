@@ -51,9 +51,9 @@ int main (void)
 	int i=0;
 	setup();
 	
-	/*for (i=0;i<1000;i++){
+	for (i=0;i<1000;i++){
 		 USART0_SendByte(eeprom_read_byte((uint8_t*)i));
-	}*/
+	}
 	 
 	while(1)
 	{

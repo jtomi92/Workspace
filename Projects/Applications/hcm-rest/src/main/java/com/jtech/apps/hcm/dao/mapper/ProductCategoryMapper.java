@@ -6,7 +6,6 @@ import java.util.Map;
 import com.jtech.apps.hcm.model.ProductCategory;
 import com.jtech.apps.hcm.model.setting.InputSetting;
 import com.jtech.apps.hcm.model.setting.RelaySetting;
-import com.jtech.apps.hcm.model.setting.Setting;
 
 public class ProductCategoryMapper{
 
@@ -25,17 +24,6 @@ public class ProductCategoryMapper{
 		productCategory.setLastUpdateDate((String) row.get("LAST_UPDATE_DATE"));
 
 		return productCategory;
-	}
-
-	public Setting mapSetting(Map<String, Object> row) {
-
-		Setting setting = new Setting();
-		setting.setSettingId((Integer) row.get("SETTING_ID"));
-		setting.setSettingName((String)row.get("SETTING_NAME"));
-		setting.setSelected(row.get("SELECTED").toString().equals("Y"));
-		setting.setCreationDate((String) row.get("CREATION_DATE"));
-		setting.setLastUpdateDate((String)row.get("LAST_UPDATE_DATE"));
-		return setting;
 	}
 
 	public InputSetting mapInputSetting(Map<String, Object> row) {

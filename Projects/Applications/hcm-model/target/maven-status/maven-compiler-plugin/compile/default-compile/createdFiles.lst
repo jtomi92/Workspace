@@ -7,8 +7,8 @@ com\jtech\apps\hcm\model\RegisteredProduct.class
 com\jtech\apps\hcm\model\setting\TimerSetting.class
 com\jtech\apps\hcm\model\Connection.class
 com\jtech\apps\hcm\model\Notification.class
-com\jtech\apps\hcm\model\setting\Setting.class
 com\jtech\apps\hcm\model\setting\ProductUser.class
+com\jtech\apps\hcm\model\DevicePoolHost.class
 com\jtech\apps\hcm\model\UserLogs.class
 com\jtech\apps\hcm\model\UserProduct.class
 com\jtech\apps\hcm\model\setting\InputSetting.class

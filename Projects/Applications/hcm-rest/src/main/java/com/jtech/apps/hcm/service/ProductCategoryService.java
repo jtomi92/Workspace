@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import com.jtech.apps.hcm.dao.interfaces.ProductCategoryDAO;
 import com.jtech.apps.hcm.model.ProductCategory;
-import com.jtech.apps.hcm.model.setting.Setting;
 
 @Service
 public class ProductCategoryService {
@@ -26,16 +25,6 @@ public class ProductCategoryService {
 
 	public List<ProductCategory> getProductCategories() {
 		return productCategoryDAO.getProductCategories();
-	}
-
-	public Setting getProductSetting(Integer productId) {
-		List<Setting> settings = productCategoryDAO.getSettings(productId);
-		for (Setting setting : settings) {
-			if (setting.isSelected()) {
-				return setting;
-			}
-		}
-		return null;
 	}
 
 	public ProductCategory getTestData() {

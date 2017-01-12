@@ -23,12 +23,12 @@ public class NotificationDAOImpl {
 	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 	private Logger logger = Logger.getLogger(NotificationDAOImpl.class);
 	
-	public List<RelayState> getRelayStates(String serialNumber, Integer settingId){
+	public List<RelayState> getRelayStates(String serialNumber){
 		
-		String sql = "SELECT * FROM USER_PRODUCT_RELAY_SETTINGS WHERE SERIAL_NUMBER = ? AND SETTING_ID = ? AND LAST_UPDATE_DATE >= ?";
+		String sql = "SELECT * FROM USER_PRODUCT_RELAY_SETTINGS WHERE SERIAL_NUMBER = ? AND LAST_UPDATE_DATE >= ?";
 		List<RelayState> relayStates = new LinkedList<RelayState>();
 		List<Map<String, Object>> rows = new LinkedList<Map<String, Object>>();
-		rows = jdbcTemplate.queryForList(sql, serialNumber, settingId, TimeUtil.getTimeStampWithDifference(3));
+		rows = jdbcTemplate.queryForList(sql, serialNumber, TimeUtil.getTimeStampWithDifference(3));
 
 		if (rows != null && !rows.isEmpty()) { 
 			for (Map<String, Object> row : rows) {
@@ -68,7 +68,6 @@ public class NotificationDAOImpl {
 		
 		//logger.info("Current Time=" + TimeUtil.getTimeStamp() + "\n" + "TimeWithDifference=" + TimeUtil.getTimeStampWithDifference(3));
 		rows = jdbcTemplate.queryForList(sql, serialNumber, TimeUtil.getTimeStampWithDifference(3));
-		logger.info("getNotification SIZE=" + rows.size());
 		if (rows != null && !rows.isEmpty()) { 
 			for (Map<String, Object> row : rows) {
 				String notification = ((String)row.get("NOTIFICATION"));

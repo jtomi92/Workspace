@@ -196,9 +196,6 @@ void defaultSettings() {
 
 	strcpy(__network_data.host, NETWORK_HOST);
 	strcpy(__network_data.port, NETWORK_PORT);
-	strcpy(__network_data.ssid, NETWORK_SSID);
-	strcpy(__network_data.password, NETWORK_PASSW);
-	strcpy(__network_data.apn, NETWORK_APN);
 
 	__network_data.is_esp_connected = FALSE;
 	__network_data.is_sim_connected = FALSE;
@@ -226,7 +223,7 @@ void defaultSettings() {
 	
 	// For Timers
 	__system_time.timer_check_timer_buffer = 0;
-	__system_time.timer_check_timer = 20;
+	__system_time.timer_check_timer = 30;
 	
 	// Check network/gsm availability
 	__system_time.gsm_network_timer_buffer = 0;
@@ -239,6 +236,8 @@ void defaultSettings() {
 	if (eepromReadAttribute(__system_var.serial_number,sizeof(__system_var.serial_number),"SERIAL",1) == 0){
 		strcpy(__system_var.serial_number,"null");	
 	}
+	getAccessPointSetting();
+	
 
 }
 void readNetworkSettings() {
@@ -331,8 +330,8 @@ void powerUpModules(){
 		GSM_Write_String("AT\r\n");
 		delay(500);
 		if (strstr(__network_data.sim_buffer,"OK") == 0){
-			turnOnSim900();
-			delay(2000);
+			//turnOnSim900();
+			//delay(2000);
 		}
 		GSM_Write_String("AT+CMGF=1\r\n");
 		delay(300);

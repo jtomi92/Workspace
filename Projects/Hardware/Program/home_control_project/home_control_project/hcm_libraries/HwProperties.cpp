@@ -15,7 +15,7 @@ const char PRODUCT_NAME[] = "test product 1";
 const char NETWORK_SSID[] = "Tardis";
 const char NETWORK_PASSW[] = "77Ld7cr7dW";
 const char NETWORK_HOST[] = "192.168.0.27";
-const char NETWORK_PORT[] = "2086";
+const char NETWORK_PORT[] = "2088";
 const char NETWORK_APN[] = "online";
 const int RECONNECT_TIMER = 30;
 // CONNECTION CHANNEL FOR SERVER/CLIENT COMMUNICATION
@@ -31,7 +31,7 @@ const int GSM_DIRECTION = UART1;
 
 /////////////// EEPROM Stuff
 const int EEPROM_SIZE = 4096;
-const int EEPROM_CFG_START = 80;
+const int EEPROM_CFG_START = 180;
 const int EEPROM_DATA_START = 20;
 const int EEPROM_SERIAL_START = 0;
 

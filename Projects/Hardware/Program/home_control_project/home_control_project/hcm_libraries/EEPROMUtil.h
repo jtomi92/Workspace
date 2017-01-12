@@ -17,7 +17,7 @@ int verifyRelayAccess(char *phoneNumber, char moduleId, char relayId);
 int getPrimaryNetworkSetting(char host[], char port[]);
 int getSecondaryNetworkSetting(char host[], char port[]);
 int getDefaultNetworkSetting(char host[], char port[]);
-void getAccessPointSetting(char ssid[], char password[], char apn[]);
+void getAccessPointSetting();
 void initializeTimerSettingIds();
 int getTimerSetting(int moduleId, int relayId);
 int isCurrentTimerActive();

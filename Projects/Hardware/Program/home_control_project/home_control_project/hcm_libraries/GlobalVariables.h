@@ -62,17 +62,17 @@ typedef struct {                  //SYSTIME
 
 } SYSTIME;
 typedef struct {                  //NETWORK
-	char host[30];
+	char host[100];
 	char port[5];
-	char ssid[20];
-	char password[20];
+	char ssid[30];
+	char password[30];
 	char apn[10];
 
 	char is_esp_connected;
 	char is_sim_connected;
 	char is_server_connected;
 
-	char esp_buffer[300];
+	char esp_buffer[500];
 	char sim_buffer[200];
 	char is_esp_read_line;
 	char is_sim_read_line;

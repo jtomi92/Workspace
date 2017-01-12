@@ -64,22 +64,12 @@ Discarded input sections
                 0x00000000       0xe2 hcm_libraries/EEPROMUtil.o
  .text._Z17verifyRelayAccessPccc
                 0x00000000       0x6a hcm_libraries/EEPROMUtil.o
- .text._Z24getPrimaryNetworkSettingPcS_
-                0x00000000      0x112 hcm_libraries/EEPROMUtil.o
- .text._Z26getSecondaryNetworkSettingPcS_
-                0x00000000      0x112 hcm_libraries/EEPROMUtil.o
- .text._Z24getDefaultNetworkSettingPcS_
-                0x00000000       0x22 hcm_libraries/EEPROMUtil.o
- .text._Z21getAccessPointSettingPcS_S_
-                0x00000000       0xf0 hcm_libraries/EEPROMUtil.o
  .text          0x00000000        0x0 hcm_libraries/HwProperties.o
  .data          0x00000000        0x0 hcm_libraries/HwProperties.o
  .bss           0x00000000        0x0 hcm_libraries/HwProperties.o
  .rodata.VCC_DETECT
                 0x00000000        0x2 hcm_libraries/HwProperties.o
  .rodata.WS28_DATA
-                0x00000000        0x2 hcm_libraries/HwProperties.o
- .rodata.EEPROM_DATA_START
                 0x00000000        0x2 hcm_libraries/HwProperties.o
  .rodata.WIFI_DIRECTION
                 0x00000000        0x2 hcm_libraries/HwProperties.o
@@ -100,6 +90,8 @@ Discarded input sections
  .rodata.GPRS_CONNECTED
                 0x00000000        0x2 hcm_libraries/GlobalVariables.o
  .rodata.WIFI_CONNECTED
+                0x00000000        0x2 hcm_libraries/GlobalVariables.o
+ .rodata.SERVER_CONNECTED
                 0x00000000        0x2 hcm_libraries/GlobalVariables.o
  .rodata.USART_BAUDRATE
                 0x00000000        0x2 hcm_libraries/GlobalVariables.o
@@ -126,6 +118,8 @@ Discarded input sections
                 0x00000000       0x20 hcm_libraries/Utils.o
  .text._Z14GSM_Write_Bytec
                 0x00000000       0x20 hcm_libraries/Utils.o
+ .text._Z12turnOnSim900v
+                0x00000000       0x34 hcm_libraries/Utils.o
  .text._Z8espPowercc
                 0x00000000        0x8 hcm_libraries/Utils.o
  .text._Z19readNetworkSettingsv
@@ -385,7 +379,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000     0x2f36
+.text           0x00000000     0x3562
  *(.vectors)
  .vectors       0x00000000       0x8c C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.0.106/gcc/dev/atmega1284p/avr51/crtatmega1284p.o
                 0x00000000                __vector_default
@@ -496,210 +490,228 @@ END GROUP
  .text._Z15getRelaySettingii
                 0x000003dc      0x222 hcm_libraries/EEPROMUtil.o
                 0x000003dc                _Z15getRelaySettingii
+ .text._Z24getPrimaryNetworkSettingPcS_
+                0x000005fe      0x110 hcm_libraries/EEPROMUtil.o
+                0x000005fe                _Z24getPrimaryNetworkSettingPcS_
+ .text._Z26getSecondaryNetworkSettingPcS_
+                0x0000070e      0x110 hcm_libraries/EEPROMUtil.o
+                0x0000070e                _Z26getSecondaryNetworkSettingPcS_
+ .text._Z24getDefaultNetworkSettingPcS_
+                0x0000081e       0x22 hcm_libraries/EEPROMUtil.o
+                0x0000081e                _Z24getDefaultNetworkSettingPcS_
+ .text._Z21getAccessPointSettingv
+                0x00000840      0x10e hcm_libraries/EEPROMUtil.o
+                0x00000840                _Z21getAccessPointSettingv
  .text._Z25initializeTimerSettingIdsv
-                0x000005fe      0x1d0 hcm_libraries/EEPROMUtil.o
-                0x000005fe                _Z25initializeTimerSettingIdsv
+                0x0000094e      0x1d0 hcm_libraries/EEPROMUtil.o
+                0x0000094e                _Z25initializeTimerSettingIdsv
  .text._Z15getTimerSettingii
-                0x000007ce      0x2da hcm_libraries/EEPROMUtil.o
-                0x000007ce                _Z15getTimerSettingii
+                0x00000b1e      0x2da hcm_libraries/EEPROMUtil.o
+                0x00000b1e                _Z15getTimerSettingii
  .text._Z20isCurrentTimerActivev
-                0x00000aa8       0xc6 hcm_libraries/EEPROMUtil.o
-                0x00000aa8                _Z20isCurrentTimerActivev
+                0x00000df8       0xc6 hcm_libraries/EEPROMUtil.o
+                0x00000df8                _Z20isCurrentTimerActivev
  .text.__vector_28
-                0x00000b6e       0x86 hcm_libraries/Network.o
-                0x00000b6e                __vector_28
+                0x00000ebe       0x86 hcm_libraries/Network.o
+                0x00000ebe                __vector_28
  .text.__vector_20
-                0x00000bf4       0x86 hcm_libraries/Network.o
-                0x00000bf4                __vector_20
+                0x00000f44       0x86 hcm_libraries/Network.o
+                0x00000f44                __vector_20
  .text.__vector_18
-                0x00000c7a      0x1be hcm_libraries/Network.o
-                0x00000c7a                __vector_18
+                0x00000fca      0x1be hcm_libraries/Network.o
+                0x00000fca                __vector_18
  .text._Z9readUntilPKci
-                0x00000e38       0xd4 hcm_libraries/Network.o
-                0x00000e38                _Z9readUntilPKci
+                0x00001188      0x12c hcm_libraries/Network.o
+                0x00001188                _Z9readUntilPKci
  .text._Z7cipsendPcS_
-                0x00000f0c      0x104 hcm_libraries/Network.o
-                0x00000f0c                _Z7cipsendPcS_
+                0x000012b4       0xf4 hcm_libraries/Network.o
+                0x000012b4                _Z7cipsendPcS_
  .text._Z12sendToServerPci
-                0x00001010       0xce hcm_libraries/Network.o
-                0x00001010                _Z12sendToServerPci
+                0x000013a8       0xce hcm_libraries/Network.o
+                0x000013a8                _Z12sendToServerPci
  .text._Z8sendToAPPcS_
-                0x000010de       0xc8 hcm_libraries/Network.o
-                0x000010de                _Z8sendToAPPcS_
+                0x00001476       0xb8 hcm_libraries/Network.o
+                0x00001476                _Z8sendToAPPcS_
  .text._Z13getSystemTimev
-                0x000011a6       0xf2 hcm_libraries/Network.o
-                0x000011a6                _Z13getSystemTimev
+                0x0000152e       0xf2 hcm_libraries/Network.o
+                0x0000152e                _Z13getSystemTimev
  .text._Z15setSerialNumberv
-                0x00001298       0xaa hcm_libraries/Network.o
-                0x00001298                _Z15setSerialNumberv
+                0x00001620       0xaa hcm_libraries/Network.o
+                0x00001620                _Z15setSerialNumberv
  .text._Z17checkSerialNumberv
-                0x00001342       0xfa hcm_libraries/Network.o
-                0x00001342                _Z17checkSerialNumberv
+                0x000016ca       0xfa hcm_libraries/Network.o
+                0x000016ca                _Z17checkSerialNumberv
  .text._Z13connectToWifiPKcS0_
-                0x0000143c       0xbe hcm_libraries/Network.o
-                0x0000143c                _Z13connectToWifiPKcS0_
+                0x000017c4       0xd0 hcm_libraries/Network.o
+                0x000017c4                _Z13connectToWifiPKcS0_
+ .text._Z21exchangeMandatoryInfov
+                0x00001894       0x3a hcm_libraries/Network.o
+                0x00001894                _Z21exchangeMandatoryInfov
  .text._Z15connectToServerPKcS0_
-                0x000014fa       0xa4 hcm_libraries/Network.o
-                0x000014fa                _Z15connectToServerPKcS0_
+                0x000018ce       0x9e hcm_libraries/Network.o
+                0x000018ce                _Z15connectToServerPKcS0_
+ .text._Z31getDefaultDevicePoolInformationv
+                0x0000196c      0x16e hcm_libraries/Network.o
+                0x0000196c                _Z31getDefaultDevicePoolInformationv
  .text._Z10networkingv
-                0x0000159e       0xf2 hcm_libraries/Network.o
-                0x0000159e                _Z10networkingv
+                0x00001ada      0x150 hcm_libraries/Network.o
+                0x00001ada                _Z10networkingv
+ .text._Z12saveUserDatav
+                0x00001c2a       0xe0 hcm_libraries/Processes.o
+                0x00001c2a                _Z12saveUserDatav
  .text._Z6WebAppv
-                0x00001690      0x546 hcm_libraries/Processes.o
-                0x00001690                _Z6WebAppv
+                0x00001d0a      0x532 hcm_libraries/Processes.o
+                0x00001d0a                _Z6WebAppv
  .text._Z11switchRelayccc
-                0x00001bd6      0x1f6 hcm_libraries/Processes.o
-                0x00001bd6                _Z11switchRelayccc
+                0x0000223c      0x1f8 hcm_libraries/Processes.o
+                0x0000223c                _Z11switchRelayccc
  .text._Z12RelayControlv
-                0x00001dcc       0xb6 hcm_libraries/Processes.o
-                0x00001dcc                _Z12RelayControlv
+                0x00002434       0xb4 hcm_libraries/Processes.o
+                0x00002434                _Z12RelayControlv
  .text._Z15ReceiveSettingsv
-                0x00001e82      0x104 hcm_libraries/Processes.o
-                0x00001e82                _Z15ReceiveSettingsv
+                0x000024e8      0x10e hcm_libraries/Processes.o
+                0x000024e8                _Z15ReceiveSettingsv
  .text._Z22CheckModuleConnectionsv
-                0x00001f86      0x26c hcm_libraries/Processes.o
-                0x00001f86                _Z22CheckModuleConnectionsv
+                0x000025f6      0x26c hcm_libraries/Processes.o
+                0x000025f6                _Z22CheckModuleConnectionsv
  .text._Z9HeartBeatv
-                0x000021f2       0x54 hcm_libraries/Processes.o
-                0x000021f2                _Z9HeartBeatv
+                0x00002862       0x54 hcm_libraries/Processes.o
+                0x00002862                _Z9HeartBeatv
  .text._Z18ProcessRelayTimersv
-                0x00002246      0x1e6 hcm_libraries/Processes.o
-                0x00002246                _Z18ProcessRelayTimersv
+                0x000028b6      0x1e6 hcm_libraries/Processes.o
+                0x000028b6                _Z18ProcessRelayTimersv
  .text._Z10chipSelectii
-                0x0000242c       0x6e hcm_libraries/SPI.o
-                0x0000242c                _Z10chipSelectii
+                0x00002a9c       0x6e hcm_libraries/SPI.o
+                0x00002a9c                _Z10chipSelectii
  .text._Z15SPI_init_masterv
-                0x0000249a        0x8 hcm_libraries/SPI.o
-                0x0000249a                _Z15SPI_init_masterv
+                0x00002b0a        0x8 hcm_libraries/SPI.o
+                0x00002b0a                _Z15SPI_init_masterv
  .text._Z13SPI_WriteReadh
-                0x000024a2        0xc hcm_libraries/SPI.o
-                0x000024a2                _Z13SPI_WriteReadh
+                0x00002b12        0xc hcm_libraries/SPI.o
+                0x00002b12                _Z13SPI_WriteReadh
  .text._Z10USART_Initv
-                0x000024ae       0x26 hcm_libraries/Utils.o
-                0x000024ae                _Z10USART_Initv
+                0x00002b1e       0x26 hcm_libraries/Utils.o
+                0x00002b1e                _Z10USART_Initv
  .text._Z15USART1_SendBytec
-                0x000024d4       0x10 hcm_libraries/Utils.o
-                0x000024d4                _Z15USART1_SendBytec
+                0x00002b44       0x10 hcm_libraries/Utils.o
+                0x00002b44                _Z15USART1_SendBytec
  .text._Z17USART1_SendStringPKc
-                0x000024e4       0x1c hcm_libraries/Utils.o
-                0x000024e4                _Z17USART1_SendStringPKc
+                0x00002b54       0x1c hcm_libraries/Utils.o
+                0x00002b54                _Z17USART1_SendStringPKc
  .text._Z15USART0_SendBytec
-                0x00002500       0x10 hcm_libraries/Utils.o
-                0x00002500                _Z15USART0_SendBytec
+                0x00002b70       0x10 hcm_libraries/Utils.o
+                0x00002b70                _Z15USART0_SendBytec
  .text._Z17USART0_SendStringPKc
-                0x00002510       0x1c hcm_libraries/Utils.o
-                0x00002510                _Z17USART0_SendStringPKc
+                0x00002b80       0x1c hcm_libraries/Utils.o
+                0x00002b80                _Z17USART0_SendStringPKc
  .text._Z16GSM_Write_StringPKc
-                0x0000252c       0x1c hcm_libraries/Utils.o
-                0x0000252c                _Z16GSM_Write_StringPKc
+                0x00002b9c       0x1c hcm_libraries/Utils.o
+                0x00002b9c                _Z16GSM_Write_StringPKc
  .text._Z5delayi
-                0x00002548       0x18 hcm_libraries/Utils.o
-                0x00002548                _Z5delayi
+                0x00002bb8       0x18 hcm_libraries/Utils.o
+                0x00002bb8                _Z5delayi
  .text._Z7pinModeic
-                0x00002560       0xd2 hcm_libraries/Utils.o
-                0x00002560                _Z7pinModeic
+                0x00002bd0       0xd2 hcm_libraries/Utils.o
+                0x00002bd0                _Z7pinModeic
  .text._Z12digitalWriteic
-                0x00002632       0x64 hcm_libraries/Utils.o
-                0x00002632                _Z12digitalWriteic
- .text._Z12turnOnSim900v
-                0x00002696       0x30 hcm_libraries/Utils.o
-                0x00002696                _Z12turnOnSim900v
+                0x00002ca2       0x64 hcm_libraries/Utils.o
+                0x00002ca2                _Z12digitalWriteic
  .text._Z11digitalReadi
-                0x000026c6       0x42 hcm_libraries/Utils.o
-                0x000026c6                _Z11digitalReadi
+                0x00002d06       0x42 hcm_libraries/Utils.o
+                0x00002d06                _Z11digitalReadi
  .text._Z9setSourcei
-                0x00002708       0x48 hcm_libraries/Utils.o
-                0x00002708                _Z9setSourcei
+                0x00002d48       0x48 hcm_libraries/Utils.o
+                0x00002d48                _Z9setSourcei
  .text._Z15defaultSettingsv
-                0x00002750      0x1b6 hcm_libraries/Utils.o
-                0x00002750                _Z15defaultSettingsv
+                0x00002d90      0x198 hcm_libraries/Utils.o
+                0x00002d90                _Z15defaultSettingsv
  .text._Z13clearReadLinev
-                0x00002906       0x30 hcm_libraries/Utils.o
-                0x00002906                _Z13clearReadLinev
+                0x00002f28       0x30 hcm_libraries/Utils.o
+                0x00002f28                _Z13clearReadLinev
  .text._Z9initTimerv
-                0x00002936       0x14 hcm_libraries/Utils.o
-                0x00002936                _Z9initTimerv
+                0x00002f58       0x14 hcm_libraries/Utils.o
+                0x00002f58                _Z9initTimerv
  .text._Z14powerUpModulesv
-                0x0000294a       0x9e hcm_libraries/Utils.o
-                0x0000294a                _Z14powerUpModulesv
+                0x00002f6c       0x88 hcm_libraries/Utils.o
+                0x00002f6c                _Z14powerUpModulesv
  .text._Z11atmegaSetupv
-                0x000029e8       0xe0 hcm_libraries/Utils.o
-                0x000029e8                _Z11atmegaSetupv
+                0x00002ff4       0xe0 hcm_libraries/Utils.o
+                0x00002ff4                _Z11atmegaSetupv
  .text._Z5setupv
-                0x00002ac8        0xa hcm_libraries/Utils.o
-                0x00002ac8                _Z5setupv
+                0x000030d4        0xa hcm_libraries/Utils.o
+                0x000030d4                _Z5setupv
  .text._Z9processIOv
-                0x00002ad2       0x1c main.o
-                0x00002ad2                _Z9processIOv
+                0x000030de       0x28 main.o
+                0x000030de                _Z9processIOv
  .text._Z15systemProcessesv
-                0x00002aee        0x8 main.o
-                0x00002aee                _Z15systemProcessesv
- .text.main     0x00002af6        0xc main.o
-                0x00002af6                main
- .text.libgcc   0x00002b02       0x12 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr51\libgcc.a(_tablejump2.o)
-                0x00002b02                __tablejump2__
+                0x00003106        0x8 main.o
+                0x00003106                _Z15systemProcessesv
+ .text.main     0x0000310e       0x20 main.o
+                0x0000310e                main
+ .text.libgcc   0x0000312e       0x12 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr51\libgcc.a(_tablejump2.o)
+                0x0000312e                __tablejump2__
  .text.avr-libc
-                0x00002b14      0x25a c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr51\libc.a(malloc.o)
-                0x00002b14                malloc
-                0x00002c3e                free
+                0x00003140      0x25a c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr51\libc.a(malloc.o)
+                0x00003140                malloc
+                0x0000326a                free
  .text.avr-libc
-                0x00002d6e       0x3a c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr51\libc.a(atoi.o)
-                0x00002d6e                atoi
+                0x0000339a       0x3a c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr51\libc.a(atoi.o)
+                0x0000339a                atoi
  .text.avr-libc
-                0x00002da8       0x12 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr51\libc.a(isalpha.o)
-                0x00002da8                isupper
-                0x00002dac                isalpha
-                0x00002dae                islower
+                0x000033d4       0x12 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr51\libc.a(isalpha.o)
+                0x000033d4                isupper
+                0x000033d8                isalpha
+                0x000033da                islower
  .text.avr-libc
-                0x00002dba        0x6 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr51\libc.a(strtok.o)
-                0x00002dba                strtok
+                0x000033e6        0x6 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr51\libc.a(strtok.o)
+                0x000033e6                strtok
  .text.avr-libc
-                0x00002dc0        0xe c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr51\libc.a(memset.o)
-                0x00002dc0                memset
+                0x000033ec        0xe c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr51\libc.a(memset.o)
+                0x000033ec                memset
  .text.avr-libc
-                0x00002dce       0x16 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr51\libc.a(strcat.o)
-                0x00002dce                strcat
+                0x000033fa       0x16 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr51\libc.a(strcat.o)
+                0x000033fa                strcat
  .text.avr-libc
-                0x00002de4       0x16 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr51\libc.a(strchr.o)
-                0x00002de4                strchr
+                0x00003410       0x16 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr51\libc.a(strchr.o)
+                0x00003410                strchr
  .text.avr-libc
-                0x00002dfa        0xe c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr51\libc.a(strcpy.o)
-                0x00002dfa                strcpy
+                0x00003426        0xe c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr51\libc.a(strcpy.o)
+                0x00003426                strcpy
  .text.avr-libc
-                0x00002e08       0x34 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr51\libc.a(strstr.o)
-                0x00002e08                strstr
+                0x00003434       0x34 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr51\libc.a(strstr.o)
+                0x00003434                strstr
  .text.avr-libc
-                0x00002e3c       0x4e c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr51\libc.a(strtok_r.o)
-                0x00002e3c                strtok_r
+                0x00003468       0x4e c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr51\libc.a(strtok_r.o)
+                0x00003468                strtok_r
  .text.avr-libc
-                0x00002e8a       0x14 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr51\libc.a(itoa_ncheck.o)
-                0x00002e8a                __itoa_ncheck
+                0x000034b6       0x14 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr51\libc.a(itoa_ncheck.o)
+                0x000034b6                __itoa_ncheck
  .text.avr-libc
-                0x00002e9e       0x10 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr51\libc.a(mul10.o)
-                0x00002e9e                __mulhi_const_10
+                0x000034ca       0x10 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr51\libc.a(mul10.o)
+                0x000034ca                __mulhi_const_10
  .text.avr-libc
-                0x00002eae       0x32 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr51\libc.a(utoa_ncheck.o)
-                0x00002eae                __utoa_ncheck
-                0x00002eb0                __utoa_common
+                0x000034da       0x32 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr51\libc.a(utoa_ncheck.o)
+                0x000034da                __utoa_ncheck
+                0x000034dc                __utoa_common
  .text.avr-libc
-                0x00002ee0        0x6 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr51\libc.a(cty_isfalse.o)
-                0x00002ee0                __ctype_isfalse
-                0x00002ee4                __ctype_istrue
+                0x0000350c        0x6 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr51\libc.a(cty_isfalse.o)
+                0x0000350c                __ctype_isfalse
+                0x00003510                __ctype_istrue
  .text.avr-libc
-                0x00002ee6       0x20 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr51\libc.a(strrev.o)
-                0x00002ee6                strrev
+                0x00003512       0x20 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr51\libc.a(strrev.o)
+                0x00003512                strrev
  .text.avr-libc
-                0x00002f06       0x10 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.0.106/gcc/dev/atmega1284p/avr51\libatmega1284p.a(eerd_byte.o)
-                0x00002f06                eeprom_read_byte
+                0x00003532       0x10 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.0.106/gcc/dev/atmega1284p/avr51\libatmega1284p.a(eerd_byte.o)
+                0x00003532                eeprom_read_byte
  .text.avr-libc
-                0x00002f16       0x1c C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.0.106/gcc/dev/atmega1284p/avr51\libatmega1284p.a(eewr_byte.o)
-                0x00002f16                eeprom_write_byte
-                0x00002f18                eeprom_write_r18
-                0x00002f32                . = ALIGN (0x2)
+                0x00003542       0x1c C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.0.106/gcc/dev/atmega1284p/avr51\libatmega1284p.a(eewr_byte.o)
+                0x00003542                eeprom_write_byte
+                0x00003544                eeprom_write_r18
+                0x0000355e                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x00002f32        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr51\libgcc.a(_exit.o)
-                0x00002f32                _exit
-                0x00002f32                exit
+ .fini9         0x0000355e        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr51\libgcc.a(_exit.o)
+                0x0000355e                _exit
+                0x0000355e                exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -718,11 +730,11 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x00002f32        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr51\libgcc.a(_exit.o)
+ .fini0         0x0000355e        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr51\libgcc.a(_exit.o)
  *(.fini0)
-                0x00002f36                _etext = .
+                0x00003562                _etext = .
 
-.data           0x00800100      0x63a load address 0x00002f36
+.data           0x00800100      0x6a6 load address 0x00003562
                 0x00800100                PROVIDE (__data_start, .)
  *(.data)
  .data          0x00800100        0x6 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr51\libc.a(malloc.o)
@@ -734,166 +746,166 @@ END GROUP
  .rodata        0x00800106       0x1e hcm_libraries/Processes.o
  *(.rodata*)
  .rodata.str1.1
-                0x00800124       0x60 hcm_libraries/EEPROMUtil.o
+                0x00800124       0x5d hcm_libraries/EEPROMUtil.o
                                  0x64 (size before relaxing)
- .rodata.SS     0x00800184        0x2 hcm_libraries/HwProperties.o
-                0x00800184                SS
- .rodata.MISO   0x00800186        0x2 hcm_libraries/HwProperties.o
-                0x00800186                MISO
- .rodata.MOSI   0x00800188        0x2 hcm_libraries/HwProperties.o
-                0x00800188                MOSI
- .rodata.SCK    0x0080018a        0x2 hcm_libraries/HwProperties.o
-                0x0080018a                SCK
+ .rodata.SS     0x00800181        0x2 hcm_libraries/HwProperties.o
+                0x00800181                SS
+ .rodata.MISO   0x00800183        0x2 hcm_libraries/HwProperties.o
+                0x00800183                MISO
+ .rodata.MOSI   0x00800185        0x2 hcm_libraries/HwProperties.o
+                0x00800185                MOSI
+ .rodata.SCK    0x00800187        0x2 hcm_libraries/HwProperties.o
+                0x00800187                SCK
  .rodata.DETECT_3
-                0x0080018c        0x2 hcm_libraries/HwProperties.o
-                0x0080018c                DETECT_3
+                0x00800189        0x2 hcm_libraries/HwProperties.o
+                0x00800189                DETECT_3
  .rodata.DETECT_2
-                0x0080018e        0x2 hcm_libraries/HwProperties.o
-                0x0080018e                DETECT_2
+                0x0080018b        0x2 hcm_libraries/HwProperties.o
+                0x0080018b                DETECT_2
  .rodata.DETECT_1
-                0x00800190        0x2 hcm_libraries/HwProperties.o
-                0x00800190                DETECT_1
+                0x0080018d        0x2 hcm_libraries/HwProperties.o
+                0x0080018d                DETECT_1
  .rodata.DETECT_0
-                0x00800192        0x2 hcm_libraries/HwProperties.o
-                0x00800192                DETECT_0
- .rodata.CS_4   0x00800194        0x2 hcm_libraries/HwProperties.o
-                0x00800194                CS_4
- .rodata.CS_3   0x00800196        0x2 hcm_libraries/HwProperties.o
-                0x00800196                CS_3
- .rodata.CS_2   0x00800198        0x2 hcm_libraries/HwProperties.o
-                0x00800198                CS_2
- .rodata.CS_1   0x0080019a        0x2 hcm_libraries/HwProperties.o
-                0x0080019a                CS_1
+                0x0080018f        0x2 hcm_libraries/HwProperties.o
+                0x0080018f                DETECT_0
+ .rodata.CS_4   0x00800191        0x2 hcm_libraries/HwProperties.o
+                0x00800191                CS_4
+ .rodata.CS_3   0x00800193        0x2 hcm_libraries/HwProperties.o
+                0x00800193                CS_3
+ .rodata.CS_2   0x00800195        0x2 hcm_libraries/HwProperties.o
+                0x00800195                CS_2
+ .rodata.CS_1   0x00800197        0x2 hcm_libraries/HwProperties.o
+                0x00800197                CS_1
  .rodata.ESP_PWR
-                0x0080019c        0x2 hcm_libraries/HwProperties.o
-                0x0080019c                ESP_PWR
+                0x00800199        0x2 hcm_libraries/HwProperties.o
+                0x00800199                ESP_PWR
  .rodata.SIM_PWR
-                0x0080019e        0x2 hcm_libraries/HwProperties.o
-                0x0080019e                SIM_PWR
+                0x0080019b        0x2 hcm_libraries/HwProperties.o
+                0x0080019b                SIM_PWR
  .rodata.EEPROM_SERIAL_START
-                0x008001a0        0x2 hcm_libraries/HwProperties.o
-                0x008001a0                EEPROM_SERIAL_START
+                0x0080019d        0x2 hcm_libraries/HwProperties.o
+                0x0080019d                EEPROM_SERIAL_START
+ .rodata.EEPROM_DATA_START
+                0x0080019f        0x2 hcm_libraries/HwProperties.o
+                0x0080019f                EEPROM_DATA_START
  .rodata.EEPROM_CFG_START
-                0x008001a2        0x2 hcm_libraries/HwProperties.o
-                0x008001a2                EEPROM_CFG_START
+                0x008001a1        0x2 hcm_libraries/HwProperties.o
+                0x008001a1                EEPROM_CFG_START
  .rodata.EEPROM_SIZE
-                0x008001a4        0x2 hcm_libraries/HwProperties.o
-                0x008001a4                EEPROM_SIZE
+                0x008001a3        0x2 hcm_libraries/HwProperties.o
+                0x008001a3                EEPROM_SIZE
  .rodata.GSM_DIRECTION
-                0x008001a6        0x2 hcm_libraries/HwProperties.o
-                0x008001a6                GSM_DIRECTION
+                0x008001a5        0x2 hcm_libraries/HwProperties.o
+                0x008001a5                GSM_DIRECTION
  .rodata.HAS_GSM
-                0x008001a8        0x2 hcm_libraries/HwProperties.o
-                0x008001a8                HAS_GSM
+                0x008001a7        0x2 hcm_libraries/HwProperties.o
+                0x008001a7                HAS_GSM
  .rodata.HAS_WIFI
-                0x008001aa        0x2 hcm_libraries/HwProperties.o
-                0x008001aa                HAS_WIFI
+                0x008001a9        0x2 hcm_libraries/HwProperties.o
+                0x008001a9                HAS_WIFI
  .rodata.CONNECTION
-                0x008001ac        0x2 hcm_libraries/HwProperties.o
-                0x008001ac                CONNECTION
+                0x008001ab        0x2 hcm_libraries/HwProperties.o
+                0x008001ab                CONNECTION
  .rodata.NETWORK_APN
-                0x008001ae        0x7 hcm_libraries/HwProperties.o
-                0x008001ae                NETWORK_APN
+                0x008001ad        0x7 hcm_libraries/HwProperties.o
+                0x008001ad                NETWORK_APN
  .rodata.NETWORK_PORT
-                0x008001b5        0x5 hcm_libraries/HwProperties.o
-                0x008001b5                NETWORK_PORT
+                0x008001b4        0x5 hcm_libraries/HwProperties.o
+                0x008001b4                NETWORK_PORT
  .rodata.NETWORK_HOST
-                0x008001ba        0xd hcm_libraries/HwProperties.o
-                0x008001ba                NETWORK_HOST
+                0x008001b9        0xd hcm_libraries/HwProperties.o
+                0x008001b9                NETWORK_HOST
  .rodata.NETWORK_PASSW
-                0x008001c7        0xb hcm_libraries/HwProperties.o
-                0x008001c7                NETWORK_PASSW
+                0x008001c6        0xb hcm_libraries/HwProperties.o
+                0x008001c6                NETWORK_PASSW
  .rodata.NETWORK_SSID
-                0x008001d2        0x7 hcm_libraries/HwProperties.o
-                0x008001d2                NETWORK_SSID
+                0x008001d1        0x7 hcm_libraries/HwProperties.o
+                0x008001d1                NETWORK_SSID
  .rodata.PRODUCT_NAME
-                0x008001d9        0xf hcm_libraries/HwProperties.o
-                0x008001d9                PRODUCT_NAME
+                0x008001d8        0xf hcm_libraries/HwProperties.o
+                0x008001d8                PRODUCT_NAME
  .rodata.str1.1
-                0x008001e8      0x157 hcm_libraries/Network.o
-                                0x176 (size before relaxing)
+                0x008001e7      0x1ab hcm_libraries/Network.o
+                                0x1d0 (size before relaxing)
  .rodata.SWITCH_RELAY
-                0x0080033f        0x1 hcm_libraries/GlobalVariables.o
-                0x0080033f                SWITCH_RELAY
+                0x00800392        0x1 hcm_libraries/GlobalVariables.o
+                0x00800392                SWITCH_RELAY
  .rodata.RECIEVE
-                0x00800340        0x1 hcm_libraries/GlobalVariables.o
-                0x00800340                RECIEVE
+                0x00800393        0x1 hcm_libraries/GlobalVariables.o
+                0x00800393                RECIEVE
  .rodata.REQUEST_RELAY_COUNT
-                0x00800341        0x1 hcm_libraries/GlobalVariables.o
-                0x00800341                REQUEST_RELAY_COUNT
+                0x00800394        0x1 hcm_libraries/GlobalVariables.o
+                0x00800394                REQUEST_RELAY_COUNT
  .rodata.OUTPUT
-                0x00800342        0x2 hcm_libraries/GlobalVariables.o
-                0x00800342                OUTPUT
- .rodata.INPUT  0x00800344        0x2 hcm_libraries/GlobalVariables.o
-                0x00800344                INPUT
+                0x00800395        0x2 hcm_libraries/GlobalVariables.o
+                0x00800395                OUTPUT
+ .rodata.INPUT  0x00800397        0x2 hcm_libraries/GlobalVariables.o
+                0x00800397                INPUT
  .rodata.DAYS_OF_MONTH
-                0x00800346       0x18 hcm_libraries/GlobalVariables.o
-                0x00800346                DAYS_OF_MONTH
- .rodata.SERVER_CONNECTED
-                0x0080035e        0x2 hcm_libraries/GlobalVariables.o
-                0x0080035e                SERVER_CONNECTED
- .rodata.FALSE  0x00800360        0x2 hcm_libraries/GlobalVariables.o
-                0x00800360                FALSE
- .rodata.TRUE   0x00800362        0x2 hcm_libraries/GlobalVariables.o
-                0x00800362                TRUE
- .rodata.SIM    0x00800364        0x2 hcm_libraries/GlobalVariables.o
-                0x00800364                SIM
- .rodata.ESP    0x00800366        0x2 hcm_libraries/GlobalVariables.o
-                0x00800366                ESP
+                0x00800399       0x18 hcm_libraries/GlobalVariables.o
+                0x00800399                DAYS_OF_MONTH
+ .rodata.FALSE  0x008003b1        0x2 hcm_libraries/GlobalVariables.o
+                0x008003b1                FALSE
+ .rodata.TRUE   0x008003b3        0x2 hcm_libraries/GlobalVariables.o
+                0x008003b3                TRUE
+ .rodata.SIM    0x008003b5        0x2 hcm_libraries/GlobalVariables.o
+                0x008003b5                SIM
+ .rodata.ESP    0x008003b7        0x2 hcm_libraries/GlobalVariables.o
+                0x008003b7                ESP
  .rodata.BAUD_PRESCALE
-                0x00800368        0x2 hcm_libraries/GlobalVariables.o
-                0x00800368                BAUD_PRESCALE
+                0x008003b9        0x2 hcm_libraries/GlobalVariables.o
+                0x008003b9                BAUD_PRESCALE
  .rodata.str1.1
-                0x0080036a      0x3a7 hcm_libraries/Processes.o
-                                0x3b3 (size before relaxing)
+                0x008003bb      0x3c2 hcm_libraries/Processes.o
+                                0x3cb (size before relaxing)
  .rodata.str1.1
-                0x00800711       0x29 hcm_libraries/Utils.o
-                                 0x3f (size before relaxing)
+                0x0080077d       0x29 hcm_libraries/Utils.o
+                                 0x3c (size before relaxing)
  *(.gnu.linkonce.d*)
-                0x0080073a                . = ALIGN (0x2)
-                0x0080073a                _edata = .
-                0x0080073a                PROVIDE (__data_end, .)
+                0x008007a6                . = ALIGN (0x2)
+                0x008007a6                _edata = .
+                0x008007a6                PROVIDE (__data_end, .)
 
-.bss            0x0080073a      0x408
-                0x0080073a                PROVIDE (__bss_start, .)
+.bss            0x008007a6      0x52a
+                0x008007a6                PROVIDE (__bss_start, .)
  *(.bss)
- .bss           0x0080073a        0x2 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr51\libc.a(strtok.o)
+ .bss           0x008007a6        0x2 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr51\libc.a(strtok.o)
  *(.bss*)
  .bss.__relay_states
-                0x0080073c       0x68 hcm_libraries/GlobalVariables.o
-                0x0080073c                __relay_states
+                0x008007a8       0x68 hcm_libraries/GlobalVariables.o
+                0x008007a8                __relay_states
  .bss.__timer_records
-                0x008007a4       0x70 hcm_libraries/GlobalVariables.o
-                0x008007a4                __timer_records
+                0x00800810       0x70 hcm_libraries/GlobalVariables.o
+                0x00800810                __timer_records
  .bss.__timer_setting
-                0x00800814       0x2a hcm_libraries/GlobalVariables.o
-                0x00800814                __timer_setting
+                0x00800880       0x2a hcm_libraries/GlobalVariables.o
+                0x00800880                __timer_setting
  .bss.__relay_setting
-                0x0080083e       0x44 hcm_libraries/GlobalVariables.o
-                0x0080083e                __relay_setting
+                0x008008aa       0x44 hcm_libraries/GlobalVariables.o
+                0x008008aa                __relay_setting
  .bss.__system_time
-                0x00800882       0x24 hcm_libraries/GlobalVariables.o
-                0x00800882                __system_time
+                0x008008ee       0x24 hcm_libraries/GlobalVariables.o
+                0x008008ee                __system_time
  .bss.__network_data
-                0x008008a6      0x252 hcm_libraries/GlobalVariables.o
-                0x008008a6                __network_data
+                0x00800912      0x374 hcm_libraries/GlobalVariables.o
+                0x00800912                __network_data
  .bss.__system_var
-                0x00800af8       0x46 hcm_libraries/GlobalVariables.o
-                0x00800af8                __system_var
+                0x00800c86       0x46 hcm_libraries/GlobalVariables.o
+                0x00800c86                __system_var
  *(COMMON)
- COMMON         0x00800b3e        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr51\libc.a(malloc.o)
-                0x00800b3e                __brkval
-                0x00800b40                __flp
-                0x00800b42                PROVIDE (__bss_end, .)
-                0x00002f36                __data_load_start = LOADADDR (.data)
-                0x00003570                __data_load_end = (__data_load_start + SIZEOF (.data))
+ COMMON         0x00800ccc        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr51\libc.a(malloc.o)
+                0x00800ccc                __brkval
+                0x00800cce                __flp
+                0x00800cd0                PROVIDE (__bss_end, .)
+                0x00003562                __data_load_start = LOADADDR (.data)
+                0x00003c08                __data_load_end = (__data_load_start + SIZEOF (.data))
 
-.noinit         0x00800b42        0x0
+.noinit         0x00800cd0        0x0
                 [!provide]                PROVIDE (__noinit_start, .)
  *(.noinit*)
                 [!provide]                PROVIDE (__noinit_end, .)
-                0x00800b42                _end = .
-                0x00800b42                PROVIDE (__heap_start, .)
+                0x00800cd0                _end = .
+                0x00800cd0                PROVIDE (__heap_start, .)
 
 .eeprom         0x00810000        0x0
  *(.eeprom*)
@@ -966,96 +978,97 @@ END GROUP
 .debug_sfnames
  *(.debug_sfnames)
 
-.debug_aranges  0x00000000      0x300
+.debug_aranges  0x00000000      0x318
  *(.debug_aranges)
  .debug_aranges
                 0x00000000       0x90 hcm_libraries/EEPROMUtil.o
  .debug_aranges
                 0x00000090       0x18 hcm_libraries/HwProperties.o
  .debug_aranges
-                0x000000a8       0x88 hcm_libraries/Network.o
+                0x000000a8       0x98 hcm_libraries/Network.o
  .debug_aranges
-                0x00000130       0x18 hcm_libraries/GlobalVariables.o
+                0x00000140       0x18 hcm_libraries/GlobalVariables.o
  .debug_aranges
-                0x00000148       0x58 hcm_libraries/Processes.o
+                0x00000158       0x60 hcm_libraries/Processes.o
  .debug_aranges
-                0x000001a0       0x38 hcm_libraries/SPI.o
+                0x000001b8       0x38 hcm_libraries/SPI.o
  .debug_aranges
-                0x000001d8       0xf0 hcm_libraries/Utils.o
+                0x000001f0       0xf0 hcm_libraries/Utils.o
  .debug_aranges
-                0x000002c8       0x38 main.o
+                0x000002e0       0x38 main.o
 
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000     0x7e17
+.debug_info     0x00000000     0x8471
  *(.debug_info .gnu.linkonce.wi.*)
- .debug_info    0x00000000     0x223f hcm_libraries/EEPROMUtil.o
- .debug_info    0x0000223f      0x2f7 hcm_libraries/HwProperties.o
- .debug_info    0x00002536     0x18f6 hcm_libraries/Network.o
- .debug_info    0x00003e2c      0x82a hcm_libraries/GlobalVariables.o
- .debug_info    0x00004656     0x1b1f hcm_libraries/Processes.o
- .debug_info    0x00006175      0x410 hcm_libraries/SPI.o
- .debug_info    0x00006585     0x131c hcm_libraries/Utils.o
- .debug_info    0x000078a1      0x576 main.o
+ .debug_info    0x00000000     0x22f8 hcm_libraries/EEPROMUtil.o
+ .debug_info    0x000022f8      0x2f7 hcm_libraries/HwProperties.o
+ .debug_info    0x000025ef     0x1dee hcm_libraries/Network.o
+ .debug_info    0x000043dd      0x830 hcm_libraries/GlobalVariables.o
+ .debug_info    0x00004c0d     0x1bc4 hcm_libraries/Processes.o
+ .debug_info    0x000067d1      0x410 hcm_libraries/SPI.o
+ .debug_info    0x00006be1     0x12ab hcm_libraries/Utils.o
+ .debug_info    0x00007e8c      0x5e5 main.o
 
-.debug_abbrev   0x00000000     0x1048
+.debug_abbrev   0x00000000     0x109d
  *(.debug_abbrev)
- .debug_abbrev  0x00000000      0x275 hcm_libraries/EEPROMUtil.o
- .debug_abbrev  0x00000275       0x61 hcm_libraries/HwProperties.o
- .debug_abbrev  0x000002d6      0x366 hcm_libraries/Network.o
- .debug_abbrev  0x0000063c       0xd7 hcm_libraries/GlobalVariables.o
- .debug_abbrev  0x00000713      0x301 hcm_libraries/Processes.o
- .debug_abbrev  0x00000a14      0x148 hcm_libraries/SPI.o
- .debug_abbrev  0x00000b5c      0x394 hcm_libraries/Utils.o
- .debug_abbrev  0x00000ef0      0x158 main.o
+ .debug_abbrev  0x00000000      0x28e hcm_libraries/EEPROMUtil.o
+ .debug_abbrev  0x0000028e       0x61 hcm_libraries/HwProperties.o
+ .debug_abbrev  0x000002ef      0x386 hcm_libraries/Network.o
+ .debug_abbrev  0x00000675       0xd7 hcm_libraries/GlobalVariables.o
+ .debug_abbrev  0x0000074c      0x301 hcm_libraries/Processes.o
+ .debug_abbrev  0x00000a4d      0x148 hcm_libraries/SPI.o
+ .debug_abbrev  0x00000b95      0x394 hcm_libraries/Utils.o
+ .debug_abbrev  0x00000f29      0x174 main.o
 
-.debug_line     0x00000000     0x2a07
+.debug_line     0x00000000     0x2cf8
  *(.debug_line .debug_line.* .debug_line_end)
- .debug_line    0x00000000      0x978 hcm_libraries/EEPROMUtil.o
- .debug_line    0x00000978       0x3f hcm_libraries/HwProperties.o
- .debug_line    0x000009b7      0x8fb hcm_libraries/Network.o
- .debug_line    0x000012b2       0x69 hcm_libraries/GlobalVariables.o
- .debug_line    0x0000131b      0x917 hcm_libraries/Processes.o
- .debug_line    0x00001c32      0x116 hcm_libraries/SPI.o
- .debug_line    0x00001d48      0xb93 hcm_libraries/Utils.o
- .debug_line    0x000028db      0x12c main.o
+ .debug_line    0x00000000      0x99c hcm_libraries/EEPROMUtil.o
+ .debug_line    0x0000099c       0x3f hcm_libraries/HwProperties.o
+ .debug_line    0x000009db      0xa8f hcm_libraries/Network.o
+ .debug_line    0x0000146a       0x69 hcm_libraries/GlobalVariables.o
+ .debug_line    0x000014d3      0x980 hcm_libraries/Processes.o
+ .debug_line    0x00001e53      0x116 hcm_libraries/SPI.o
+ .debug_line    0x00001f69      0xb75 hcm_libraries/Utils.o
+ .debug_line    0x00002ade      0x21a main.o
 
-.debug_frame    0x00000000      0xc14
+.debug_frame    0x00000000      0xc7c
  *(.debug_frame)
- .debug_frame   0x00000000      0x3ec hcm_libraries/EEPROMUtil.o
- .debug_frame   0x000003ec      0x310 hcm_libraries/Network.o
- .debug_frame   0x000006fc      0x218 hcm_libraries/Processes.o
- .debug_frame   0x00000914       0x64 hcm_libraries/SPI.o
- .debug_frame   0x00000978      0x248 hcm_libraries/Utils.o
- .debug_frame   0x00000bc0       0x54 main.o
+ .debug_frame   0x00000000      0x3cc hcm_libraries/EEPROMUtil.o
+ .debug_frame   0x000003cc      0x358 hcm_libraries/Network.o
+ .debug_frame   0x00000724      0x258 hcm_libraries/Processes.o
+ .debug_frame   0x0000097c       0x64 hcm_libraries/SPI.o
+ .debug_frame   0x000009e0      0x248 hcm_libraries/Utils.o
+ .debug_frame   0x00000c28       0x54 main.o
 
-.debug_str      0x00000000     0x13ac
+.debug_str      0x00000000     0x1448
  *(.debug_str)
- .debug_str     0x00000000      0x9cd hcm_libraries/EEPROMUtil.o
-                                0xa92 (size before relaxing)
- .debug_str     0x000009cd       0x2f hcm_libraries/HwProperties.o
+ .debug_str     0x00000000      0xa62 hcm_libraries/EEPROMUtil.o
+                                0xb2f (size before relaxing)
+ .debug_str     0x00000a62       0x2f hcm_libraries/HwProperties.o
                                 0x2cb (size before relaxing)
- .debug_str     0x000009fc      0x3d5 hcm_libraries/Network.o
-                                0x9dd (size before relaxing)
- .debug_str     0x00000dd1       0x43 hcm_libraries/GlobalVariables.o
+ .debug_str     0x00000a91      0x3bd hcm_libraries/Network.o
+                                0xb40 (size before relaxing)
+ .debug_str     0x00000e4e       0x43 hcm_libraries/GlobalVariables.o
                                 0x760 (size before relaxing)
- .debug_str     0x00000e14      0x26a hcm_libraries/Processes.o
-                                0xb70 (size before relaxing)
- .debug_str     0x0000107e       0x84 hcm_libraries/SPI.o
+ .debug_str     0x00000e91      0x289 hcm_libraries/Processes.o
+                                0xb96 (size before relaxing)
+ .debug_str     0x0000111a       0x84 hcm_libraries/SPI.o
                                 0x439 (size before relaxing)
- .debug_str     0x00001102      0x23b hcm_libraries/Utils.o
-                                0xb1a (size before relaxing)
- .debug_str     0x0000133d       0x6f main.o
-                                0x596 (size before relaxing)
+ .debug_str     0x0000119e      0x23b hcm_libraries/Utils.o
+                                0xb24 (size before relaxing)
+ .debug_str     0x000013d9       0x6f main.o
+                                0x5d4 (size before relaxing)
 
-.debug_loc      0x00000000     0x3a7c
+.debug_loc      0x00000000     0x3bfd
  *(.debug_loc)
- .debug_loc     0x00000000     0x1734 hcm_libraries/EEPROMUtil.o
- .debug_loc     0x00001734      0xed4 hcm_libraries/Network.o
- .debug_loc     0x00002608      0xc3d hcm_libraries/Processes.o
- .debug_loc     0x00003245       0xb7 hcm_libraries/SPI.o
- .debug_loc     0x000032fc      0x780 hcm_libraries/Utils.o
+ .debug_loc     0x00000000     0x1644 hcm_libraries/EEPROMUtil.o
+ .debug_loc     0x00001644     0x1055 hcm_libraries/Network.o
+ .debug_loc     0x00002699      0xd09 hcm_libraries/Processes.o
+ .debug_loc     0x000033a2       0xb7 hcm_libraries/SPI.o
+ .debug_loc     0x00003459      0x780 hcm_libraries/Utils.o
+ .debug_loc     0x00003bd9       0x24 main.o
 
 .debug_macinfo
  *(.debug_macinfo)
@@ -1075,14 +1088,14 @@ END GROUP
 .debug_pubtypes
  *(.debug_pubtypes)
 
-.debug_ranges   0x00000000      0x498
+.debug_ranges   0x00000000      0x4b0
  *(.debug_ranges)
  .debug_ranges  0x00000000      0x1a8 hcm_libraries/EEPROMUtil.o
- .debug_ranges  0x000001a8       0x78 hcm_libraries/Network.o
- .debug_ranges  0x00000220      0x130 hcm_libraries/Processes.o
- .debug_ranges  0x00000350       0x28 hcm_libraries/SPI.o
- .debug_ranges  0x00000378       0xf8 hcm_libraries/Utils.o
- .debug_ranges  0x00000470       0x28 main.o
+ .debug_ranges  0x000001a8       0x88 hcm_libraries/Network.o
+ .debug_ranges  0x00000230      0x138 hcm_libraries/Processes.o
+ .debug_ranges  0x00000368       0x28 hcm_libraries/SPI.o
+ .debug_ranges  0x00000390       0xf8 hcm_libraries/Utils.o
+ .debug_ranges  0x00000488       0x28 main.o
 
 .debug_macro
  *(.debug_macro)

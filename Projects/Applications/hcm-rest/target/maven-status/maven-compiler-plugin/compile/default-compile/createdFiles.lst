@@ -12,6 +12,7 @@ com\jtech\apps\hcm\dao\ConnectionDAOImpl.class
 com\jtech\apps\hcm\dao\mapper\ProductRegistrationMapper.class
 com\jtech\apps\hcm\service\UserProductService.class
 com\jtech\apps\hcm\dao\interfaces\ProductCategoryDAO.class
+com\jtech\apps\hcm\dao\UserProductDAOImpl$1.class
 com\jtech\apps\hcm\controller\ConnectionController.class
 com\jtech\apps\hcm\dao\mapper\ProductCategoryMapper.class
 com\jtech\apps\hcm\CustomBasicAuthenticationEntryPoint.class

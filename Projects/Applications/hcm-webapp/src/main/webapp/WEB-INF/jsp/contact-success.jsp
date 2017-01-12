@@ -21,7 +21,7 @@
 <meta name="viewport" content="width = device-width, initial-scale = 1">
 <meta name="_csrf" content="${_csrf.token}" />
 <meta name="_csrf_header" content="${_csrf.headerName}" />
-<title>jTech Contact Us</title>
+<title>${localization['page-title']}</title>
 
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath}/resources/custom/css/custom.css">
@@ -59,15 +59,13 @@
 			<div class="panel panel-default">
 
 				<h2 style="text-align: center;">
-					<label>Contact <b>Us</b></label>
+					<label>${localization['contact-us']}</label>
 				</h2>
 			</div>
 			<div class="panel panel-default">
 				<div id="product-dropdown" class="dropdown panel-heading">
 
-					<h4>
-						Thank you for <b>Your</b> feedback! We'll get in contact soon.
-					</h4>
+					<h4>${localization['thanks']}</h4>
 
 				</div>
 

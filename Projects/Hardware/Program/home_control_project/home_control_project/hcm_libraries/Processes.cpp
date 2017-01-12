@@ -7,6 +7,22 @@
 #include <Processes.h>
 #include <HCM.h>
 
+void saveUserData(){
+	char buffer[160];
+	clearEEPROM(EEPROM_DATA_START,EEPROM_CFG_START);
+	strcpy(buffer,"#SSID;");
+	strcat(buffer,__network_data.ssid);
+	strcat(buffer,"##PWD;");
+	strcat(buffer,__network_data.password);
+	strcat(buffer,"##APN;");
+	strcat(buffer,__network_data.apn);
+	strcat(buffer,"#");
+	USART0_SendString(buffer);
+	delay(500);
+	__system_var.eeprom_position = EEPROM_DATA_START;
+	eepromSaveCfg(buffer,__system_var.eeprom_position);
+}
+
 void WebApp(){
 	
 	if (strstr(__network_data.esp_buffer, "GET / HTTP/") != 0){
@@ -15,8 +31,8 @@ void WebApp(){
 		int contentLength;
 		char converter[5];
 		char connection[2];
-		char *p = strstr(__network_data.esp_buffer,"+IPD,");
-		connection[0] = *(p+=5);
+		char *p = strstr(__network_data.esp_buffer,",CONNECT");
+		connection[0] = *(p-1);
 		connection[1] = '\0';
 		delay(500);
 		strcpy(content,"<html><head><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0\"></head><body>");
@@ -50,12 +66,15 @@ void WebApp(){
 		sendToAP(page, connection);
 		readUntil("OK",3);
 		clearReadLine();
+		__system_time.connection_timer_buffer = 0;
+		__system_time.connection_timer = 180;
 	}
 	
-	if (strstr(__network_data.esp_buffer, "POST / HTTP/") != 0){
+	if (strstr(__network_data.esp_buffer, "host") != 0 && strstr(__network_data.esp_buffer, "password") != 0){
 		int timeout=0;
 		int flag = 0;
-		while (1){
+		delay(50);
+		/*while (1){
 			timeout++; delay(1);
 			if (timeout == 1000) break;
 			if (strstr(__network_data.esp_buffer,"password") != 0 || strstr(__network_data.esp_buffer,"ssid") != 0)break;
@@ -64,7 +83,7 @@ void WebApp(){
 				__network_data.index_esp = 0;
 			}
 		}
-		delay(200);
+		delay(200);*/
 		if (strstr(__network_data.esp_buffer,"ssid") != 0){
 			int pos=0;
 			char *p1 = strstr(__network_data.esp_buffer,"ssid");
@@ -121,13 +140,15 @@ void WebApp(){
 			flag++;
 		}
 		
-		//if (flag == 4){
+		if (flag == 4){
+			saveUserData();
 			__system_time.connection_timer_buffer = 0;
 			__system_time.connection_timer = 0;
 			__network_data.is_server_connected = false;
 			__network_data.is_esp_connected = false;
+			USART0_SendString("AT+CIPCLOSE=5\r\n");
 			setSource(ESP);
-		//}
+		}
 		clearReadLine();
 	}
 	
@@ -267,7 +288,7 @@ void CheckModuleConnections(){
 		unsigned char relay_count;
 		char conv[5];
 		int i,j;
-		
+
 		itoa(__system_time.check_timer_buffer,conv,10);
 	
 		// CHECK RELAY MODULE CONNECTIONS

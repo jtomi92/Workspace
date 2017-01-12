@@ -22,7 +22,6 @@ public class LocalizationDAOImpl {
 	public Localization getLocalization(String page, String locale){
 		
 		String sql = "";
-		logger.info("LOCALE IS=" + locale.toUpperCase());
 		switch (locale.toUpperCase()){
 		case "EN":
 			sql = "SELECT STRING_KEY, EN FROM LOCALIZATIONS WHERE PAGE_NAME = ?";
@@ -37,7 +36,6 @@ public class LocalizationDAOImpl {
 		
 		List<Map<String, Object>> rows = new LinkedList<Map<String, Object>>();
 		
-		logger.info("SQL QUERY=" + sql);
 		rows = jdbcTemplate.queryForList(sql, page);
 		
 		Localization localization = new Localization();
@@ -60,8 +58,6 @@ public class LocalizationDAOImpl {
 					value = (String)row.get("EN");
 					break;
 				}
-				
-				logger.info("KEY=" + key + " VALUE=" + value);
 
 				if (!StringUtils.isNullOrEmpty(key) && !StringUtils.isNullOrEmpty(value)){
 					localization.addLocalization(key, value);

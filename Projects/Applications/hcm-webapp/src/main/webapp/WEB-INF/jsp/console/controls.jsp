@@ -46,7 +46,7 @@
 							multiple="multiple"
 							onchange="showProductRelayControl('product-relay-control-picker-${count.index}','rel-control-${count.index}');">
 							<c:forEach
-								items="${ups.productSettings.iterator().next().relaySettings}"
+								items="${ups.relaySettings}"
 								var="relaysetting" varStatus="count2">
 								<c:forEach items="${relaysetting.productControlSettings}"
 									var="pcs">
@@ -74,7 +74,7 @@
 							</thead>
 							<tbody>
 								<c:forEach
-									items="${ups.productSettings.iterator().next().relaySettings}"
+									items="${ups.relaySettings}"
 									var="relaysetting" varStatus="count">
 									<c:forEach items="${relaysetting.productControlSettings}"
 										var="pcs">

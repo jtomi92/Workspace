@@ -47,7 +47,7 @@ public class NotificationService {
 			Notification notification = new Notification(); 
 			notification.setSn(userProduct.getSerialNumber());
 
-			List<RelayState> relayStates = notificationDAOImpl.getRelayStates(userProduct.getSerialNumber(), userProduct.getProductSettings().get(0).getSettingId());
+			List<RelayState> relayStates = notificationDAOImpl.getRelayStates(userProduct.getSerialNumber());
 			
 			DateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.ENGLISH);
 			String timeStamp = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime());

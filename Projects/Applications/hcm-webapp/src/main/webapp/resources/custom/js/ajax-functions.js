@@ -5,6 +5,9 @@ $(document).ready(
 				var token = $("meta[name='_csrf']").attr("content");
 				var header = $("meta[name='_csrf_header']").attr("content");
 				var userid = document.getElementById("userid").value;
+				var onlineMessage = document.getElementById("message-device-connected").value;
+				var offlineMessage = document.getElementById("message-device-disconnected").value;
+				var updatedMessage = document.getElementById("message-device-updated").value;
 				
 				$
 				.ajax({
@@ -35,7 +38,7 @@ $(document).ready(
 								if (element != null){
 									element.style.display = "none";
 								}
-								$.growl.disconnected({ message: serialNumber + " is now OFFLINE" });
+								$.growl.disconnected({ message: serialNumber + offlineMessage });
 							} else if (connection != null && connection == 1){
 								var element = document.getElementById(serialNumber+"-connection-status-offline");
 								if (element != null){
@@ -45,13 +48,13 @@ $(document).ready(
 								if (element != null){
 									element.style.display = "block";
 								}
-								$.growl.connected({ message: serialNumber + " is now ONLINE" });				
+								$.growl.connected({ message: serialNumber + onlineMessage });				
 							}
 							
 							if (notifications != null){
 								$.each(notifications, function(index, notification) {
 									if (notification.indexOf("UPDATED") != -1){
-										$.growl.updated({ message: serialNumber + " updated settings" });
+										$.growl.updated({ message: serialNumber + updatedMessage });
 									}
 									if (notification.indexOf("REFRESH") != -1){
 										location.reload();
@@ -113,11 +116,13 @@ function registerProduct() {
 
 	var token = $("meta[name='_csrf']").attr("content");
 	var header = $("meta[name='_csrf_header']").attr("content");
-
+	var invalidMessage = document.getElementById("message-invalid-serial-number").value;
+	var validMessage = document.getElementById("message-valid-serial-number").value;
+		
 	document.getElementById("register-error-message").style.visibility = "hidden";
 
 	if (serialNumber == "" || serialNumber == null) {
-		document.getElementById("register-error-message").innerHTML = "Invalid serial number.";
+		document.getElementById("register-error-message").innerHTML = invalidMessage;
 		document.getElementById("register-error-message").style.visibility = "visible";
 		return;
 	}
@@ -147,10 +152,10 @@ function registerProduct() {
 					// console.log(res);
 
 					if (res == '0') {
-						document.getElementById("register-error-message").innerHTML = "Serial Number does not exist.";
+						document.getElementById("register-error-message").innerHTML = invalidMessage;
 						document.getElementById("register-error-message").style.visibility = "visible";
 					} else {
-						document.getElementById("register-success-message").innerHTML = "You have successfully registered your product";
+						document.getElementById("register-success-message").innerHTML = validMessage;
 						document.getElementById("register-success-message").style.visibility = "visible";
 						//updateDevice(serialNumber);
 						location.reload();
@@ -235,6 +240,7 @@ function addProductUser(serialNumber, index) {
 
 	var userToAdd = document.getElementById("add-product-user-" + index).value;
 	var userid = document.getElementById("userid").value;
+	var validMessage = document.getElementById("message-invalid-user").value;
 	
 	document.getElementById("user-error-message-" + index).style.visibility = "hidden";
 	// console.log("SERIALNUMBER=" + serialNumber);
@@ -242,7 +248,7 @@ function addProductUser(serialNumber, index) {
 	// console.log("USER=" + userToAdd);
 
 	if (userToAdd === null || userToAdd === "") {
-		document.getElementById("user-error-message-" + index).innerHTML = "Field cannot be empty.";
+		document.getElementById("user-error-message-" + index).innerHTML = validMessage;
 		document.getElementById("user-error-message-" + index).style.visibility = "visible";
 		return;
 	}
@@ -267,7 +273,7 @@ function addProductUser(serialNumber, index) {
 
 					if (res == '0') {
 						// console.log('0' + res);
-						document.getElementById("user-error-message-" + index).innerHTML = "User does not exist.";
+						document.getElementById("user-error-message-" + index).innerHTML = validMessage;
 						document.getElementById("user-error-message-" + index).style.visibility = "visible";
 					} else if (res == '1') {
 						// console.log('1' + res);

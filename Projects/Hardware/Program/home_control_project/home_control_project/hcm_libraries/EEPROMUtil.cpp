@@ -44,7 +44,9 @@ char eepromReadAttribute(char container[],const int length, char *attr,const int
 		}
 
 		if (flag == 1) {
-			if (j==sizeof(buffer)-1) return 0;
+			if (j==sizeof(buffer)-1){
+				 return 0;
+			}
 			buffer[j++] = dat;
 		} else {
 			if (j > 0) {
@@ -265,25 +267,25 @@ int getDefaultNetworkSetting(char host[], char port[]){
 	return 1;
 }
 
-void getAccessPointSetting(char ssid[], char password[], char apn[]){
+void getAccessPointSetting(){
 	char container[100];
 	__system_var.eeprom_position = 0;
 	if (eepromReadAttribute(container,sizeof(container),"SSID",0) != 0){
-		strcpy(ssid,container);
-		} else {
-		strcpy(ssid,NETWORK_SSID);
+		if (strlen(container) <= sizeof(__network_data.ssid)) strcpy(__network_data.ssid,container);
+	} else {
+		strcpy(__network_data.ssid,NETWORK_SSID);
 	}
 	__system_var.eeprom_position = 0;
 	if (eepromReadAttribute(container,sizeof(container),"PWD",0) != 0){
-		strcpy(password,container);
-		} else {
-		strcpy(password,NETWORK_PASSW);
+		if (strlen(container) <= sizeof(__network_data.password)) strcpy(__network_data.password,container);
+	} else {
+		strcpy(__network_data.password,NETWORK_PASSW);
 	}
 	__system_var.eeprom_position = 0;
 	if (eepromReadAttribute(container,sizeof(container),"APN",0) != 0){
-		strcpy(apn,container);
-		} else {
-		strcpy(apn,NETWORK_APN);
+		if (strlen(container) <= sizeof(__network_data.apn)) strcpy(__network_data.apn,container);
+	} else {
+		strcpy(__network_data.apn,NETWORK_APN);
 	}
 
 }

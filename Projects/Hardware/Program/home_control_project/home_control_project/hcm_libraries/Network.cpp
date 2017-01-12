@@ -56,7 +56,7 @@ ISR(TIMER0_OVF_vect)
 			}
 			if (__system_time.timer_check_timer_buffer <= __system_time.timer_check_timer){
 				__system_time.timer_check_timer_buffer++;
-			}				
+			}
 			if (__system_time.gsm_network_timer_buffer <= __system_time.gsm_network_timer){
 				__system_time.gsm_network_timer_buffer++;
 			}
@@ -94,10 +94,16 @@ int readUntil(const char *input, int timeout) {
 			if (strstr(__network_data.esp_buffer, input) != 0) {
 				return 1;
 			}
+			if (strstr(__network_data.esp_buffer, "ERROR") != 0 || strstr(__network_data.esp_buffer, "Fail") != 0) {
+				return 0;
+			}
 		}
 		if(__system_var.interface_ == SIM){
 			if (strstr(__network_data.sim_buffer, input) != 0) {
 				return 1;
+			}
+			if (strstr(__network_data.sim_buffer, "ERROR") != 0 || strstr(__network_data.sim_buffer, "Fail") != 0) {
+				return 0;
 			}
 		}
 		mils++;
@@ -123,7 +129,7 @@ void cipsend(char *p, char *connection) {
 	}
 	
 	if (readUntil(">", 2) == 0) {
-		__network_data.is_server_connected = !SERVER_CONNECTED;
+		__network_data.is_server_connected = FALSE;
 		__network_data.is_esp_connected = FALSE;
 		__network_data.is_sim_connected = FALSE;
 	}
@@ -170,7 +176,7 @@ void sendToAP(char *toSend, char *connection){
 	
 
 	if (readUntil(">", 2) == 0) {
-		__network_data.is_server_connected = !SERVER_CONNECTED;
+		__network_data.is_server_connected = FALSE;
 		__network_data.is_esp_connected = FALSE;
 		__network_data.is_sim_connected = FALSE;
 	}
@@ -267,7 +273,7 @@ char checkSerialNumber() {
 		delay(100);
 		if (setSerialNumber() == 0) return 0;
 		
-	} else {
+		} else {
 		char buffer[50];
 		strcpy(buffer, "SERIAL_NUMBER;");
 		strcat(buffer, __system_var.serial_number);
@@ -292,6 +298,8 @@ char connectToWifi(const char *ssid, const char *password) {
 	USART0_SendString("AT+CWSAP=\"HCM-NETWORK\",\"admin1234\",5,3\r\n");
 	readUntil("OK", 3);
 	USART0_SendString("AT+CIPSERVER=1,80\r\n");
+	readUntil("OK", 3);
+	USART0_SendString("AT+CIPDOMAIN=\"jtech-iot.com\"\r\n");
 	readUntil("OK", 3);
 	USART0_SendString("AT+CIFSR\r\n");
 	readUntil("OK", 3);
@@ -335,6 +343,25 @@ char connectToGprs(const char *apn) {
 	//UART2_Write_Text("AT+CIFSR\r");
 	//readUntil("OK",10,GPRS);
 }
+
+
+
+
+char exchangeMandatoryInfo(){
+	// Send HELLO to SERVER
+	__network_data.is_server_connected = TRUE;
+	if (getSystemTime() == 0){
+		__network_data.is_server_connected = FALSE;
+		return 0;
+	}
+	if (checkSerialNumber() == 0){
+		__network_data.is_server_connected = FALSE;
+		return 0;
+	}
+	__network_data.is_server_connected = TRUE;
+	clearReadLine();
+}
+
 char connectToServer(const char *host, const char *port) {
 
 	if (__system_var.interface_ == ESP) {
@@ -360,28 +387,65 @@ char connectToServer(const char *host, const char *port) {
 		USART0_SendString(port);
 		USART0_SendString("\"\r");
 	}
-
-	if (readUntil("OK", 10) == 1) {
-		// Send HELLO to SERVER
-		__network_data.is_server_connected = TRUE;
-		if (getSystemTime() == 0) return 0;
-		
-		if (checkSerialNumber() == 0)return 0;
-		//__network_data.is_server_connected = FALSE;
-		
-		return 1;
-		} else {
-		return 0;
-	}
 	
+	if (readUntil("OK",10) == 1){
+		return 1;
+	}
+	return 0;
 
 }
+
+char getDefaultDevicePoolInformation(){
+	getDefaultNetworkSetting(__network_data.host, __network_data.port);
+	if (connectToServer(__network_data.host, __network_data.port) == 1){
+		char productName[20];
+		char success = 0;
+		strcpy(productName,PRODUCT_NAME);
+		strcat(productName,"\n");
+		__network_data.is_server_connected = TRUE;
+		delay(500);
+		sendToServer(productName,CONNECTION);
+		if (readUntil("HOST", 10) == 1) {
+			char *p1,*p2,*p3,*save_ptr1,*save_ptr2;
+			delay(100);
+			p3 = strstr(__network_data.esp_buffer,"HOST");
+			p2 = strstr(p3,"HOST");
+			p1 = strtok_r(p2,";",&save_ptr1);
+			while (p1 != 0){
+				
+				p2 = strtok_r(p1,"=",&save_ptr2);
+				
+				if (strstr(p2,"HOST") !=0 ){
+					p2 = strtok_r(0,"=",&save_ptr2);
+					strcpy(__network_data.host,p2);
+					success++;
+				}
+				if (strstr(p2,"PORT") !=0 ){
+					p2 = strtok_r(0,"=",&save_ptr2);
+					strcpy(__network_data.port,p2);
+					success++;
+				}
+				
+				p1 = strtok_r(0,";",&save_ptr1);
+			}
+			if (success == 2){
+				USART0_SendString("AT+CIPCLOSE=0\r\n");
+				delay(500);
+				return 1;
+			}
+			
+		}
+	}
+	return 0;
+}
+
 void networking() {
 	
 
 	if (__system_time.connection_timer_buffer >= __system_time.connection_timer) {
 		
-		if ( __network_data.is_server_connected != SERVER_CONNECTED ) {
+		if ( __network_data.is_server_connected != TRUE ) {
+			char connected = FALSE;
 			setSource(ESP);
 			__network_data.is_esp_connected = connectToWifi(__network_data.ssid, __network_data.password);
 
@@ -389,18 +453,35 @@ void networking() {
 				setSource(SIM);
 				//__network_data.is_sim_connected = connectToGprs(__network_data.apn);
 			}
-
-			if (__network_data.is_esp_connected) {
-				setSource(ESP);
-				if (connectToServer(__network_data.host, __network_data.port) == 1){
-					__network_data.is_server_connected = SERVER_CONNECTED;
-					//sendToServer("NOTIFICATION;CONNECTION;ONLINE\n",CONNECTION);
-					clearReadLine();
+			
+			if (__network_data.is_esp_connected || __network_data.is_sim_connected){
+				
+				if (getPrimaryNetworkSetting(__network_data.host, __network_data.port) != 0){
+					
+					if (connectToServer(__network_data.host, __network_data.port) != 0){
+						connected = exchangeMandatoryInfo();
+					} else {
+						connected = FALSE;
+					}				
 				}
-			}
-			if (__network_data.is_sim_connected) {
-				setSource(SIM);
-				//connectToServer(__network_data.host, __network_data.port);
+				if (connected == FALSE && getSecondaryNetworkSetting(__network_data.host, __network_data.port) != 0){
+					USART0_SendString("secondary\n");
+					delay(500);
+					if (connectToServer(__network_data.host, __network_data.port) != 0){
+						connected = exchangeMandatoryInfo();
+					} else {
+						connected = FALSE;
+					}
+				}
+				if (connected == FALSE && getDefaultDevicePoolInformation() != 0){
+					USART0_SendString("default\n");
+					delay(500);
+					if (connectToServer(__network_data.host, __network_data.port) != 0){
+						connected = exchangeMandatoryInfo();
+					} else {
+						connected = FALSE;
+					}
+				}
 			}
 
 			if (!(__network_data.is_sim_connected || __network_data.is_esp_connected ) || !__network_data.is_server_connected) {

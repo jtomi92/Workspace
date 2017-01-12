@@ -18,7 +18,6 @@ import com.jtech.apps.hcm.model.UserProfile;
 import com.jtech.apps.hcm.model.setting.ProductControlSetting;
 import com.jtech.apps.hcm.model.setting.ProductUser;
 import com.jtech.apps.hcm.model.setting.RelaySetting;
-import com.jtech.apps.hcm.model.setting.Setting;
 import com.jtech.apps.hcm.model.setting.TimerSetting;
 import com.jtech.apps.hcm.util.LocalizationUtils;
 import com.jtech.apps.hcm.util.RestUtils;
@@ -57,14 +56,13 @@ public class ConsoleService {
 
 			List<RelaySetting> relaySettingsToRemove = new LinkedList<RelaySetting>();
 
-			List<Setting> settings = userProduct.getProductSettings();
 			List<ProductUser> productusers = userProduct.getProductUsers();
 			for (ProductUser productUser : productusers) {
 				if (productUser.getUserId().equals(userProfile.getUserId())) {
 					productPrivilige = productUser.getPrivilige();
 				}
 			}
-			List<RelaySetting> relaySettings = settings.get(0).getRelaySettings();
+			List<RelaySetting> relaySettings = userProduct.getRelaySettings();
 			for (RelaySetting relaySetting : relaySettings) {
 
 				if (!relaySetting.isRelayEnabled()) {
@@ -187,7 +185,7 @@ public class ConsoleService {
 		productControlSetting.setAccess(true);
 		productControlSetting.setCallAccess(false);
 
-		List<RelaySetting> relaySettings = userProduct.getProductSettings().get(0).getRelaySettings();
+		List<RelaySetting> relaySettings = userProduct.getRelaySettings();
 		for (RelaySetting relaySetting : relaySettings) {
 			relaySetting.addProductControlSetting(productControlSetting);
 		}
@@ -243,7 +241,7 @@ public class ConsoleService {
 		/* REMOVE PRODUCT CONTROL SETTING */
 		ProductControlSetting productControlSetting = new ProductControlSetting();
 
-		List<RelaySetting> relaySettings = userProduct.getProductSettings().get(0).getRelaySettings();
+		List<RelaySetting> relaySettings = userProduct.getRelaySettings();
 		for (RelaySetting relaySetting : relaySettings) {
 			for (ProductControlSetting pcs : relaySetting.getProductControlSettings()) {
 				if (pcs.getUserId().equals(userProfile.getUserId())) {
@@ -294,7 +292,7 @@ public class ConsoleService {
 		/* GET USERPRODUCT */
 		UserProduct userProduct = restUtils.getUserProductBySerialNumber(serialNumber);
 
-		List<RelaySetting> relaySettings = userProduct.getProductSettings().get(0).getRelaySettings();
+		List<RelaySetting> relaySettings = userProduct.getRelaySettings();
 		for (RelaySetting relaySetting : relaySettings) {
 			List<ProductControlSetting> pcs = relaySetting.getProductControlSettings();
 			for (ProductControlSetting productControlSetting : pcs) {
@@ -359,7 +357,7 @@ public class ConsoleService {
 
 		int timerIndex = 0;
 
-		List<RelaySetting> relaySettings = userProduct.getProductSettings().get(0).getRelaySettings();
+		List<RelaySetting> relaySettings = userProduct.getRelaySettings();
 		for (RelaySetting relaySetting : relaySettings) {
 			relaySetting.getTimerSettings().clear();
 
@@ -469,7 +467,7 @@ public class ConsoleService {
 		timerSetting.setTimerEnabled(false);
 
 		UserProduct userProduct = restUtils.getUserProductBySerialNumber(serialNumber);
-		for (RelaySetting relaySetting : userProduct.getProductSettings().get(0).getRelaySettings()) {
+		for (RelaySetting relaySetting : userProduct.getRelaySettings()) {
 			if (relaySetting.getModuleId().equals(moduleId) && relaySetting.getRelayId().equals(relayId)) {
 				Integer timerId = relaySetting.getTimerSettings().size() + 1;
 				timerSetting.setTimerId(timerId);
@@ -486,7 +484,7 @@ public class ConsoleService {
 		UserProduct userProduct = restUtils.getUserProductBySerialNumber(serialNumber);
 		TimerSetting timerSettingToRemove = null;
 
-		for (RelaySetting relaySetting : userProduct.getProductSettings().get(0).getRelaySettings()) {
+		for (RelaySetting relaySetting : userProduct.getRelaySettings()) {
 			if (relaySetting.getModuleId().equals(moduleId) && relaySetting.getRelayId().equals(relayId)) {
 				for (TimerSetting timerSetting : relaySetting.getTimerSettings()) {
 					if (timerSetting.getTimerId().equals(timerId)) {

@@ -1,8 +1,9 @@
 package com.jtech.apps.hcm.model;
 
 import java.util.List;
- 
-import com.jtech.apps.hcm.model.setting.Setting;
+
+import com.jtech.apps.hcm.model.setting.InputSetting;
+import com.jtech.apps.hcm.model.setting.RelaySetting;
 
 public class ProductCategory {
 
@@ -19,7 +20,8 @@ public class ProductCategory {
 	private String creationDate;
 	private String lastUpdateDate;
 	
-	private List<Setting> settings;
+	private List<RelaySetting> relaySettings;
+	private List<InputSetting> inputSettings;
 
 	public Integer getProductId() {
 		return productId;
@@ -101,20 +103,20 @@ public class ProductCategory {
 		this.secondaryPort = secondaryPort;
 	}
 
-	public List<Setting> getSettings() {
-		return settings;
+	public List<RelaySetting> getRelaySettings() {
+		return relaySettings;
 	}
 
-	public void setSettings(List<Setting> settings) {
-		this.settings = settings;
+	public void setRelaySettings(List<RelaySetting> relaySettings) {
+		this.relaySettings = relaySettings;
 	}
-	 
-	 
-	
-	
- 
-	
 
-	
+	public List<InputSetting> getInputSettings() {
+		return inputSettings;
+	}
+
+	public void setInputSettings(List<InputSetting> inputSettings) {
+		this.inputSettings = inputSettings;
+	}
 	
 }

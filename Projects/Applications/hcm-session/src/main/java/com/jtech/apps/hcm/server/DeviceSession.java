@@ -26,7 +26,6 @@ import com.jtech.apps.hcm.model.setting.ProductControlSetting;
 import com.jtech.apps.hcm.model.setting.ProductTriggerSetting;
 import com.jtech.apps.hcm.model.setting.ProductUser;
 import com.jtech.apps.hcm.model.setting.RelaySetting;
-import com.jtech.apps.hcm.model.setting.Setting;
 import com.jtech.apps.hcm.model.setting.TimerSetting;
 import com.jtech.apps.hcm.util.RestUtils;
 import com.jtech.apps.hcm.util.TimeUtil;
@@ -263,8 +262,9 @@ public class DeviceSession extends Thread implements Runnable {
 	 */
 	// RELAYCONNECTIONS;1:14;2:10;4:12
 	private void processRelayConnections(String readLine) {
-		
-		if (userProduct == null) return;
+
+		if (userProduct == null)
+			return;
 
 		Map<Integer, List<Integer>> relayConnections = new HashMap<Integer, List<Integer>>();
 
@@ -299,7 +299,7 @@ public class DeviceSession extends Thread implements Runnable {
 		// logger.debug("Connected relayIds for " +
 		// userProduct.getSerialNumber() + ":" + sb.toString());
 
-		List<RelaySetting> relaySettings = userProduct.getProductSettings().get(0).getRelaySettings();
+		List<RelaySetting> relaySettings = userProduct.getRelaySettings();
 		List<ProductControlSetting> productControlSettings = relaySettings.get(0).getProductControlSettings();
 		List<RelaySetting> generatedRelaySettings = new LinkedList<RelaySetting>();
 
@@ -333,11 +333,11 @@ public class DeviceSession extends Thread implements Runnable {
 		}
 
 		if (generatedRelaySettings.size() != 0) {
-			userProduct.getProductSettings().get(0).getRelaySettings().addAll(generatedRelaySettings);
+			userProduct.getRelaySettings().addAll(generatedRelaySettings);
 		}
 
 		StringBuilder sb2 = new StringBuilder("Current RelaySettings\n");
-		for (RelaySetting relaySetting : userProduct.getProductSettings().get(0).getRelaySettings()) {
+		for (RelaySetting relaySetting : userProduct.getRelaySettings()) {
 			sb2.append("(" + relaySetting.getModuleId() + "/" + relaySetting.getRelayId() + ") ["
 					+ relaySetting.isRelayEnabled() + "]\n");
 		}
@@ -370,13 +370,13 @@ public class DeviceSession extends Thread implements Runnable {
 			restUtils.updateRelayState(serialNumber, Integer.parseInt(args[2]), Integer.parseInt(args[3]),
 					Integer.parseInt(args[4]));
 		}
-		
+
 		if (args.length == 2 && args[1].contains("UPDATED")) {
 			String notification = "UPDATED";
 			restUtils.addProductNotification(serialNumber, notification);
 			logger.info("REST: UPDATING NOTIFICATION FOR" + serialNumber);
 		}
-		
+
 		if (args.length == 2 && args[1].contains("REFRESH")) {
 			String notification = "REFRESH";
 			restUtils.addProductNotification(serialNumber, notification);
@@ -408,17 +408,19 @@ public class DeviceSession extends Thread implements Runnable {
 
 					logger.debug("USERID in Session: " + userSession.getUserId() + " Notification:" + notification);
 				}
-				/*if (args.length == 3 && args[1].equals("CONNECTION")) {
-					String notification = "CONNECTION;" + serialNumber + ";" + args[2] + "\n";
-					userSession.notifySession(notification);
-					logger.debug("USERID in Session: " + userSession.getUserId() + " Notification:" + notification);
-				}
-				if (args.length == 2 && args[1].equals("REFRESH")) {
-					String notification = "REFRESH;" + serialNumber + "\n";
-					userSession.notifySession(notification);
-					logger.debug("USERID in Session: " + userSession.getUserId() + " Notification:" + notification);
-				}*/
-				
+				/*
+				 * if (args.length == 3 && args[1].equals("CONNECTION")) {
+				 * String notification = "CONNECTION;" + serialNumber + ";" +
+				 * args[2] + "\n"; userSession.notifySession(notification);
+				 * logger.debug("USERID in Session: " + userSession.getUserId()
+				 * + " Notification:" + notification); } if (args.length == 2 &&
+				 * args[1].equals("REFRESH")) { String notification = "REFRESH;"
+				 * + serialNumber + "\n";
+				 * userSession.notifySession(notification);
+				 * logger.debug("USERID in Session: " + userSession.getUserId()
+				 * + " Notification:" + notification); }
+				 */
+
 				break;
 			}
 		}
@@ -451,7 +453,7 @@ public class DeviceSession extends Thread implements Runnable {
 
 			if (((Integer) restUtils.addRegisteredProduct(registeredProduct)) == 1) {
 				write("SERIAL_NUMBER#" + serialNumber + "#");
-				this.serialNumber = serialNumber; 
+				this.serialNumber = serialNumber;
 
 				connection.setStatus("CONNECTED");
 				connection.setSerialNumber(serialNumber);
@@ -560,7 +562,6 @@ public class DeviceSession extends Thread implements Runnable {
 	private boolean uploadProductSettings(ProductCategory productCategory) {
 
 		List<String> settingStrings = new LinkedList<String>();
-		List<Setting> settings = productCategory.getSettings();
 
 		settingStrings.add("[CLEAR_EEPROM]");
 
@@ -573,13 +574,8 @@ public class DeviceSession extends Thread implements Runnable {
 
 		settingStrings.add(settingString.toString());
 
-		if (settings != null) {
-			for (Setting setting : settings) {
-				if (setting.isSelected()) {
-					settingStrings.addAll(generateSettingString(null, setting, null));
-				}
-			}
-		}
+		settingStrings.addAll(generateSettingString(null, productCategory.getRelaySettings(),
+				productCategory.getInputSettings(), null));
 
 		settingStrings.add("[END]");
 		for (String str : settingStrings) {
@@ -606,7 +602,6 @@ public class DeviceSession extends Thread implements Runnable {
 		}
 
 		List<String> settingStrings = new LinkedList<String>();
-		List<Setting> settings = userProduct.getProductSettings();
 
 		settingStrings.add("[CLEAR_EEPROM]");
 
@@ -618,14 +613,10 @@ public class DeviceSession extends Thread implements Runnable {
 		settingString.append("PORT2:" + userProduct.getSecondaryPort() + ";#");
 
 		settingStrings.add(settingString.toString());
-		if (settings != null) {
-			for (Setting setting : settings) {
-				if (setting.isSelected()) {
-					settingStrings.addAll(generateSettingString(userProduct.getSerialNumber(), setting,
-							userProduct.getProductUsers()));
-				}
-			}
-		}
+
+		settingStrings.addAll(generateSettingString(userProduct.getSerialNumber(), userProduct.getRelaySettings(),
+				userProduct.getInputSettings(), userProduct.getProductUsers()));
+
 		settingStrings.add("[END]");
 		for (String str : settingStrings) {
 			System.out.println(str);
@@ -648,11 +639,10 @@ public class DeviceSession extends Thread implements Runnable {
 	 * @param productUsers
 	 * @return List<String>
 	 */
-	private List<String> generateSettingString(String serialNumber, Setting setting, List<ProductUser> productUsers) {
+	private List<String> generateSettingString(String serialNumber, List<RelaySetting> relaySettings,
+			List<InputSetting> inputSettings, List<ProductUser> productUsers) {
 
 		List<String> settingStrings = new LinkedList<String>();
-		List<RelaySetting> relaySettings = setting.getRelaySettings();
-		List<InputSetting> inputSettings = setting.getInputSettings();
 
 		for (RelaySetting relaySetting : relaySettings) {
 			if (relaySetting.isRelayEnabled()) {

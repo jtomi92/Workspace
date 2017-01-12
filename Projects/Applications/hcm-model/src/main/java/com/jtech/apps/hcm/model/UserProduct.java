@@ -2,10 +2,11 @@ package com.jtech.apps.hcm.model;
 
 import java.util.List;
 
+import com.jtech.apps.hcm.model.setting.InputSetting;
 import com.jtech.apps.hcm.model.setting.ProductUser;
-import com.jtech.apps.hcm.model.setting.Setting;
+import com.jtech.apps.hcm.model.setting.RelaySetting;
 
-public class UserProduct{
+public class UserProduct {
 
 	private String serialNumber;
 	private String name;
@@ -22,14 +23,15 @@ public class UserProduct{
 	private String creationDate;
 	private String lastUpdateDate;
 
-	private List<Setting> productSettings;
+	private List<RelaySetting> relaySettings;
+	private List<InputSetting> inputSettings;
 	private List<ProductUser> productUsers;
-	
-	
-	public void addProductUser(ProductUser productUser){
+
+	public void addProductUser(ProductUser productUser) {
 		productUsers.add(productUser);
 	}
-	public void removeProductUser(ProductUser productUser){
+
+	public void removeProductUser(ProductUser productUser) {
 		productUsers.remove(productUser);
 	}
 
@@ -129,12 +131,20 @@ public class UserProduct{
 		this.lastUpdateDate = lastUpdateDate;
 	}
 
-	public List<Setting> getProductSettings() {
-		return productSettings;
+	public List<RelaySetting> getRelaySettings() {
+		return relaySettings;
 	}
 
-	public void setProductSettings(List<Setting> productSettings) {
-		this.productSettings = productSettings;
+	public void setRelaySettings(List<RelaySetting> relaySettings) {
+		this.relaySettings = relaySettings;
+	}
+
+	public List<InputSetting> getInputSettings() {
+		return inputSettings;
+	}
+
+	public void setInputSettings(List<InputSetting> inputSettings) {
+		this.inputSettings = inputSettings;
 	}
 
 	public List<ProductUser> getProductUsers() {
@@ -144,13 +154,13 @@ public class UserProduct{
 	public void setProductUsers(List<ProductUser> productUsers) {
 		this.productUsers = productUsers;
 	}
+
 	public boolean isEdited() {
 		return isEdited;
 	}
+
 	public void setEdited(boolean isEdited) {
 		this.isEdited = isEdited;
 	}
-
-	
 
 }

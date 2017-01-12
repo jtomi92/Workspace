@@ -16,27 +16,19 @@
 					<!-- Default panel contents -->
 					<div class="dropdown panel-heading">
 						<div class="container-fluid">
-							<div class="col-lg-6">
-								<h4>Add New User</h4>
-								<div class="input-group">
-
-
-
+								<h4>${localization['add-new-user']}</h4>
+								<div class="input-group col-lg-6">
 									<input id="add-product-user-${count.index}" type="text"
-										class="form-control" placeholder="Email address"> <span
+										class="form-control" placeholder="${localization['email-address']}"> <span
 										class="input-group-btn "> <c:choose>
 											<c:when test="${privilige eq 'ADMIN'}">
 												<button class="btn btn-primary" type="button"
-													onClick="addProductUser('${ups.serialNumber}','${count.index}');">ADD
-													USER</button>
+													onClick="addProductUser('${ups.serialNumber}','${count.index}');">${localization['add-user']}</button>
 											</c:when>
 											<c:otherwise>
-												<button disabled class="btn btn-primary" type="button">ADD
-													USER</button>
+												<button disabled class="btn btn-primary" type="button">${localization['add-user']}</button>
 											</c:otherwise>
 										</c:choose>
-
-
 									</span>
 								</div>
 								<div class="container-fluid alert-danger"
@@ -44,7 +36,7 @@
 								<div class="container-fluid alert-success"
 									id="user-success-message-${count.index}"></div>
 								<!-- /input-group -->
-							</div>
+							
 							<!-- /.col-lg-6 -->
 						</div>
 
@@ -53,26 +45,25 @@
 
 
 
-				<div class="container-fluid panel panel-default">
+				<div class="container-fluid panel panel-default" style="padding-right:50px;padding-left:50px;">
 
 					<!-- /input-group -->
 					<div class="page-header" style="text-align: center;">
-						<h3>Current Users</h3>
+						<h3>${localization['current-users']}</h3>
 					</div>
 
-					<div>
+					<div class="panel panel-default" style="padding-right:10px;padding-left:10px;">
 						<table class="table table-striped">
 							<thead>
 								<tr>
-									<td><h3>Privilige</h3></td>
-									<td><h3>Email Address</h3></td>
-									<td><h3>Relay Access</h3></td>
-									<td><h3>Call Access</h3></td>
-									<td><h3>Action</h3></td>
+									<td><h4>${localization['privilige']}</h4></td>
+									<td><h4>${localization['email-address']}</h4></td>
+									<td><h4>${localization['relay-access']}</h4></td>
+									<td><h4>${localization['call-access']}</h4></td>
+									<td><h4>${localization['action']}</h4></td>
 								</tr>
 							</thead>
 							<tbody>
-
 								<c:forEach items="${ups.productUsers}" var="productUsers"
 									varStatus="count2">
 
@@ -89,12 +80,12 @@
 															<c:if test="${productUsers.privilige eq 'ADMIN'}">
 																<option value="priv-${count2.index}-${count3.index}"
 																	selected>ADMIN</option>
-																<option value="priv-${count2.index}-${count3.index}">USER</option>
+																<option value="priv-${count2.index}-${count3.index}">${localization['user']}</option>
 															</c:if>
 															<c:if test="${productUsers.privilige eq 'USER'}">
-																<option value="priv-${count2.index}-${count3.index}">ADMIN</option>
+																<option value="priv-${count2.index}-${count3.index}">${localization['admin']}</option>
 																<option selected
-																	value="priv-${count2.index}-${count3.index}">USER</option>
+																	value="priv-${count2.index}-${count3.index}">${localization['user']}</option>
 															</c:if>
 													</select></label>
 												</c:otherwise>
@@ -106,7 +97,7 @@
 											id="product-relay-priv-picker-${count.index}-${count2.index}"
 											multiple="multiple">
 												<c:forEach
-													items="${ups.productSettings.iterator().next().relaySettings}"
+													items="${ups.relaySettings}"
 													var="relaysetting" varStatus="count3">
 
 													<c:forEach items="${relaysetting.productControlSettings}"
@@ -129,7 +120,7 @@
 											id="product-relay-call-picker-${count.index}-${count2.index}"
 											multiple="multiple">
 												<c:forEach
-													items="${ups.productSettings.iterator().next().relaySettings}"
+													items="${ups.relaySettings}"
 													var="relaysetting" varStatus="count3">
 													<c:forEach items="${relaysetting.productControlSettings}"
 														var="productControlSetting" varStatus="count4">
@@ -153,16 +144,16 @@
 												<c:choose>
 													<c:when test="${privilige eq 'ADMIN'}">
 														<button type="button" class="btn btn-primary"
-															onClick="updateProductUser('${productUsers.userName}','${ups.serialNumber}','${count.index}-${count2.index}');">SAVE</button>
+															onClick="updateProductUser('${productUsers.userName}','${ups.serialNumber}','${count.index}-${count2.index}');">${localization['save']}</button>
 														<c:if
 															test="${not (productUsers.userName eq pageContext.request.userPrincipal.name)}">
 															<button type="button" class="btn btn-danger"
-																onClick="removeProductUser('${productUsers.userName}','${ups.serialNumber}','${count.index}-${count2.index}');">REMOVE</button>
+																onClick="removeProductUser('${productUsers.userName}','${ups.serialNumber}','${count.index}-${count2.index}');">${localization['remove']}</button>
 														</c:if>
 													</c:when>
 													<c:otherwise>
-														<button type="button" disabled class="btn btn-primary">SAVE</button>
-														<button type="button" disabled class="btn btn-danger">REMOVE</button>
+														<button type="button" disabled class="btn btn-primary">${localization['save']}</button>
+														<button type="button" disabled class="btn btn-danger">${localization['remove']}</button>
 													</c:otherwise>
 												</c:choose>
 
@@ -171,6 +162,7 @@
 									</tr>
 
 								</c:forEach>
+								
 							</tbody>
 						</table>
 					</div>
