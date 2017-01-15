@@ -48,7 +48,7 @@ public class RestUtils {
 		PropertiesUtil propertiesUtil = new PropertiesUtil();
 		return propertiesUtil.getProperty("resturl");
 	}
-	private HttpEntity<?> getHttpEntity(){	 		
+	private HttpEntity<?> getHttpEntity(){	 
 		HttpHeaders requestHeaders = getRequestHeaders();	
 		HttpEntity<String> httpEntity = new HttpEntity<String>(requestHeaders);
 		return httpEntity;

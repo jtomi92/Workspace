@@ -14,9 +14,9 @@ void processIO(){
 	
 	// Processes wifi responses
 	if (__network_data.is_esp_read_line == 1){
-		
+		char previousSource = __system_var.interface_;
 		delay(100);
-		
+
 		decodeBuffer(ESP);
 		
 		RelayControl();
@@ -25,13 +25,22 @@ void processIO(){
 		
 		WebApp();	
 		
+		__system_var.interface_ = previousSource;
 		__network_data.is_esp_read_line = 0;	
 	}
 	
 	// Processes gsm responses
 	if (__network_data.is_sim_read_line == 1){
+		char previousSource = __system_var.interface_;
+		setSource(SIM);
 		
+		IncomingCallHandler();
+		
+		IncomingSMSHandler();
+		
+		clearGSMBuffer();
 		__network_data.is_sim_read_line = 0;
+		__system_var.interface_ = previousSource;
 	}
 	
 }
@@ -43,6 +52,8 @@ void systemProcesses(){
 	HeartBeat(); 
 	// Process Timers
 	ProcessRelayTimers();
+	
+	checkGsmNetwork();
 }
  
 

@@ -25,6 +25,7 @@ void saveUserData(){
 
 void WebApp(){
 	
+
 	if (strstr(__network_data.esp_buffer, "GET / HTTP/") != 0){
 		char content[850];
 		char page[1000];
@@ -221,8 +222,6 @@ void RelayControl(){
 	if (strstr(__network_data.esp_buffer, "SWITCHRELAY") != 0){
 		char *p1;
 		int relayId, moduleId, state, index, i;
-
-		
 		
 		p1 = strstr(__network_data.esp_buffer, "SWITCHRELAY");
 		strtok(p1,";");
@@ -293,6 +292,17 @@ void CheckModuleConnections(){
 	
 		// CHECK RELAY MODULE CONNECTIONS
 		for (i=0;i<4;i++){
+			char conv[5];
+			
+			USART0_SendString("MODULE");
+			itoa(i,conv,10);
+			USART0_SendString(conv);
+			USART0_SendString("=");
+			itoa(digitalRead(__system_var.detect_pins[i]),conv,10);
+			USART0_SendString(conv);
+			USART0_SendString("\n");
+			
+			
 			if (digitalRead(__system_var.detect_pins[i]) == 0 && __system_var.module_flags[i] == 0){
 				delay(500);
 				__system_var.module_connected[i] = 1;
@@ -447,6 +457,101 @@ void checkGsmNetwork(){
 				}
 				turnOnSim900();
 			}
+			__system_time.gsm_network_timer_buffer = 0;
 		}
 	}
+}
+
+
+
+
+void SendSms(char *phonenumber, char *uzenet, char *info)
+{
+
+	GSM_Write_String("AT\r\n");
+	readUntil("OK",2);
+	GSM_Write_String("AT+CMGF=1\r\n");
+	readUntil("OK",2);
+	GSM_Write_String("AT+CMGS=\"");
+	GSM_Write_String(phonenumber);
+	GSM_Write_Byte(0x22);
+	GSM_Write_Byte(0x0D);
+	readUntil("OK",2);
+	GSM_Write_String(uzenet);
+	GSM_Write_String(info);
+	GSM_Write_Byte(26);
+	GSM_Write_Byte(0x0D);
+	readUntil("OK",2);
+}
+
+void IncomingCallHandler(){
+	
+}
+
+char *getSmsMessage(){
+	//+CMT \"+36309225427\",\"\",\"15/02/03,23:12:23+30\"\nTest sms lol
+	char *p1,*p2;
+	
+	if (strstr(__network_data.sim_buffer,"UNREAD") == 0) return 0;
+
+	p1 = strstr(__network_data.sim_buffer,"UNREAD");
+	p1 += 6;
+	//printf("%s\n",p1);
+	p2 = strtok(p1,"\",\"");
+
+	strcpy(__system_var.phone_buffer, p2);
+
+	p2 = strtok(0,"\n");
+	p2 = strtok(0,"\r");
+
+	return p2;
+}
+
+void IncomingSMSHandler(){
+	
+	if (strstr(__network_data.sim_buffer,"MTI:") != 0)
+	{
+		char *message;
+		char privilege;
+		clearGSMBuffer();
+		__system_var.sms_flag = 1;
+		GSM_Write_String("AT+CMGR=1\r\n");
+		//readUntil();		
+		delay(1000);
+		message = getSmsMessage();
+		privilege = getPrivilege(__system_var.phone_buffer);
+		if (privilege != 0){
+			
+			if (strstr(message,"INFO") != 0 )
+			{
+				char msg[200];
+				int relayIndex,moduleIndex;
+				strcpy(msg,"INFO:\n");
+				GSM_Write_String("INFO SMS");
+				for (moduleIndex=0;moduleIndex<MAX_MODULE_COUNT;moduleIndex++){
+					for (relayIndex=0;relayIndex<MAX_MODULE_COUNT;relayIndex++){
+					
+					}
+				}
+				//SendSms(__network_data.admin,message,"");
+			} 
+			
+			if (strstr(message,"REL") != 0 )
+			{
+				char *p2 = strstr(message,"REL");
+
+			}
+			
+		} 
+	}
+	
+	if (__system_var.sms_flag != 0 ){
+		GSM_Write_String("AT\r\n");
+		delay(500);
+		GSM_Write_String("AT+CMGDA=\"DEL ALL\"\r\n");
+		delay(500);
+		__system_var.sms_flag = 0;	
+	}
+	
+	
 }

@@ -117,6 +117,7 @@ void pinMode(const int pin, const char mode){
 		case 14: if (mode==1){DDRD|=(1<<5);}else{DDRD&=~(1<<5);} break;
 		case 15: if (mode==1){DDRD|=(1<<6);}else{DDRD&=~(1<<6);} break;
 		case 16: if (mode==1){DDRD|=(1<<7);}else{DDRD&=~(1<<7);} break;
+		case 20: if (mode==1){DDRC|=(1<<1);}else{DDRC&=~(1<<1);} break;
 		case 21: if (mode==1){DDRC|=(1<<2);}else{DDRC&=~(1<<2);} break;
 		case 22: if (mode==1){DDRC|=(1<<3);}else{DDRC&=~(1<<3);} break;
 		case 23: if (mode==1){DDRC|=(1<<4);}else{DDRC&=~(1<<4);} break;
@@ -141,6 +142,7 @@ void digitalWrite(const int pin, const char mode){
 }
 char digitalRead(const int pin){
 	switch (pin) {
+		case 20: return PINC & (1<<1); break;
 		case 21: return PINC & (1<<2); break;
 		case 22: return PINC & (1<<3); break;
 		case 23: return PINC & (1<<4); break;
@@ -330,15 +332,15 @@ void powerUpModules(){
 		GSM_Write_String("AT\r\n");
 		delay(500);
 		if (strstr(__network_data.sim_buffer,"OK") == 0){
-			//turnOnSim900();
-			//delay(2000);
+			turnOnSim900();
+			delay(5000);
 		}
 		GSM_Write_String("AT+CMGF=1\r\n");
-		delay(300);
+		delay(500);
 		GSM_Write_String("AT+CLTS=1\r\n");
-		delay(300);
+		delay(500);
 		GSM_Write_String("AT+CLIP=1\r\n");
-		delay(300);
+		delay(500);
 	}
 	
 	if (HAS_WIFI){

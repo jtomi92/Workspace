@@ -543,8 +543,8 @@ public class DeviceSession extends Thread implements Runnable {
 		timerSetting.setTimerId(1);
 		timerSetting.setStartTimer("8:00");
 		timerSetting.setEndTimer("17:00");
-		timerSetting.setStartWeekDays("mon,tue,wed,thu,fri,sat,sun");
-		timerSetting.setEndWeekDays("mon,tue,wed,thu,fri,sat,sun");
+		timerSetting.setStartWeekDays("");
+		timerSetting.setEndWeekDays("");
 		timerSetting.setTimerEnabled(false);
 
 		relaySetting.addTimerSetting(timerSetting);
@@ -677,7 +677,7 @@ public class DeviceSession extends Thread implements Runnable {
 						timerString.append("#TS;");
 						timerString.append("MI:" + relaySetting.getModuleId() + ";"); // ModuleID
 						timerString.append("RI:" + relaySetting.getRelayId() + ";"); // RelayID
-						timerString.append("TI:" + timerSetting.getTimerId() + ";"); // RelayID
+						timerString.append("TI:" + timerSetting.getTimerId() + ";"); // TimerID
 						timerString.append("ST:" + convertToMinutes(timerSetting.getStartTimer()) + ";");
 						timerString.append("SW:" + convertWeekDays(timerSetting.getStartWeekDays()) + ";");
 						timerString.append("ET:" + convertToMinutes(timerSetting.getEndTimer()) + ";");

@@ -32,6 +32,9 @@ typedef struct {                  //SYS
 	int eeprom_position;
 	int update_flag;
 	char enabled_flag;
+	
+	char sms_flag;
+	char phone_buffer[13];
 } SYSTEM_VARIABLES;
 
 typedef struct {                  //SYSTIME
@@ -78,7 +81,7 @@ typedef struct {                  //NETWORK
 	char is_sim_read_line;
 	unsigned int index_esp;
 	unsigned int index_sim;
-
+	
 } NETWORK;
 typedef struct {
 	int module_id;

@@ -27,7 +27,7 @@ void clearEEPROM(int startPos, int endPos){
 char eepromReadAttribute(char container[],const int length, char *attr,const int clear){
 
 	int index, j = 0, flag = 0;
-	char dat,*p1, buffer[200];
+	char dat,*p1, buffer[500];
 	int attrLength=0;
 
 	if (clear == 1) __system_var.eeprom_position = 0;
@@ -75,7 +75,7 @@ char eepromReadAttribute(char container[],const int length, char *attr,const int
 	return 0;
 }
 
-int getPrivilige(const char *phone_number) {
+int getPrivilege(const char *phone_number) {
 	char container[100];
 
 	__system_var.eeprom_position = 0;
@@ -204,7 +204,7 @@ int verifyRelayAccess(char *phoneNumber, char moduleId, char relayId){
 }
 
 int getPrimaryNetworkSetting(char host[], char port[]){
-	char container[100], *p1, *save_ptr1, success = 0;
+	char container[500], *p1, *save_ptr1, success = 0;
 	__system_var.eeprom_position = 0;
 	if (eepromReadAttribute(container,sizeof(container),"NS",0) == 0) return 0;
 
@@ -216,7 +216,7 @@ int getPrimaryNetworkSetting(char host[], char port[]){
 			p2 = strtok(0,":");
 			strcpy(host,p2);
 			success += 1;
-			} else if (strstr(p1,"PORT1") != 0){
+		} else if (strstr(p1,"PORT1") != 0){
 			char *p2;
 			p2 = strtok(p1,":");
 			p2 = strtok(0,":");
@@ -233,7 +233,7 @@ int getPrimaryNetworkSetting(char host[], char port[]){
 }
 
 int getSecondaryNetworkSetting(char host[], char port[]){
-	char container[100], *p1, *save_ptr1, success = 0;
+	char container[500], *p1, *save_ptr1, success = 0;
 	__system_var.eeprom_position = 0;
 	if (eepromReadAttribute(container,sizeof(container),"NS",0) == 0) return 0;
 

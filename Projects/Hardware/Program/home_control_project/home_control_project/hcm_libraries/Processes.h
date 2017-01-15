@@ -15,5 +15,8 @@ void RelayControl();
 void CheckModuleConnections();
 void HeartBeat();
 void ProcessRelayTimers();
+void checkGsmNetwork();
+void IncomingCallHandler();
+void IncomingSMSHandler();
 
 #endif /* PROCESSES_H_ */

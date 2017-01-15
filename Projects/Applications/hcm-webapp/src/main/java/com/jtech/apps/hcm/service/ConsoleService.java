@@ -109,7 +109,7 @@ public class ConsoleService {
 	 * @return 1 onSuccess, 0 onFailure
 	 */
 	public Integer onRegisterProduct(Integer userId, String serialNumber) {
-
+		
 		Integer err = restUtils.registerProduct(userId, serialNumber);
 
 		Runnable runnable = new Runnable() {
@@ -134,7 +134,7 @@ public class ConsoleService {
 	 * @return 1 onSuccess, 0 onFailure
 	 */
 	public Integer onUpdateProductName(String userId, String serialNumber, String productName) {
-
+		
 		UserProduct userProduct = restUtils.getUserProductBySerialNumber(serialNumber);
 		userProduct.setName(productName); 
 		return restUtils.updateUserProduct(userProduct);

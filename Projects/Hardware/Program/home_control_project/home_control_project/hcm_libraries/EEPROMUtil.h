@@ -9,7 +9,7 @@
 int eepromSaveCfg(const char *toWrite, int position);
 void clearEEPROM(int startPos, int endPos);
 char eepromReadAttribute(char container[], int length, char *attr, int clear);
-int getPrivilige(const char *phone_number);
+int getPrivilege(const char *phone_number);
 int getUserId(const char *phone_number);
 char getCallAccess(const char *phone_number, char container[]);
 int getRelaySetting(int moduleId, int relayId);

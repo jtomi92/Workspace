@@ -37,28 +37,8 @@ public class UserSession implements Runnable {
 			bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
 			printWriter = new PrintWriter(socket.getOutputStream());
-
-			Runnable runnable = new Runnable() {
-
-				@Override
-				public void run() {
-
-					while (isAlive) {
-
-						try {
-							Thread.sleep(3000);
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-						//printWriter.write("HEARTBEAT\n");
-						//printWriter.flush();
-
-					}
-				}
-			};
-			Thread thread = new Thread(runnable);
-			thread.start();
+			
+			socket.setSoTimeout(20000);
 
 			while (!Thread.interrupted()) {
 
