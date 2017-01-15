@@ -1,8 +1,0 @@
-Headers: "{'ver': '3.0', 'poolserial': '0', 'len': '77', 'server': 'supervisor', 'eventname': 'PROCESS_STATE_STARTING', 'serial': '0', 'pool': 'listener'}"
-Body: "{'from_state': 'STOPPED', 'processname': 'supervisor_listener', 'tries': '0', 'groupname': 'listener'}"
-Headers: "{'ver': '3.0', 'poolserial': '1', 'len': '78', 'server': 'supervisor', 'eventname': 'PROCESS_STATE_STARTING', 'serial': '1', 'pool': 'listener'}"
-Body: "{'from_state': 'STOPPED', 'processname': 'application-web-1', 'tries': '0', 'groupname': 'application'}"
-Headers: "{'ver': '3.0', 'poolserial': '2', 'len': '79', 'server': 'supervisor', 'eventname': 'PROCESS_STATE_RUNNING', 'serial': '2', 'pool': 'listener'}"
-Body: "{'from_state': 'STARTING', 'processname': 'supervisor_listener', 'pid': '2145', 'groupname': 'listener'}"
-Headers: "{'ver': '3.0', 'poolserial': '3', 'len': '80', 'server': 'supervisor', 'eventname': 'PROCESS_STATE_RUNNING', 'serial': '3', 'pool': 'listener'}"
-Body: "{'from_state': 'STARTING', 'processname': 'application-web-1', 'pid': '2146', 'groupname': 'application'}"
