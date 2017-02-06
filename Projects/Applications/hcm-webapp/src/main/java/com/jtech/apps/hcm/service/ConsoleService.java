@@ -60,6 +60,7 @@ public class ConsoleService {
 			for (ProductUser productUser : productusers) {
 				if (productUser.getUserId().equals(userProfile.getUserId())) {
 					productPrivilige = productUser.getPrivilige();
+					userProduct.setSelected(productUser.isSelected());
 				}
 			}
 			List<RelaySetting> relaySettings = userProduct.getRelaySettings();
@@ -193,6 +194,7 @@ public class ConsoleService {
 		userProduct.setEdited(true);
 		
 		Integer err = restUtils.updateUserProduct(userProduct);
+		restUtils.onProductItemSelect(serialNumber, userProfile.getUserId());
 		
 		Runnable runnable = new Runnable() {
 			@Override
@@ -479,6 +481,12 @@ public class ConsoleService {
 		return restUtils.updateUserProduct(userProduct);
 	}
 
+	public Integer onProductItemSelect(String serialNumber, Integer userId){
+		return restUtils.onProductItemSelect(serialNumber, userId);
+	}
+	
+	
+	
 	public Integer onRemoveTimerSetting(String serialNumber, Integer moduleId, Integer relayId, Integer timerId) {
 
 		UserProduct userProduct = restUtils.getUserProductBySerialNumber(serialNumber);

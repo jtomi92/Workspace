@@ -780,6 +780,42 @@ function addTimerSetting(serialNumber, moduleId, relayId) {
 	});
 }
 
+function loadProduct(){
+	var serialNumber = $('#product-picker').children(":selected").attr("id");
+	var userid = document.getElementById("userid").value;
+	
+	var token = $("meta[name='_csrf']").attr("content");
+	var header = $("meta[name='_csrf_header']").attr("content");
+
+	$.ajax({
+		type : "GET",
+		contentType : "application/json",
+		async : true,
+		url : 'userproduct/select/' + serialNumber + '/' + userid,
+		dataType : 'json',
+		beforeSend : function(xhr) {
+			// here it is
+			xhr.setRequestHeader(header, token);
+		},
+		success : function(res, ioArgs) {
+
+			if (res == '0') {
+				console.log('0' + res);
+			} else if (res == '1') {
+				console.log('1' + res);
+				location.reload();
+			} else if (res == '-1') {
+				console.log('-1' + res);
+			}
+		},
+		error : function(e) {
+			// console.log("error");
+			// console.log(e);
+		}
+
+	});
+}
+
 function loadUserProduct() {
 	var serialNumber = $("#product-picker").children(":selected").attr("id");
 }

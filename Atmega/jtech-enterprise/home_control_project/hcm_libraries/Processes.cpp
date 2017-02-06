@@ -128,7 +128,7 @@ void SmsCommands(){
 		p = getSmsMessage();
 		if (p == 0) return;
 		delay(300);
-	
+		
 
 		if (strstr(p,"ADMIN") != 0)
 		{
@@ -138,7 +138,7 @@ void SmsCommands(){
 			{
 				SendSms(__network_data.admin,"Hiba: Maga a felhasznalo", "");
 				
-			} else {
+				} else {
 				int i;
 				
 				SendSms(__network_data.admin,"Uj felhasznalo: ", __network_data.phone_buffer);
@@ -157,30 +157,30 @@ void SmsCommands(){
 		
 		if (strstr(__network_data.admin,__network_data.phone_buffer) != 0)
 		{
- 
+			
 			if (strstr(p,"INFO") != 0 )
 			{
-				  char message[200];
-				  int i=0;
-				  strcpy(message,"INFO:\n");
-				  
-				  for (i=0;i<5;i++){
-					  char rel[5];
-					  itoa(i+1,rel,10);
-					  
-					  strcat(message,"RELAY ");
-					  strcat(message,rel);
-					  strcat(message," ");
-					  if (__system_var.relay_states[i] == 1){
-						  strcat(message,"ON\n");
-					  } else {
-						  strcat(message,"OFF\n");
-					  }
-					 
-				  }
-				  SendSms(__network_data.admin,message,"");
+				char message[200];
+				int i=0;
+				strcpy(message,"INFO:\n");
+				
+				for (i=0;i<5;i++){
+					char rel[5];
+					itoa(i+1,rel,10);
+					
+					strcat(message,"RELAY ");
+					strcat(message,rel);
+					strcat(message," ");
+					if (__system_var.relay_states[i] == 1){
+						strcat(message,"ON\n");
+						} else {
+						strcat(message,"OFF\n");
+					}
+					
+				}
+				SendSms(__network_data.admin,message,"");
 			}
-			
+			// REL;1;2;0;
 			if (strstr(p,"REL") != 0 )
 			{
 				char *p2 = strstr(p,"REL");
@@ -194,67 +194,67 @@ void SmsCommands(){
 				
 				if (strstr(p,"ON")){
 					state = 1;
-				} else if (strstr(p,"OFF")){
+					} else if (strstr(p,"OFF")){
 					state = 0;
-				} 
+				}
 				
 				switch (relay){
 					
 					case '1':
-						digitalWrite(RELAY_1,state);
-						__system_var.relay_states[0] = state;
-						eeprom_write_byte((uint8_t*)20,state);
+					digitalWrite(RELAY_1,state);
+					__system_var.relay_states[0] = state;
+					eeprom_write_byte((uint8_t*)20,state);
 					break;
 					
 					case '2':
-						digitalWrite(RELAY_2,state);
-						__system_var.relay_states[1] = state;
-						eeprom_write_byte((uint8_t*)21,state);
+					digitalWrite(RELAY_2,state);
+					__system_var.relay_states[1] = state;
+					eeprom_write_byte((uint8_t*)21,state);
 					break;
 					
 					case '3':
-						digitalWrite(RELAY_3,state);
-						__system_var.relay_states[2] = state;
-						eeprom_write_byte((uint8_t*)22,state);
+					digitalWrite(RELAY_3,state);
+					__system_var.relay_states[2] = state;
+					eeprom_write_byte((uint8_t*)22,state);
 					break;
 					
 					case '4':
-						digitalWrite(RELAY_4,state);
-						__system_var.relay_states[3] = state;
-						eeprom_write_byte((uint8_t*)23,state);
+					digitalWrite(RELAY_4,state);
+					__system_var.relay_states[3] = state;
+					eeprom_write_byte((uint8_t*)23,state);
 					break;
 					
 					case '5':
-						digitalWrite(RELAY_5,state);
-						__system_var.relay_states[4] = state;
-						eeprom_write_byte((uint8_t*)24,state);
+					digitalWrite(RELAY_5,state);
+					__system_var.relay_states[4] = state;
+					eeprom_write_byte((uint8_t*)24,state);
 					break;
 					case 'X':
-						char buffer[6];
-						int i;
-						digitalWrite(RELAY_1,state);
-						digitalWrite(RELAY_2,state);
-						digitalWrite(RELAY_3,state);
-						digitalWrite(RELAY_4,state);
-						digitalWrite(RELAY_5,state);
-						__system_var.relay_states[0] = state;
-						__system_var.relay_states[1] = state;
-						__system_var.relay_states[2] = state;
-						__system_var.relay_states[3] = state;
-						__system_var.relay_states[4] = state;
-						for (i=0;i<5;i++){
-							while(!eeprom_is_ready());
-							eeprom_write_byte((uint8_t*)20+i,state);
-						}
+					char buffer[6];
+					int i;
+					digitalWrite(RELAY_1,state);
+					digitalWrite(RELAY_2,state);
+					digitalWrite(RELAY_3,state);
+					digitalWrite(RELAY_4,state);
+					digitalWrite(RELAY_5,state);
+					__system_var.relay_states[0] = state;
+					__system_var.relay_states[1] = state;
+					__system_var.relay_states[2] = state;
+					__system_var.relay_states[3] = state;
+					__system_var.relay_states[4] = state;
+					for (i=0;i<5;i++){
+						while(!eeprom_is_ready());
+						eeprom_write_byte((uint8_t*)20+i,state);
+					}
 					break;
 					
-				}	
+				}
 				strcpy(message,"RELAY ");
 				strcat(message,relstr);
 				strcat(message, (state == 1) ? " BEKAPCSOLVA" : " KIKAPCSOLVA");
 				
-				SendSms(__network_data.admin,message,"");			
-			}			
+				SendSms(__network_data.admin,message,"");
+			}
 		}
 		
 

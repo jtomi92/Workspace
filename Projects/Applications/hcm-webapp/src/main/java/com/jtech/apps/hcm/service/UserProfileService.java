@@ -2,6 +2,8 @@ package com.jtech.apps.hcm.service;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import org.apache.log4j.Logger;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,7 @@ public class UserProfileService {
 
 	private RestUtils restUtils = new RestUtils();
 	private LocalizationUtils localizationUtils = new LocalizationUtils();
+	private Logger logger = Logger.getLogger(UserProfileService.class);
 	
 	public ModelAndView onMyProfileOpen(ModelMap model, String locale) {
 
@@ -48,16 +51,31 @@ public class UserProfileService {
 		HashMap<String, String> localizations = localizationUtils.getLocalization("myaccount",locale).getLocalizations();
 		modelAndView.addObject("localization", localizations);
 		modelAndView.addAllObjects(model);
+			
 		modelAndView.addObject("firstName", userForm.getFirstName());
 		modelAndView.addObject("lastName", userForm.getLastName());
 		modelAndView.addObject("email", userForm.getEmail());
 		modelAndView.addObject("phone", userForm.getPhone());
 		modelAndView.addObject("address", userForm.getAddress());
 		modelAndView.addObject("city", userForm.getCity());
-		if (bindingResult.hasErrors()) {
+		
+		if (StringUtils.isNullOrEmpty(userForm.getFirstName()) || userForm.getFirstName().length() >= 20){
+			modelAndView.addObject("error", localizations.get("message-firstname-error"));
 			return modelAndView;
 		}
-
+		if (StringUtils.isNullOrEmpty(userForm.getLastName()) || userForm.getLastName().length() >= 20){
+			modelAndView.addObject("error", localizations.get("message-lastname-error"));
+			return modelAndView;
+		}
+		if (StringUtils.isNullOrEmpty(userForm.getEmail()) || userForm.getEmail().length() >= 50){
+			modelAndView.addObject("error", localizations.get("message-email-error"));
+			return modelAndView;
+		}
+		if (StringUtils.isNullOrEmpty(userForm.getPhone()) || userForm.getPhone().length() >= 15){
+			modelAndView.addObject("error", localizations.get("message-phone-error"));
+			return modelAndView;
+		}
+		 
 		// GET username from context
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String userName = auth.getName();

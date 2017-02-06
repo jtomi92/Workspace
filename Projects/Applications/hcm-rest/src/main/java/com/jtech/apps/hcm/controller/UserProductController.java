@@ -21,6 +21,7 @@ public class UserProductController {
 	
 	@Autowired
 	UserProductService userProductService;
+	
 	private static final Logger logger = Logger.getLogger(UserProductController.class);
 	
 	@RequestMapping(value = "/product/test", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -29,6 +30,13 @@ public class UserProductController {
 		UserProduct userProduct = userProductService.getTestData();
 		return new ResponseEntity<UserProduct>(userProduct, HttpStatus.OK);
 	}
+	
+	@RequestMapping(value = "/product/select/{serial}/{userid}/", method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Integer> selectUserProduct(@PathVariable("serial") String serialNumber, @PathVariable("userid") Integer userId) {
+
+		int err = userProductService.selectUserProduct(serialNumber, userId);
+		return new ResponseEntity<Integer>(err, HttpStatus.OK);
+	} 
 
 	@RequestMapping(value = "/product/update", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Integer> updateUserProduct(@RequestBody UserProduct userProduct) {

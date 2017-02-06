@@ -1,0 +1,28 @@
+.console-container {
+	padding-right: 0px;
+	padding-left: 0px;
+	margin-right: auto;
+	margin-left: auto;
+	width: 80%;
+	display: block;
+	margin-right: auto;
+	margin-left: auto;
+}
+.select-my-product-label {
+	font: normal 12px;
+}
+.select-my-product-picker{
+	width: 250px;
+}
+.select-my-product-picker-option{
+	
+}
+.navigation-tab-container{
+	
+}
+.navigation-tabs{
+	
+}
+.navigation-tab-list-element{
+	
+}

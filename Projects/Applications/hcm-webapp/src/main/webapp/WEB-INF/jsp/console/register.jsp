@@ -51,7 +51,7 @@
 							<td>
 								<div class="input-group">
 									<input id="registred-product-field-${count2.index}" type="text"
-										class="form-control" placeholder="${userProduct.name}">
+										class="form-control" value="${userProduct.name}">
 									<span class="input-group-btn"> <c:choose>
 											<c:when test="${privilige eq 'ADMIN'}">
 												<button class="btn btn-primary" type="button"

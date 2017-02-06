@@ -52,7 +52,7 @@ public class VirtualDevice implements Runnable {
 
 			// HEARTBEAT THREAD
 			Thread heartBeatThread = heartBeatThread();
-			heartBeatThread.start();
+			//heartBeatThread.start();
 			// USERINTERFACE THREAD
 			Thread userInterfaceThread = userInterfaceThread();
 			userInterfaceThread.start();

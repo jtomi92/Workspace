@@ -1,7 +1,6 @@
 #include <HCM.h>
 
 
-
 void decodeBuffer(char interface_){
 	if (interface_ == ESP){
 
@@ -17,13 +16,13 @@ void processIO(){
 		char previousSource = __system_var.interface_;
 		delay(100);
 
-		decodeBuffer(ESP);
+		WebApp();
 		
 		RelayControl();
 		
-		ReceiveSettings();
+		ReceiveSettings();			
 		
-		WebApp();	
+		clearReadLine();
 		
 		__system_var.interface_ = previousSource;
 		__network_data.is_esp_read_line = 0;	
@@ -62,9 +61,10 @@ int main (void)
 	int i=0;
 	setup();
 	
-	for (i=0;i<1000;i++){
+	// For debugging EEPROM
+	/*for (i=0;i<1000;i++){
 		 USART0_SendByte(eeprom_read_byte((uint8_t*)i));
-	}
+	}*/
 	 
 	while(1)
 	{

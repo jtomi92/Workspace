@@ -39,6 +39,7 @@ public class RestUtils {
 	private final String REST_RESTART_DEVICE = REST_URL + "/device/restart/{userid}/{serial}";
 	private final String REST_NOTIFICATIONS_GET_BY_SERIAL = REST_URL + "/notifications/get/{userid}/";
 	private final String REST_LOCALIZATIONS_GET = REST_URL + "/localization/{page}/{locale}";
+	private final String REST_GET_PRODUCT_ITEM_SELECT = REST_URL + "/product/select/{serial}/{userid}/";
 	
 	private RestTemplate restTemplate = new RestTemplate();
 	private String plainClientCredentials="jtechWebappHAXX:Psmc??.asdl123EW//";
@@ -58,6 +59,7 @@ public class RestUtils {
 		HttpHeaders requestHeaders = new HttpHeaders();	
 		requestHeaders.add("Authorization", "Basic " + base64ClientCredentials);
 		requestHeaders.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));	
+		requestHeaders.setContentType(MediaType.APPLICATION_JSON);
 		return requestHeaders;
 	}
 	
@@ -108,6 +110,11 @@ public class RestUtils {
 		ResponseEntity<Integer> response = restTemplate.exchange(REST_UPDATE_USER_PROFILE, HttpMethod.PUT,
 				httpEntity, Integer.class);
 		return response.getBody();
+	}
+	
+	public Integer onProductItemSelect(String serialNumber, Integer userId){
+		ResponseEntity<Integer> responseEntity = restTemplate.exchange(REST_GET_PRODUCT_ITEM_SELECT, HttpMethod.GET, getHttpEntity(), Integer.class, serialNumber, userId);
+		return responseEntity.getBody();
 	}
 
 	public Integer addUserProfile(UserProfile userProfile) {

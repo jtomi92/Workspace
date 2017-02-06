@@ -27,6 +27,7 @@ $(document).ready(
 		function() {    
 			var localeCookie = getCookie("locale");
 			if (localeCookie == ""){
-				setCookie("locale","hu",10);
+				setCookie("locale","en",10);
+				$('#bs-example-navbar-collapse-1').load(document.URL +  ' #bs-example-navbar-collapse-1');
 			}
 });

@@ -25,8 +25,7 @@ void blueToothStuff(){
 		} else {
 			currentProgram = 0;
 		}
-		
-		// Clear data buffere
+		 
 		clear();
 	}
 }

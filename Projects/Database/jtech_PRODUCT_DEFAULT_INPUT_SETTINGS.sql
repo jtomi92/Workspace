@@ -24,7 +24,6 @@ DROP TABLE IF EXISTS `PRODUCT_DEFAULT_INPUT_SETTINGS`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `PRODUCT_DEFAULT_INPUT_SETTINGS` (
   `product_id` int(11) NOT NULL,
-  `setting_id` int(11) NOT NULL,
   `input_id` int(11) NOT NULL,
   `input_name` varchar(45) DEFAULT NULL,
   `start_timer` varchar(45) DEFAULT NULL,
@@ -34,7 +33,7 @@ CREATE TABLE `PRODUCT_DEFAULT_INPUT_SETTINGS` (
   `sample_rate` varchar(45) DEFAULT NULL,
   `creation_date` varchar(45) DEFAULT NULL,
   `last_update_date` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`product_id`,`setting_id`,`input_id`)
+  PRIMARY KEY (`product_id`,`input_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -44,7 +43,7 @@ CREATE TABLE `PRODUCT_DEFAULT_INPUT_SETTINGS` (
 
 LOCK TABLES `PRODUCT_DEFAULT_INPUT_SETTINGS` WRITE;
 /*!40000 ALTER TABLE `PRODUCT_DEFAULT_INPUT_SETTINGS` DISABLE KEYS */;
-INSERT INTO `PRODUCT_DEFAULT_INPUT_SETTINGS` VALUES (1,1,1,'test input 1','13:20','15:40','Y','Celsius','30','2016/08/21 15:48:40','2016/08/21 20:36:02'),(1,1,2,'test input 2','13:20','15:40','Y','Celsius','30','2016/08/21 15:48:40','2016/08/21 20:36:02'),(1,2,1,'test input 1','13:20','15:40','Y','Celsius','30','2016/08/21 15:48:40','2016/08/21 20:36:02'),(1,2,2,'test input 2','13:20','15:40','Y','Celsius','30','2016/08/21 15:48:40','2016/08/21 20:36:02'),(2,1,1,'test input 1','test start timer','test end timer','Y','test value postfix','test sample rate','2016/08/21 15:53:45','2016/08/21 15:53:45'),(2,1,2,'test input 2','test start timer','test end timer','Y','test value postfix','test sample rate','2016/08/21 15:53:45','2016/08/21 15:53:45'),(2,2,1,'test input 1','test start timer','test end timer','Y','test value postfix','test sample rate','2016/08/21 15:53:45','2016/08/21 15:53:45'),(2,2,2,'test input 2','test start timer','test end timer','Y','test value postfix','test sample rate','2016/08/21 15:53:45','2016/08/21 15:53:45');
+INSERT INTO `PRODUCT_DEFAULT_INPUT_SETTINGS` VALUES (1,1,'test input 1','13:20','15:40','Y','Celsius','30','2016/08/21 15:48:40','2016/08/21 20:36:02'),(1,2,'test input 2','13:20','15:40','Y','Celsius','30','2016/08/21 15:48:40','2016/08/21 20:36:02'),(2,1,'test input 1','test start timer','test end timer','Y','test value postfix','test sample rate','2016/08/21 15:53:45','2016/08/21 15:53:45'),(2,2,'test input 2','test start timer','test end timer','Y','test value postfix','test sample rate','2016/08/21 15:53:45','2016/08/21 15:53:45');
 /*!40000 ALTER TABLE `PRODUCT_DEFAULT_INPUT_SETTINGS` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -57,4 +56,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-01-06 16:46:07
+-- Dump completed on 2017-01-18 15:23:14

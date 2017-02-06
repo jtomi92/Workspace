@@ -70,12 +70,13 @@ typedef struct {                  //NETWORK
 	char ssid[30];
 	char password[30];
 	char apn[10];
-
+	char ap_connection[2];
+	
 	char is_esp_connected;
 	char is_sim_connected;
-	char is_server_connected;
+	char is_server_connected;	
 
-	char esp_buffer[500];
+	char esp_buffer[1000];
 	char sim_buffer[200];
 	char is_esp_read_line;
 	char is_sim_read_line;

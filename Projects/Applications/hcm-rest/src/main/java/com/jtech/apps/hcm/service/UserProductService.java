@@ -225,7 +225,11 @@ public class UserProductService {
 
 		return userProductDAO.updateUserProduct(userProduct);
 	}
-
+	
+	public Integer selectUserProduct(String serialNumber, Integer userId){
+		return userProductDAO.selectUserProduct(serialNumber, userId);
+	}
+ 
 	public Integer updateRelayStatus(String serialNumber, Integer moduleId, Integer relayId, Integer status) {
 
 		return userProductDAO.updateRelayStatus(serialNumber, moduleId, relayId, status);
@@ -324,6 +328,7 @@ public class UserProductService {
 			productUser.setUserId(userProfile.getUserId());
 			productUser.setUserName(userProfile.getUserName());
 			productUser.setPrivilige("ADMIN");
+			productUser.setSelected(false);
 			productUsers.add(productUser);
 
 			UserProduct userProduct = new UserProduct();
@@ -362,6 +367,8 @@ public class UserProductService {
 			userProduct.setProductUsers(productUsers);
 
 			err = addUserProduct(userProduct);
+			
+			userProductDAO.selectUserProduct(serialNumber, userId);
 
 			return err;
 		}

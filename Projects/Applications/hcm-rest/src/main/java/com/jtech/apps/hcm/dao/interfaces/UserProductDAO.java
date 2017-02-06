@@ -12,6 +12,8 @@ import com.jtech.apps.hcm.model.setting.RelaySetting;
 
 public interface UserProductDAO {
 
+	public int selectUserProduct(String serialNumber, Integer userId);
+	
 	public int addUserProduct(UserProduct userProduct);
 
 	public int addProductUser(ProductUser productUser, String serialNumber);

@@ -297,7 +297,7 @@ void readNetworkSettings() {
 void clearReadLine() {
 
 	if (__system_var.interface_ == ESP) {
-		memset(__network_data.esp_buffer, ' ', sizeof(__network_data.esp_buffer) - 1);
+		memset(__network_data.esp_buffer, 0, sizeof(__network_data.esp_buffer) - 1);
 		__network_data.is_esp_read_line = 0;
 		__network_data.index_esp = 0;
 	}
@@ -349,6 +349,17 @@ void powerUpModules(){
 		espPower(ESP_PWR,0);
 		delay(1000);
 		setSource(ESP);
+		
+		WIFI_Write_String("AT+SLEEP=2\r\n");
+		readUntil("OK", 3);
+		WIFI_Write_String("AT+CIPMUX=1\r\n");
+		readUntil("OK", 3);
+		WIFI_Write_String("AT+CWMODE=3\r\n");
+		readUntil("OK", 3);
+		WIFI_Write_String("AT+CWSAP=\"HCM-NETWORK\",\"admin1234\",5,3\r\n");
+		readUntil("OK", 3);
+		WIFI_Write_String("AT+CIPSERVER=1,80\r\n");
+		readUntil("OK", 3);
 	}
 	
 }

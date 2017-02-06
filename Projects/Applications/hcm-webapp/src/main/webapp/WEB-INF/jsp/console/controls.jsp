@@ -6,28 +6,28 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ page trimDirectiveWhitespaces="true"%>
 
-<section id="tab0" class="tab-content active">
-
-	<div id="product-relay-controls">
-		<c:forEach items="${userProducts}" var="ups" varStatus="count">
-
+<c:forEach items="${userProducts}" var="userProduct" varStatus="count">
+	<c:if test="${userProduct.isSelected()}">
+		<section id="tab0" class="tab-content active">
+			<div id="product-relay-controls">
 				<div class="panel panel-default"
-					id="product-relay-control-${count.index}" style="display: none;">
-
+					id="product-relay-control-${count.index}">
 
 					<c:choose>
-						<c:when test="${ups.isConnected()}">
-							<div id="${ups.serialNumber}-connection-status-online"
-								style="text-align: center; display:block;"
+						<c:when test="${userProduct.isConnected()}">
+							<div id="${userProduct.serialNumber}-connection-status-online"
+								style="text-align: center; display: block;"
 								class="container-fluid alert-success">${localization['device-online']}</div>
-							<div id="${ups.serialNumber}-connection-status-offline"
-								style="text-align: center; display:none;" class="container-fluid alert-danger">${localization['device-offline']}</div>
+							<div id="${userProduct.serialNumber}-connection-status-offline"
+								style="text-align: center; display: none;"
+								class="container-fluid alert-danger">${localization['device-offline']}</div>
 						</c:when>
 						<c:otherwise>
-							<div id="${ups.serialNumber}-connection-status-offline"
-								style="text-align: center;  display:block;" class="container-fluid alert-danger">${localization['device-offline']}</div>
-							<div id="${ups.serialNumber}-connection-status-online"
-								style="text-align: center; display:none;"
+							<div id="${userProduct.serialNumber}-connection-status-offline"
+								style="text-align: center; display: block;"
+								class="container-fluid alert-danger">${localization['device-offline']}</div>
+							<div id="${userProduct.serialNumber}-connection-status-online"
+								style="text-align: center; display: none;"
 								class="container-fluid alert-success">${localization['device-online']}</div>
 						</c:otherwise>
 					</c:choose>
@@ -45,9 +45,8 @@
 						<select id="product-relay-control-picker-${count.index}"
 							multiple="multiple"
 							onchange="showProductRelayControl('product-relay-control-picker-${count.index}','rel-control-${count.index}');">
-							<c:forEach
-								items="${ups.relaySettings}"
-								var="relaysetting" varStatus="count2">
+							<c:forEach items="${userProduct.relaySettings}" var="relaysetting"
+								varStatus="count2">
 								<c:forEach items="${relaysetting.productControlSettings}"
 									var="pcs">
 									<c:if test="${(pcs.userId eq userid) && pcs.isAccess()}">
@@ -73,9 +72,8 @@
 								</tr>
 							</thead>
 							<tbody>
-								<c:forEach
-									items="${ups.relaySettings}"
-									var="relaysetting" varStatus="count">
+								<c:forEach items="${userProduct.relaySettings}" var="relaysetting"
+									varStatus="count">
 									<c:forEach items="${relaysetting.productControlSettings}"
 										var="pcs">
 										<c:if test="${(pcs.userId eq userid) && pcs.isAccess()}">
@@ -86,31 +84,31 @@
 												<td><c:choose>
 														<c:when
 															test="${empty relaysetting.relayStatus || relaysetting.relayStatus eq 'N'}">
-															<span style="display:inline;"
-																id="relaystatus-off-${ups.serialNumber}-${relaysetting.moduleId}-${relaysetting.relayId}"
+															<span style="display: inline;"
+																id="relaystatus-off-${userProduct.serialNumber}-${relaysetting.moduleId}-${relaysetting.relayId}"
 																class="label label-danger">${localization['state-off']}</span>
-															<span style="display:none;"
-																id="relaystatus-on-${ups.serialNumber}-${relaysetting.moduleId}-${relaysetting.relayId}"
+															<span style="display: none;"
+																id="relaystatus-on-${userProduct.serialNumber}-${relaysetting.moduleId}-${relaysetting.relayId}"
 																class="label label-success">${localization['state-on']}</span>
 														</c:when>
 														<c:otherwise>
-															<span style="display:none;"
-																id="relaystatus-off-${ups.serialNumber}-${relaysetting.moduleId}-${relaysetting.relayId}"
+															<span style="display: none;"
+																id="relaystatus-off-${userProduct.serialNumber}-${relaysetting.moduleId}-${relaysetting.relayId}"
 																class="label label-danger">${localization['state-off']}</span>
-															<span style="display:inline;"
-																id="relaystatus-on-${ups.serialNumber}-${relaysetting.moduleId}-${relaysetting.relayId}"
+															<span style="display: inline;"
+																id="relaystatus-on-${userProduct.serialNumber}-${relaysetting.moduleId}-${relaysetting.relayId}"
 																class="label label-success">${localization['state-on']}</span>
 														</c:otherwise>
 													</c:choose></td>
-												<td style="padding-left:50px;">
+												<td style="padding-left: 50px;">
 													<div
-														id="relay-progressbar-${ups.serialNumber}-${relaysetting.moduleId}-${relaysetting.relayId}"
+														id="relay-progressbar-${userProduct.serialNumber}-${relaysetting.moduleId}-${relaysetting.relayId}"
 														class="loader" style="display: none;" id="timex"></div>
 													<button
-														id="relay-switch-${ups.serialNumber}-${relaysetting.moduleId}-${relaysetting.relayId}"
+														id="relay-switch-${userProduct.serialNumber}-${relaysetting.moduleId}-${relaysetting.relayId}"
 														style="display: block;" type="button"
 														class="btn-primary btn"
-														onClick="switchRelay('${ups.serialNumber}','${relaysetting.moduleId}', '${relaysetting.relayId}');">${localization['relay-switch']}</button>
+														onClick="switchRelay('${userProduct.serialNumber}','${relaysetting.moduleId}', '${relaysetting.relayId}');">${localization['relay-switch']}</button>
 												</td>
 											</tr>
 										</c:if>
@@ -120,6 +118,7 @@
 						</table>
 					</div>
 				</div>
-		</c:forEach>
-	</div>
-</section>
+			</div>
+		</section>
+	</c:if>
+</c:forEach>

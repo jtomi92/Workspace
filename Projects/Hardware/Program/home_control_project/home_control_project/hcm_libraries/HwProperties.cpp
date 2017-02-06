@@ -14,7 +14,8 @@ const char PRODUCT_NAME[] = "test product 1";
 /////////////// DEFAULT Network parameters
 const char NETWORK_SSID[] = "Tardis";
 const char NETWORK_PASSW[] = "77Ld7cr7dW";
-const char NETWORK_HOST[] = "192.168.0.27";
+const char NETWORK_HOST[] = "devices.jtech-iot.com";
+//const char NETWORK_HOST[] = "192.168.0.27";
 const char NETWORK_PORT[] = "2088";
 const char NETWORK_APN[] = "online";
 const int RECONNECT_TIMER = 30;

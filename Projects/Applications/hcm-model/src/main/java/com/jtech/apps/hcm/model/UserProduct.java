@@ -19,6 +19,7 @@ public class UserProduct {
 	private String secondaryPort;
 	private boolean isConnected;
 	private boolean isEdited;
+	private boolean isSelected;
 
 	private String creationDate;
 	private String lastUpdateDate;
@@ -162,5 +163,14 @@ public class UserProduct {
 	public void setEdited(boolean isEdited) {
 		this.isEdited = isEdited;
 	}
+
+	public boolean isSelected() {
+		return isSelected;
+	}
+
+	public void setSelected(boolean isSelected) {
+		this.isSelected = isSelected;
+	}
+	
 
 }

@@ -699,7 +699,7 @@ END GROUP
  *(.fini0)
                 0x0000152a                _etext = .
 
-.data           0x00800100      0x4b2 load address 0x0000152a
+.data           0x00800100      0x4d2 load address 0x0000152a
                 0x00800100                PROVIDE (__data_start, .)
  *(.data)
  *(.data*)
@@ -751,72 +751,72 @@ END GROUP
                 0x00800121        0x3 hcm_libraries/HwProperties.o
                 0x00800121                NETWORK_PORT
  .rodata.NETWORK_HOST
-                0x00800124        0xd hcm_libraries/HwProperties.o
+                0x00800124       0x2d hcm_libraries/HwProperties.o
                 0x00800124                NETWORK_HOST
  .rodata.NETWORK_PASSW
-                0x00800131        0xb hcm_libraries/HwProperties.o
-                0x00800131                NETWORK_PASSW
+                0x00800151        0xb hcm_libraries/HwProperties.o
+                0x00800151                NETWORK_PASSW
  .rodata.NETWORK_SSID
-                0x0080013c        0x7 hcm_libraries/HwProperties.o
-                0x0080013c                NETWORK_SSID
+                0x0080015c        0x7 hcm_libraries/HwProperties.o
+                0x0080015c                NETWORK_SSID
  .rodata.OUTPUT
-                0x00800143        0x2 hcm_libraries/GlobalVariables.o
-                0x00800143                OUTPUT
- .rodata.INPUT  0x00800145        0x2 hcm_libraries/GlobalVariables.o
-                0x00800145                INPUT
+                0x00800163        0x2 hcm_libraries/GlobalVariables.o
+                0x00800163                OUTPUT
+ .rodata.INPUT  0x00800165        0x2 hcm_libraries/GlobalVariables.o
+                0x00800165                INPUT
  .rodata.DAYS_OF_MONTH
-                0x00800147       0x18 hcm_libraries/GlobalVariables.o
-                0x00800147                DAYS_OF_MONTH
- .rodata.FALSE  0x0080015f        0x2 hcm_libraries/GlobalVariables.o
-                0x0080015f                FALSE
- .rodata.TRUE   0x00800161        0x2 hcm_libraries/GlobalVariables.o
-                0x00800161                TRUE
- .rodata.SIM    0x00800163        0x2 hcm_libraries/GlobalVariables.o
-                0x00800163                SIM
- .rodata.ESP    0x00800165        0x2 hcm_libraries/GlobalVariables.o
-                0x00800165                ESP
+                0x00800167       0x18 hcm_libraries/GlobalVariables.o
+                0x00800167                DAYS_OF_MONTH
+ .rodata.FALSE  0x0080017f        0x2 hcm_libraries/GlobalVariables.o
+                0x0080017f                FALSE
+ .rodata.TRUE   0x00800181        0x2 hcm_libraries/GlobalVariables.o
+                0x00800181                TRUE
+ .rodata.SIM    0x00800183        0x2 hcm_libraries/GlobalVariables.o
+                0x00800183                SIM
+ .rodata.ESP    0x00800185        0x2 hcm_libraries/GlobalVariables.o
+                0x00800185                ESP
  .rodata.BAUD_PRESCALE
-                0x00800167        0x2 hcm_libraries/GlobalVariables.o
-                0x00800167                BAUD_PRESCALE
+                0x00800187        0x2 hcm_libraries/GlobalVariables.o
+                0x00800187                BAUD_PRESCALE
  .rodata.str1.1
-                0x00800169      0x401 hcm_libraries/Processes.o
+                0x00800189      0x401 hcm_libraries/Processes.o
                                 0x40e (size before relaxing)
  .rodata.str1.1
-                0x0080056a        0xf hcm_libraries/Utils.o
+                0x0080058a        0xf hcm_libraries/Utils.o
                                  0x18 (size before relaxing)
  .rodata.str1.1
-                0x00800579       0x39 main.o
+                0x00800599       0x39 main.o
                                  0x46 (size before relaxing)
  *(.gnu.linkonce.d*)
-                0x008005b2                . = ALIGN (0x2)
-                0x008005b2                _edata = .
-                0x008005b2                PROVIDE (__data_end, .)
+                0x008005d2                . = ALIGN (0x2)
+                0x008005d2                _edata = .
+                0x008005d2                PROVIDE (__data_end, .)
 
-.bss            0x008005b2      0x2db
-                0x008005b2                PROVIDE (__bss_start, .)
+.bss            0x008005d2      0x2db
+                0x008005d2                PROVIDE (__bss_start, .)
  *(.bss)
- .bss           0x008005b2        0x2 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libc.a(strtok.o)
+ .bss           0x008005d2        0x2 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libc.a(strtok.o)
  *(.bss*)
  .bss.__system_time
-                0x008005b4       0x18 hcm_libraries/GlobalVariables.o
-                0x008005b4                __system_time
+                0x008005d4       0x18 hcm_libraries/GlobalVariables.o
+                0x008005d4                __system_time
  .bss.__network_data
-                0x008005cc      0x26e hcm_libraries/GlobalVariables.o
-                0x008005cc                __network_data
+                0x008005ec      0x26e hcm_libraries/GlobalVariables.o
+                0x008005ec                __network_data
  .bss.__system_var
-                0x0080083a       0x53 hcm_libraries/GlobalVariables.o
-                0x0080083a                __system_var
+                0x0080085a       0x53 hcm_libraries/GlobalVariables.o
+                0x0080085a                __system_var
  *(COMMON)
-                0x0080088d                PROVIDE (__bss_end, .)
+                0x008008ad                PROVIDE (__bss_end, .)
                 0x0000152a                __data_load_start = LOADADDR (.data)
-                0x000019dc                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x000019fc                __data_load_end = (__data_load_start + SIZEOF (.data))
 
-.noinit         0x0080088d        0x0
+.noinit         0x008008ad        0x0
                 [!provide]                PROVIDE (__noinit_start, .)
  *(.noinit*)
                 [!provide]                PROVIDE (__noinit_end, .)
-                0x0080088d                _end = .
-                0x0080088d                PROVIDE (__heap_start, .)
+                0x008008ad                _end = .
+                0x008008ad                PROVIDE (__heap_start, .)
 
 .eeprom         0x00810000        0x0
  *(.eeprom*)
@@ -945,21 +945,21 @@ END GROUP
  .debug_frame   0x000006dc      0x228 hcm_libraries/Utils.o
  .debug_frame   0x00000904       0xb4 main.o
 
-.debug_str      0x00000000      0xf61
+.debug_str      0x00000000      0xfb6
  *(.debug_str)
  .debug_str     0x00000000      0x547 hcm_libraries/EEPROMUtil.o
                                 0x5ae (size before relaxing)
- .debug_str     0x00000547       0x70 hcm_libraries/HwProperties.o
-                                0x23f (size before relaxing)
- .debug_str     0x000005b7      0x4b1 hcm_libraries/Network.o
+ .debug_str     0x00000547       0xc5 hcm_libraries/HwProperties.o
+                                0x23b (size before relaxing)
+ .debug_str     0x0000060c      0x4b1 hcm_libraries/Network.o
                                 0x923 (size before relaxing)
- .debug_str     0x00000a68       0x25 hcm_libraries/GlobalVariables.o
+ .debug_str     0x00000abd       0x25 hcm_libraries/GlobalVariables.o
                                 0x587 (size before relaxing)
- .debug_str     0x00000a8d      0x261 hcm_libraries/Processes.o
-                                0x95c (size before relaxing)
- .debug_str     0x00000cee      0x204 hcm_libraries/Utils.o
+ .debug_str     0x00000ae2      0x261 hcm_libraries/Processes.o
+                                0x958 (size before relaxing)
+ .debug_str     0x00000d43      0x204 hcm_libraries/Utils.o
                                 0x98f (size before relaxing)
- .debug_str     0x00000ef2       0x6f main.o
+ .debug_str     0x00000f47       0x6f main.o
                                 0x718 (size before relaxing)
 
 .debug_loc      0x00000000     0x2cfb

@@ -94,7 +94,7 @@ int readUntil(const char *input, int timeout) {
 			if (strstr(__network_data.esp_buffer, input) != 0) {
 				return 1;
 			}
-			if (strstr(__network_data.esp_buffer, "ERROR") != 0 || strstr(__network_data.esp_buffer, "Fail") != 0) {
+			if (strstr(__network_data.esp_buffer, "ERROR") != 0 || strstr(__network_data.esp_buffer, "Fail") != 0 || strstr(__network_data.esp_buffer, "FAIL") != 0) {
 				return 0;
 			}
 		}
@@ -102,7 +102,7 @@ int readUntil(const char *input, int timeout) {
 			if (strstr(__network_data.sim_buffer, input) != 0) {
 				return 1;
 			}
-			if (strstr(__network_data.sim_buffer, "ERROR") != 0 || strstr(__network_data.sim_buffer, "Fail") != 0) {
+			if (strstr(__network_data.sim_buffer, "ERROR") != 0 || strstr(__network_data.sim_buffer, "Fail") != 0 || strstr(__network_data.esp_buffer, "FAIL") != 0) {
 				return 0;
 			}
 		}
@@ -174,12 +174,14 @@ void sendToAP(char *toSend, char *connection){
 	USART0_SendString(itoa(size, conv, 10));
 	USART0_SendString("\r\n");
 	
-
+	
 	if (readUntil(">", 2) == 0) {
 		__network_data.is_server_connected = FALSE;
 		__network_data.is_esp_connected = FALSE;
 		__network_data.is_sim_connected = FALSE;
+		
 	}
+	delay(300);
 	USART0_SendString(toSend);
 	
 	readUntil("OK",3);
@@ -289,16 +291,6 @@ char checkSerialNumber() {
 }
 char connectToWifi(const char *ssid, const char *password) {
 
-	USART0_SendString("AT+SLEEP=2\r\n");
-	readUntil("OK", 3);
-	USART0_SendString("AT+CIPMUX=1\r\n");
-	readUntil("OK", 3);
-	USART0_SendString("AT+CWMODE=3\r\n");
-	readUntil("OK", 3);
-	USART0_SendString("AT+CWSAP=\"HCM-NETWORK\",\"admin1234\",5,3\r\n");
-	readUntil("OK", 3);
-	USART0_SendString("AT+CIPSERVER=1,80\r\n");
-	readUntil("OK", 3);
 	USART0_SendString("AT+CIPDOMAIN=\"jtech-iot.com\"\r\n");
 	readUntil("OK", 3);
 	USART0_SendString("AT+CIFSR\r\n");

@@ -2,8 +2,10 @@ package com.jtech.apps.hcm.util;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
 
 import org.apache.tomcat.util.codec.binary.Base64;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -33,6 +35,7 @@ public class RestUtils {
 	private final String REST_UPDATE_USER_PRODUCT = REST_URL + "/product/update";
 	private final String REST_UPDATE_RELAY_STATE = REST_URL + "/product/status/update/{serial}/{moduleid}/{relayid}/{state}";
 	private final String REST_ADD_PRODUCT_NOTIFICATION = REST_URL + "/notifications/add/{serial}";
+	private final String REST_GET_CONNECTIONS = REST_URL + "/connection/get";
 	
 	RestTemplate restTemplate = new RestTemplate();	
 	
@@ -48,6 +51,14 @@ public class RestUtils {
 			e.printStackTrace();
 		}
 		return "";
+	}
+	
+	public List<Connection> getConnections() {
+		ParameterizedTypeReference<List<Connection>> typeRef = new ParameterizedTypeReference<List<Connection>>() {
+		};
+		ResponseEntity<List<Connection>> responseEntity = restTemplate.exchange(REST_GET_CONNECTIONS,
+				HttpMethod.GET, getHttpEntity(), typeRef);
+		return responseEntity.getBody();
 	}
 	
 	private HttpEntity<?> getHttpEntity(){	 		

@@ -103,6 +103,13 @@ public class ConsoleController {
 		return consoleService.onRemoveTimerSetting(serialNumber, moduleId, relayId, timerId);
 	}
 	
+	@RequestMapping(value = "/userproduct/select/{serial}/{userid}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public Integer onProductItemSelect(@PathVariable("serial") String serialNumber, @PathVariable("userid") Integer userId) {
+		 
+		return consoleService.onProductItemSelect(serialNumber, userId);
+	}
+	
 	@RequestMapping(value = "/relay/{userid}/{serial}/{moduleid}/{relayid}/{status}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE )
 	public ResponseEntity<Map<String,String>> onRelaySwitch(@PathVariable("userid") Integer userId, @PathVariable("serial") String serialNumber,@PathVariable("moduleid") String moduleId, @PathVariable("relayid") String relayId, @PathVariable("status") String status) {
 	

@@ -91,6 +91,29 @@ public class UserProductDAOImpl implements UserProductDAO {
 		SqlParameterSource namedParameters = new MapSqlParameterSource(parameters);
 		return namedParameterJdbcTemplate.update(sql, namedParameters);
 	}
+	
+	public int selectUserProduct(String serialNumber, Integer userId){
+		
+		String sql = "UPDATE USER_PRODUCT_GROUPS SET SELECTED = 'N' WHERE USER_ID = :USER_ID";
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("USER_ID", userId);
+
+		NamedParameterJdbcTemplate namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(
+				jdbcTemplate.getDataSource());
+		SqlParameterSource namedParameters = new MapSqlParameterSource(parameters);
+		namedParameterJdbcTemplate.update(sql, namedParameters);
+		
+		
+		sql = "UPDATE USER_PRODUCT_GROUPS SET SELECTED = 'Y' WHERE USER_ID = :USER_ID AND GROUP_ID = (SELECT GROUP_ID FROM USER_PRODUCTS WHERE SERIAL_NUMBER = :SERIAL_NUMBER)";
+		parameters = new HashMap<String, Object>();
+		parameters.put("USER_ID", userId);
+		parameters.put("SERIAL_NUMBER", serialNumber);
+
+		namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(
+				jdbcTemplate.getDataSource());
+		namedParameters = new MapSqlParameterSource(parameters);
+		return namedParameterJdbcTemplate.update(sql, namedParameters);
+	}
 
 	public int deleteProductUsers(String serialNumber) {
 

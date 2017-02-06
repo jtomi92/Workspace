@@ -11,8 +11,8 @@ const char product_name[] = "test product 1";
 /////////////// Network parameters
 const char NETWORK_SSID[] = "Tardis";
 const char NETWORK_PASSW[] = "77Ld7cr7dW";
-const char NETWORK_HOST[] = "192.168.0.27";
-const char NETWORK_PORT[] = "86";
+const char NETWORK_HOST[] = "jtech-session.eu-west-1.elasticbeanstalk.com";
+const char NETWORK_PORT[] = "2088";
 const char NETWORK_APN[] = "online";
 const int RECONNECT_TIMER = 30;
 const int CONNECTION = 0;

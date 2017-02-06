@@ -24,7 +24,6 @@ DROP TABLE IF EXISTS `USER_PRODUCT_TRIGGER_SETTINGS`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `USER_PRODUCT_TRIGGER_SETTINGS` (
   `serial_number` varchar(45) NOT NULL,
-  `setting_id` int(11) NOT NULL,
   `input_id` int(11) NOT NULL,
   `trigger_id` int(11) NOT NULL,
   `trigger_relay_id` int(11) DEFAULT NULL,
@@ -33,7 +32,7 @@ CREATE TABLE `USER_PRODUCT_TRIGGER_SETTINGS` (
   `trigger_state` varchar(45) DEFAULT NULL,
   `trigger_action` varchar(45) DEFAULT NULL,
   `last_update_date` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`serial_number`,`setting_id`,`input_id`,`trigger_id`)
+  PRIMARY KEY (`serial_number`,`input_id`,`trigger_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -55,4 +54,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-01-06 16:46:07
+-- Dump completed on 2017-01-18 15:23:14

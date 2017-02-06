@@ -24,7 +24,6 @@ DROP TABLE IF EXISTS `USER_PRODUCT_INPUT_SETTINGS`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `USER_PRODUCT_INPUT_SETTINGS` (
   `serial_number` varchar(45) NOT NULL,
-  `setting_id` int(11) NOT NULL,
   `input_id` int(11) NOT NULL,
   `input_name` varchar(45) DEFAULT NULL,
   `start_timer` varchar(45) DEFAULT NULL,
@@ -34,7 +33,7 @@ CREATE TABLE `USER_PRODUCT_INPUT_SETTINGS` (
   `sample_rate` varchar(45) DEFAULT NULL,
   `creation_date` varchar(45) DEFAULT NULL,
   `last_update_date` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`setting_id`,`serial_number`,`input_id`)
+  PRIMARY KEY (`serial_number`,`input_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -44,7 +43,7 @@ CREATE TABLE `USER_PRODUCT_INPUT_SETTINGS` (
 
 LOCK TABLES `USER_PRODUCT_INPUT_SETTINGS` WRITE;
 /*!40000 ALTER TABLE `USER_PRODUCT_INPUT_SETTINGS` DISABLE KEYS */;
-INSERT INTO `USER_PRODUCT_INPUT_SETTINGS` VALUES ('9T7V02IN6K',1,1,'test input 1','13:20','15:40','Y','Celsius','30','2017/01/04 21:55:45','2017/01/06 14:59:58'),('9T7V02IN6K',1,2,'test input 2','13:20','15:40','Y','Celsius','30','2017/01/04 21:55:45','2017/01/06 14:59:58'),('9T7V02IN6K',2,1,'test input 1','13:20','15:40','Y','Celsius','30','2017/01/04 21:55:45','2017/01/06 14:59:58'),('9T7V02IN6K',2,2,'test input 2','13:20','15:40','Y','Celsius','30','2017/01/04 21:55:45','2017/01/06 14:59:58');
+INSERT INTO `USER_PRODUCT_INPUT_SETTINGS` VALUES ('JQ5PXAR7CE',1,'test input 1','13:20','15:40','Y','Celsius','30','2017/01/11 23:09:57','2017/01/13 19:06:04'),('JQ5PXAR7CE',2,'test input 2','13:20','15:40','Y','Celsius','30','2017/01/11 23:09:57','2017/01/13 19:06:04'),('QU5ZU41HME',1,'test input 1','13:20','15:40','Y','Celsius','30','2017/01/11 13:14:57','2017/01/11 21:49:22'),('QU5ZU41HME',2,'test input 2','13:20','15:40','Y','Celsius','30','2017/01/11 13:14:57','2017/01/11 21:49:22'),('YBDNJ1EL32',1,'test input 1','13:20','15:40','Y','Celsius','30','2017/01/11 13:26:25','2017/01/17 16:47:45'),('YBDNJ1EL32',2,'test input 2','13:20','15:40','Y','Celsius','30','2017/01/11 13:26:25','2017/01/17 16:47:45');
 /*!40000 ALTER TABLE `USER_PRODUCT_INPUT_SETTINGS` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -57,4 +56,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-01-06 16:46:07
+-- Dump completed on 2017-01-18 15:23:14

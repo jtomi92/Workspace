@@ -17,74 +17,89 @@ void saveUserData(){
 	strcat(buffer,"##APN;");
 	strcat(buffer,__network_data.apn);
 	strcat(buffer,"#");
-	USART0_SendString(buffer);
-	delay(500);
+	//USART0_SendString(buffer);
+	//delay(500);
 	__system_var.eeprom_position = EEPROM_DATA_START;
 	eepromSaveCfg(buffer,__system_var.eeprom_position);
+}
+
+
+void postPage(char flag){
+	char content[850];
+	char page[1000];
+	int contentLength;
+	char converter[5];
+	
+	__network_data.ap_connection[0] = 9;
+	
+	if (strstr(__network_data.esp_buffer,"IPD,") != 0){
+		char *p = strstr(__network_data.esp_buffer,"IPD,");
+		__network_data.ap_connection[0] = *(p+4);
+		__network_data.ap_connection[1] = '\0';
+	}
+	 
+	
+	delay(500);
+	strcpy(content,"<html><head><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0\"></head><body>");
+	strcat(content,"<title>HCM Console</title>");
+	strcat(content,"<div style=\"font-size: medium; text-align: center;\"><span>");
+	strcat(content,"<form method=\"POST\">");
+	strcat(content,"<p><strong>SERIAL: ");
+	strcat(content,__system_var.serial_number);
+	strcat(content,"</strong></p><p><strong>SSID</strong><br><input type=\"text\" name=\"ssid\" value=\"");
+	strcat(content,__network_data.ssid);
+	strcat(content,"\"></p>");
+	strcat(content,"<p><strong>PASSWORD</strong><br><input type=\"text\" name=\"password\" value=\"");
+	strcat(content,__network_data.password);
+	strcat(content,"\"></p>");
+	strcat(content,"<p><strong>APN</strong><br><input type=\"text\" name=\"apn\" value=\"");
+	strcat(content,__network_data.apn);
+	strcat(content,"\"></p>");
+	if (flag == 1){
+		strcat(content,"<br><p>SAVED</p>");
+	} else {
+		strcat(content,"<input type=\"submit\">");
+	}
+	strcat(content,"</form></span></div></body></html>");
+
+	contentLength = strlen(content);
+
+	strcpy(page,"HTTP/1.0 200 OK\r\nContent-Type: text/html; charset=UTF-8\r\nPragma: no-cache\r\nContent-Length: ");
+	strcat(page,itoa(contentLength,converter,10));
+	strcat(page,"\r\nConnection: close\r\n\r\n");
+	strcat(page,content);
+	
+	if (__network_data.ap_connection[0] != 9){
+		sendToAP(page, __network_data.ap_connection);
+		//readUntil("OK",3);
+		delay(1000);
+	}
+	
+	clearReadLine();
+	__system_time.connection_timer_buffer = 0;
+	__system_time.connection_timer = 180;
 }
 
 void WebApp(){
 	
 
 	if (strstr(__network_data.esp_buffer, "GET / HTTP/") != 0){
-		char content[850];
-		char page[1000];
-		int contentLength;
-		char converter[5];
-		char connection[2];
-		char *p = strstr(__network_data.esp_buffer,",CONNECT");
-		connection[0] = *(p-1);
-		connection[1] = '\0';
-		delay(500);
-		strcpy(content,"<html><head><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0\"></head><body>");
-		strcat(content,"<title>HCM Console</title>");
-		strcat(content,"<div style=\"font-size: medium; text-align: center;\"><span>");
-		strcat(content,"<form method=\"POST\">");
-		strcat(content,"<p><strong>SERIAL: ");
-		strcat(content,__system_var.serial_number);
-		strcat(content,"</strong></p><p><strong>SSID</strong><br><input type=\"text\" name=\"ssid\" value=\"");
-		strcat(content,__network_data.ssid);
-		strcat(content,"\"></p>");
-		strcat(content,"<p><strong>PASSWORD</strong><br><input type=\"password\" name=\"password\" value=\"");
-		strcat(content,__network_data.password);
-		strcat(content,"\"></p>");
-		strcat(content,"<p><strong>APN</strong><br><input type=\"text\" name=\"apn\" value=\"");
-		strcat(content,__network_data.apn);
-		strcat(content,"\"></p>");
-		strcat(content,"<p><strong>HOST</strong><br><input type=\"text\" name=\"host\" value=\"");
-		strcat(content,__network_data.host);
-		strcat(content,"\"></p>");
-		strcat(content,"<input type=\"submit\"></form></span></div>");
-		strcat(content,"</body></html>");
-
-		contentLength = strlen(content);
-
-		strcpy(page,"HTTP/1.0 200 OK\r\nContent-Type: text/html; charset=UTF-8\r\nPragma: no-cache\r\nContent-Length: ");
-		strcat(page,itoa(contentLength,converter,10));
-		strcat(page,"\r\nConnection: close\r\n\r\n");
-		strcat(page,content);
-		
-		sendToAP(page, connection);
-		readUntil("OK",3);
-		clearReadLine();
-		__system_time.connection_timer_buffer = 0;
-		__system_time.connection_timer = 180;
+		postPage(0);
 	}
 	
-	if (strstr(__network_data.esp_buffer, "host") != 0 && strstr(__network_data.esp_buffer, "password") != 0){
+	if (strstr(__network_data.esp_buffer, "POST / HTTP/") != 0 ){
 		int timeout=0;
 		int flag = 0;
-		delay(50);
-		/*while (1){
-			timeout++; delay(1);
-			if (timeout == 1000) break;
-			if (strstr(__network_data.esp_buffer,"password") != 0 || strstr(__network_data.esp_buffer,"ssid") != 0)break;
-			if (strstr(__network_data.esp_buffer,"\r\n") != 0){
-				memset(__network_data.esp_buffer,' ',sizeof(__network_data.esp_buffer)-1);
-				__network_data.index_esp = 0;
-			}
+		
+		__network_data.ap_connection[0] = 9;
+		
+		if (strstr(__network_data.esp_buffer,"IPD,") != 0){
+			char *p = strstr(__network_data.esp_buffer,"IPD,");
+			__network_data.ap_connection[0] = *(p+4);
+			__network_data.ap_connection[1] = '\0';
 		}
-		delay(200);*/
+
+		delay(500);
 		if (strstr(__network_data.esp_buffer,"ssid") != 0){
 			int pos=0;
 			char *p1 = strstr(__network_data.esp_buffer,"ssid");
@@ -112,7 +127,7 @@ void WebApp(){
 			flag++;
 		}
 		
-		if (strstr(__network_data.esp_buffer,"apn") != 0){
+		/*if (strstr(__network_data.esp_buffer,"apn") != 0){
 			int pos=0;
 			char *p1 = strstr(__network_data.esp_buffer,"apn");
 			p1+=4;
@@ -124,9 +139,24 @@ void WebApp(){
 			}
 			__network_data.apn[pos] = '\0';
 			flag++;
+		}*/
+		
+		if (strstr(__network_data.esp_buffer,"apn") != 0){
+			int pos=0;
+			char *p1 = strstr(__network_data.esp_buffer,"apn");
+			p1+=4;
+			memset(__network_data.apn,0,sizeof(__network_data.apn)-1);
+			while (1){
+				if (pos == sizeof(__network_data.apn))break;
+				if (*p1 == '\r' || *p1 == '\n') break;
+				if (!isalpha(*p1) && !isdigit(*p1) && *p1 != '.' && *p1 != '-') break;
+				__network_data.apn[pos++] = *p1++;
+			}
+			__network_data.apn[pos] = '\0';
+			flag++;
 		}
 		
-		if (strstr(__network_data.esp_buffer,"host") != 0){
+		/*if (strstr(__network_data.esp_buffer,"host") != 0){
 			int pos=0;
 			char *p1 = strstr(__network_data.esp_buffer,"host");
 			p1+=5;
@@ -134,14 +164,16 @@ void WebApp(){
 			while (1){
 				if (pos == sizeof(__network_data.host))break;
 				if (*p1 == '\r' || *p1 == '\n') break;
-				if (!isalpha(*p1) && !isdigit(*p1) && *p1 != '.') break;
+				if (!isalpha(*p1) && !isdigit(*p1) && *p1 != '.' && *p1 != '-') break;
 				__network_data.host[pos++] = *p1++;
 			}
 			__network_data.host[pos] = '\0';
 			flag++;
-		}
+		}*/
 		
-		if (flag == 4){
+		if (flag == 3 && __network_data.ap_connection[0] != 9){
+			delay(500);
+			postPage(1);
 			saveUserData();
 			__system_time.connection_timer_buffer = 0;
 			__system_time.connection_timer = 0;
@@ -150,6 +182,7 @@ void WebApp(){
 			USART0_SendString("AT+CIPCLOSE=5\r\n");
 			setSource(ESP);
 		}
+		delay(1000);
 		clearReadLine();
 	}
 	
@@ -175,14 +208,14 @@ void switchRelay(char moduleId, char relayId, char state){
 		r1 = SPI_WriteRead(relayId);
 		if (impulse == 1){
 			r2 = SPI_WriteRead(1);
-		} else {
+			} else {
 			r2 = SPI_WriteRead(state);
 		}
 		chipSelect(moduleId,1);
 		
 		if (r1 + r2 == 14){
 			break;
-		} else {
+			} else {
 			delay(50);
 		}
 	}
@@ -228,14 +261,14 @@ void RelayControl(){
 		moduleId = atoi(strtok(0,";"));
 		relayId = atoi(strtok(0,";"));
 		state = atoi(strtok(0,";"));
-			
-		switchRelay(moduleId,relayId,state);	
+		
+		switchRelay(moduleId,relayId,state);
 		
 		if (moduleId < MAX_MODULE_COUNT && relayId < MAX_RELAY_COUNT){
 			char conv[5];
 			if (state == 1){
-				__relay_states[moduleId].states[relayId] = 1;	
-			} else {
+				__relay_states[moduleId].states[relayId] = 1;
+				} else {
 				__relay_states[moduleId].states[relayId] = 0;
 			}
 		}
@@ -289,19 +322,10 @@ void CheckModuleConnections(){
 		int i,j;
 
 		itoa(__system_time.check_timer_buffer,conv,10);
-	
+		
 		// CHECK RELAY MODULE CONNECTIONS
 		for (i=0;i<4;i++){
 			char conv[5];
-			
-			USART0_SendString("MODULE");
-			itoa(i,conv,10);
-			USART0_SendString(conv);
-			USART0_SendString("=");
-			itoa(digitalRead(__system_var.detect_pins[i]),conv,10);
-			USART0_SendString(conv);
-			USART0_SendString("\n");
-			
 			
 			if (digitalRead(__system_var.detect_pins[i]) == 0 && __system_var.module_flags[i] == 0){
 				delay(500);
@@ -321,7 +345,7 @@ void CheckModuleConnections(){
 				}
 				__system_var.relay_modules[i] = relay_count;
 				__system_var.update_flag = 1;
-			
+				
 				//delay(500);
 			}
 			if (digitalRead(__system_var.detect_pins[i]) != 0 && __system_var.module_flags[i] == 1){
@@ -332,24 +356,21 @@ void CheckModuleConnections(){
 				//delay(500);
 			}
 		}
-	
-		if (__system_var.update_flag == 1){
+		
+		if (__system_var.update_flag == 1 && __network_data.is_server_connected){
 			__system_var.update_flag = 0;
-			if (__network_data.is_server_connected){
-				char toSend[30] = "RELAYCONNECTIONS;";
-				int i;
-				for (i=0;i<4;i++){
-					if (__system_var.module_connected[i] == 1) {
-						strcat(toSend,itoa(i,conv,10));
-						strcat(toSend,":");
-						strcat(toSend,itoa(__system_var.relay_modules[i],conv,10));
-						strcat(toSend,";");
-					}
+			char toSend[30] = "RELAYCONNECTIONS;";
+			int i;
+			for (i=0;i<4;i++){
+				if (__system_var.module_connected[i] == 1) {
+					strcat(toSend,itoa(i,conv,10));
+					strcat(toSend,":");
+					strcat(toSend,itoa(__system_var.relay_modules[i],conv,10));
+					strcat(toSend,";");
 				}
-				strcat(toSend,"\n");
-				sendToServer(toSend,CONNECTION);
-			
 			}
+			strcat(toSend,"\n");
+			sendToServer(toSend,CONNECTION);
 		}
 		__system_time.relay_module_check_timer_buffer = 0;
 	}
@@ -377,7 +398,7 @@ void ProcessRelayTimers(){
 		char conv[5];
 		// this should be initialized after receiving updates from server and after module startup
 		initializeTimerSettingIds();
-		 
+		
 		
 		for (module_index=0;module_index<MAX_MODULE_COUNT;module_index++){
 			int relay_index;
@@ -433,15 +454,15 @@ void ProcessRelayTimers(){
 						
 					}
 				}
-			} 
+			}
 		}
 		__system_time.timer_check_timer_buffer = 0;
 	}
 }
 
 /*
- *	If GSM network disconnects or SIM900 randomly shuts down, this'll turn it back on.
- */
+*	If GSM network disconnects or SIM900 randomly shuts down, this'll turn it back on.
+*/
 void checkGsmNetwork(){
 	
 	if (HAS_GSM){
@@ -450,7 +471,7 @@ void checkGsmNetwork(){
 			GSM_Write_String("AT+CREG?\r\n");
 			delay(300);
 			if (!(strstr(__network_data.sim_buffer,"+CREG: 0,1") != 0 || strstr(__network_data.sim_buffer,"+CREG: 0,5") != 0)){
-				clearGSMBuffer();	 
+				clearGSMBuffer();
 				GSM_Write_String("AT\r\n");
 				if (strstr(__network_data.sim_buffer,"OK") != 0){
 					turnOnSim900();
@@ -516,7 +537,7 @@ void IncomingSMSHandler(){
 		clearGSMBuffer();
 		__system_var.sms_flag = 1;
 		GSM_Write_String("AT+CMGR=1\r\n");
-		//readUntil();		
+		//readUntil();
 		delay(1000);
 		message = getSmsMessage();
 		privilege = getPrivilege(__system_var.phone_buffer);
@@ -530,11 +551,11 @@ void IncomingSMSHandler(){
 				GSM_Write_String("INFO SMS");
 				for (moduleIndex=0;moduleIndex<MAX_MODULE_COUNT;moduleIndex++){
 					for (relayIndex=0;relayIndex<MAX_MODULE_COUNT;relayIndex++){
-					
+						
 					}
 				}
 				//SendSms(__network_data.admin,message,"");
-			} 
+			}
 			
 			if (strstr(message,"REL") != 0 )
 			{
@@ -542,7 +563,7 @@ void IncomingSMSHandler(){
 
 			}
 			
-		} 
+		}
 	}
 	
 	if (__system_var.sms_flag != 0 ){
@@ -550,7 +571,7 @@ void IncomingSMSHandler(){
 		delay(500);
 		GSM_Write_String("AT+CMGDA=\"DEL ALL\"\r\n");
 		delay(500);
-		__system_var.sms_flag = 0;	
+		__system_var.sms_flag = 0;
 	}
 	
 	

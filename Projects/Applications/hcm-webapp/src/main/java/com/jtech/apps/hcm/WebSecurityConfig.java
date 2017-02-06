@@ -75,7 +75,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
                SavedRequestAwareAuthenticationSuccessHandler auth
                     = new SavedRequestAwareAuthenticationSuccessHandler();
-		auth.setTargetUrlParameter("targetUrl");
+		auth.setTargetUrlParameter("/console");
 		return auth;
 	}
 }
