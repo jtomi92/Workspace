@@ -64,8 +64,8 @@
 						<table class="table table-striped" style="margin-bottom: 10px;">
 							<thead>
 								<tr>
-									<th>${localization['module-id']}</th>
-									<th>${localization['relay-id']}</th>
+									<th class="col_1">${localization['module-id']}</th>
+									<th class="col_2">${localization['relay-id']}</th>
 									<th>${localization['relay-name']}</th>
 									<th>${localization['relay-state']}</th>
 									<th>${localization['relay-switch']}</th>
@@ -78,8 +78,8 @@
 										var="pcs">
 										<c:if test="${(pcs.userId eq userid) && pcs.isAccess()}">
 											<tr id="relay-control-${count.index}" style="display: none;">
-												<td>${relaysetting.moduleId}</td>
-												<td>${relaysetting.relayId}</td>
+												<td class="col_1">${relaysetting.moduleId}</td>
+												<td class="col_2">${relaysetting.relayId}</td>
 												<td>${relaysetting.relayName}</td>
 												<td><c:choose>
 														<c:when
@@ -101,9 +101,6 @@
 														</c:otherwise>
 													</c:choose></td>
 												<td style="padding-left: 50px;">
-													<div
-														id="relay-progressbar-${userProduct.serialNumber}-${relaysetting.moduleId}-${relaysetting.relayId}"
-														class="loader" style="display: none;" id="timex"></div>
 													<button
 														id="relay-switch-${userProduct.serialNumber}-${relaysetting.moduleId}-${relaysetting.relayId}"
 														style="display: block;" type="button"

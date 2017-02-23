@@ -1,8 +1,8 @@
 -- MySQL dump 10.13  Distrib 5.7.9, for Win64 (x86_64)
 --
--- Host: localhost    Database: jtech
+-- Host: jtech.cr2mzdew7yg9.eu-west-1.rds.amazonaws.com    Database: jtech
 -- ------------------------------------------------------
--- Server version	5.7.13-log
+-- Server version	5.6.27-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -47,7 +47,7 @@ CREATE TABLE `USER_PROFILES` (
 
 LOCK TABLES `USER_PROFILES` WRITE;
 /*!40000 ALTER TABLE `USER_PROFILES` DISABLE KEYS */;
-INSERT INTO `USER_PROFILES` VALUES (15,'1',NULL,'admin','admin','Józsa','Tamás','+36309225427','Zsák 17','Debrecen','Y',NULL,'2016/12/01 15:35:51','2017/01/10 00:18:34'),(16,'1',NULL,'asd','admin','Test','Test',NULL,NULL,NULL,'Y',NULL,'2016/12/02 11:42:49','2016/12/02 11:42:49'),(40,'1',NULL,'jtomi92@hotmail.com','asdasdasd','asdasd','asdasd','',NULL,NULL,'Y','KEYYF9G0FA47A3BZJ268C0J1VYA37P','2017/01/06 15:46:46','2017/01/06 15:54:20');
+INSERT INTO `USER_PROFILES` VALUES (15,'1',NULL,'admin','admin','Józsa','Tamás','+36309225421','Zsák 17','Debrecen','Y',NULL,'2016/12/01 15:35:51','2017/02/15 09:44:49'),(16,'1',NULL,'asd','admin','Test','Test',NULL,NULL,NULL,'Y',NULL,'2016/12/02 11:42:49','2016/12/02 11:42:49'),(40,'1',NULL,'jtomi92@hotmail.com','asdasdasd','asdasd','asdasd','',NULL,NULL,'Y','KEYYF9G0FA47A3BZJ268C0J1VYA37P','2017/01/06 15:46:46','2017/01/06 15:54:20');
 /*!40000 ALTER TABLE `USER_PROFILES` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -60,4 +60,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-01-18 15:23:13
+-- Dump completed on 2017-02-17 14:26:27

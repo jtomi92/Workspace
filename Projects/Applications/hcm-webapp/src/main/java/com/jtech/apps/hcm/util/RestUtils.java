@@ -1,6 +1,5 @@
 package com.jtech.apps.hcm.util;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -21,8 +20,6 @@ import com.jtech.apps.hcm.model.UserProfile;
 
 public class RestUtils {
 	
-	//private String REST_URL = "http://localhost:8081";
-	//private static final String REST_URL = "http://jtech-rest-service.camayp3acx.eu-west-1.elasticbeanstalk.com";
 	private static final String REST_URL = getRestUrl();
 	private final String REST_USER_PROFILE_GET_BY_NAME = REST_URL + "/userprofile/get/name/{username}/";
 	private final String REST_USER_PROFILE_GET_BY_TOKEN = REST_URL + "/userprofile/get/token/{token}";

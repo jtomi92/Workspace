@@ -1,8 +1,8 @@
 -- MySQL dump 10.13  Distrib 5.7.9, for Win64 (x86_64)
 --
--- Host: localhost    Database: jtech
+-- Host: jtech.cr2mzdew7yg9.eu-west-1.rds.amazonaws.com    Database: jtech
 -- ------------------------------------------------------
--- Server version	5.7.13-log
+-- Server version	5.6.27-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -43,7 +43,7 @@ CREATE TABLE `USER_PRODUCT_INPUT_SETTINGS` (
 
 LOCK TABLES `USER_PRODUCT_INPUT_SETTINGS` WRITE;
 /*!40000 ALTER TABLE `USER_PRODUCT_INPUT_SETTINGS` DISABLE KEYS */;
-INSERT INTO `USER_PRODUCT_INPUT_SETTINGS` VALUES ('JQ5PXAR7CE',1,'test input 1','13:20','15:40','Y','Celsius','30','2017/01/11 23:09:57','2017/01/13 19:06:04'),('JQ5PXAR7CE',2,'test input 2','13:20','15:40','Y','Celsius','30','2017/01/11 23:09:57','2017/01/13 19:06:04'),('QU5ZU41HME',1,'test input 1','13:20','15:40','Y','Celsius','30','2017/01/11 13:14:57','2017/01/11 21:49:22'),('QU5ZU41HME',2,'test input 2','13:20','15:40','Y','Celsius','30','2017/01/11 13:14:57','2017/01/11 21:49:22'),('YBDNJ1EL32',1,'test input 1','13:20','15:40','Y','Celsius','30','2017/01/11 13:26:25','2017/01/17 16:47:45'),('YBDNJ1EL32',2,'test input 2','13:20','15:40','Y','Celsius','30','2017/01/11 13:26:25','2017/01/17 16:47:45');
+INSERT INTO `USER_PRODUCT_INPUT_SETTINGS` VALUES ('JQ5PXAR7CE',1,'test input 1','13:20','15:40','Y','Celsius','30','2017/01/11 23:09:57','2017/01/13 19:06:04'),('JQ5PXAR7CE',2,'test input 2','13:20','15:40','Y','Celsius','30','2017/01/11 23:09:57','2017/01/13 19:06:04'),('MHOAILZ7VI',1,'test input 1','13:20','15:40','Y','Celsius','30','2017/02/15 21:38:26','2017/02/16 17:13:21'),('MHOAILZ7VI',2,'test input 2','13:20','15:40','Y','Celsius','30','2017/02/15 21:38:26','2017/02/16 17:13:21'),('QU5ZU41HME',1,'test input 1','13:20','15:40','Y','Celsius','30','2017/01/11 13:14:57','2017/02/15 21:56:40'),('QU5ZU41HME',2,'test input 2','13:20','15:40','Y','Celsius','30','2017/01/11 13:14:57','2017/02/15 21:56:40'),('YBDNJ1EL32',1,'test input 1','13:20','15:40','Y','Celsius','30','2017/01/11 13:26:25','2017/02/16 15:14:26'),('YBDNJ1EL32',2,'test input 2','13:20','15:40','Y','Celsius','30','2017/01/11 13:26:25','2017/02/16 15:14:26'),('ZC5RMI57L9',1,'test input 1','13:20','15:40','Y','Celsius','30','2017/02/15 21:37:41','2017/02/15 21:37:41'),('ZC5RMI57L9',2,'test input 2','13:20','15:40','Y','Celsius','30','2017/02/15 21:37:41','2017/02/15 21:37:41');
 /*!40000 ALTER TABLE `USER_PRODUCT_INPUT_SETTINGS` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -56,4 +56,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-01-18 15:23:14
+-- Dump completed on 2017-02-17 14:26:16

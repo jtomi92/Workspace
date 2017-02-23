@@ -16,29 +16,28 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `USER_PRODUCT_GROUPS`
+-- Table structure for table `MOBILE_COMPONENTS`
 --
 
-DROP TABLE IF EXISTS `USER_PRODUCT_GROUPS`;
+DROP TABLE IF EXISTS `MOBILE_COMPONENTS`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `USER_PRODUCT_GROUPS` (
-  `group_id` int(11) NOT NULL,
+CREATE TABLE `MOBILE_COMPONENTS` (
   `user_id` int(11) NOT NULL,
-  `privilige_id` int(11) DEFAULT NULL,
-  `selected` varchar(1) NOT NULL,
-  PRIMARY KEY (`group_id`,`user_id`)
+  `component_id` int(11) NOT NULL,
+  `component_name` varchar(45) DEFAULT NULL,
+  `sequence` int(11) DEFAULT NULL,
+  PRIMARY KEY (`user_id`,`component_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `USER_PRODUCT_GROUPS`
+-- Dumping data for table `MOBILE_COMPONENTS`
 --
 
-LOCK TABLES `USER_PRODUCT_GROUPS` WRITE;
-/*!40000 ALTER TABLE `USER_PRODUCT_GROUPS` DISABLE KEYS */;
-INSERT INTO `USER_PRODUCT_GROUPS` VALUES (23,15,2,'N'),(24,15,2,'N'),(25,15,2,'N'),(26,15,2,'N'),(27,15,2,'N'),(28,15,2,'N'),(29,15,2,'N'),(30,15,2,'N'),(31,15,2,'N'),(32,15,2,'N'),(33,15,2,'N'),(34,15,2,'N'),(35,15,2,'N'),(36,15,2,'N'),(36,40,1,'N'),(37,15,2,'N'),(38,15,2,'N'),(39,15,2,'Y'),(39,40,1,'Y');
-/*!40000 ALTER TABLE `USER_PRODUCT_GROUPS` ENABLE KEYS */;
+LOCK TABLES `MOBILE_COMPONENTS` WRITE;
+/*!40000 ALTER TABLE `MOBILE_COMPONENTS` DISABLE KEYS */;
+/*!40000 ALTER TABLE `MOBILE_COMPONENTS` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -50,4 +49,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-02-17 14:26:18
+-- Dump completed on 2017-02-17 14:26:13

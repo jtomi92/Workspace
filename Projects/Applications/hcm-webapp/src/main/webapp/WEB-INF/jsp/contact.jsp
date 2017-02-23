@@ -95,8 +95,8 @@
 
 									<tr>
 										<td><h4>${localization['message']}</h4></td>
-										<td><form:textarea class="form-control input-lg"
-												style="width:400px; height:200px;" path="message" size="30"
+										<td><form:textarea class="form-control input-lg message-box"
+												style="height:200px;" path="message" size="30"
 												type="text" /></td>
 										<td>
 

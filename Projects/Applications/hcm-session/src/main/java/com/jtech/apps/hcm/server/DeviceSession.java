@@ -21,6 +21,9 @@ import com.jtech.apps.hcm.model.Connection;
 import com.jtech.apps.hcm.model.ProductCategory;
 import com.jtech.apps.hcm.model.RegisteredProduct;
 import com.jtech.apps.hcm.model.UserProduct;
+import com.jtech.apps.hcm.model.mobile.Component;
+import com.jtech.apps.hcm.model.mobile.Element;
+import com.jtech.apps.hcm.model.mobile.Relay;
 import com.jtech.apps.hcm.model.setting.InputSetting;
 import com.jtech.apps.hcm.model.setting.ProductControlSetting;
 import com.jtech.apps.hcm.model.setting.ProductTriggerSetting;
@@ -86,7 +89,7 @@ public class DeviceSession extends Thread implements Runnable {
 
 				String read = readLine();
 
-				logger.info("Recieved data:" + read);
+				logger.debug("Recieved data:" + read);
 
 				processIO(read);
 
@@ -113,7 +116,7 @@ public class DeviceSession extends Thread implements Runnable {
 				}
 			}
 
-			logger.error("Closing device session with serialnumber: " + serialNumber);
+			logger.info("Closing device session with serialnumber: " + serialNumber);
 
 			// TODO: This maybe not working
 			DeviceSessionProvider.getInstance().getDeviceSessions().remove(this);
@@ -341,12 +344,9 @@ public class DeviceSession extends Thread implements Runnable {
 			sb2.append("(" + relaySetting.getModuleId() + "/" + relaySetting.getRelayId() + ") ["
 					+ relaySetting.isRelayEnabled() + "]\n");
 		}
-		logger.info(sb2.toString());
+		logger.debug(sb2.toString());
 
-		int err = restUtils.updateUserProduct(userProduct);
-
-		logger.error("Response=" + err);
-
+		restUtils.updateUserProduct(userProduct);
 	}
 
 	/**
@@ -366,21 +366,39 @@ public class DeviceSession extends Thread implements Runnable {
 		String[] args = readLine.split(";");
 
 		if (args.length == 5 && args[1].equals("SWITCH")) {
-			logger.info("REST: UPDATING SWITCH STATE MODULE " + args[2] + " RELAY " + args[3] + " STATE " + args[4]);
-			restUtils.updateRelayState(serialNumber, Integer.parseInt(args[2]), Integer.parseInt(args[3]),
-					Integer.parseInt(args[4]));
+			Integer moduleId = Integer.parseInt(args[2]);
+			Integer relayId = Integer.parseInt(args[3]);
+			Integer state = Integer.parseInt(args[4]);
+			
+			logger.debug("REST: SWITCH STATE MODULE " + moduleId + " RELAY " + relayId + " STATE " + state);
+			restUtils.updateRelayState(serialNumber, moduleId, relayId, state);
 		}
+		
+		if (args[1].contains("MULTI-SWITCH")) {
+      
+      String[] line = readLine.split("\\?");
+      for (int i=1; i<line.length; i++){
+        String[] args2 = line[i].split(";");
+        Integer moduleId = Integer.parseInt(args2[0]);
+        Integer relayId = Integer.parseInt(args2[1]);
+        Integer state = Integer.parseInt(args2[2]);
+        
+        logger.debug("REST: MULTI-SWITCH STATE MODULE " + moduleId + " RELAY " + relayId + " STATE " + state);
+        restUtils.updateRelayState(serialNumber, moduleId, relayId, state);
+      }
+    }
+		
 
 		if (args.length == 2 && args[1].contains("UPDATED")) {
 			String notification = "UPDATED";
 			restUtils.addProductNotification(serialNumber, notification);
-			logger.info("REST: UPDATING NOTIFICATION FOR" + serialNumber);
+			logger.debug("REST: ADD NOTIFICATION FOR" + serialNumber);
 		}
 
 		if (args.length == 2 && args[1].contains("REFRESH")) {
 			String notification = "REFRESH";
 			restUtils.addProductNotification(serialNumber, notification);
-			logger.info("REST: UPDATING NOTIFICATION FOR" + serialNumber);
+			logger.debug("REST: ADD NOTIFICATION FOR" + serialNumber);
 		}
 
 		logger.info("Pushing device notification to UserSessions...");
@@ -391,35 +409,40 @@ public class DeviceSession extends Thread implements Runnable {
 			return;
 		}
 
+		// Go through the product users of this product
 		for (ProductUser productUser : productUsers) {
 
 			logger.debug("PRODUCTUSER=" + productUser.getUserName() + " (" + productUser.getUserId() + ")");
 			List<UserSession> userSessions = UserSessionProvider.getInstance()
 					.getUserSessionById(productUser.getUserId());
 
+			// If any of them is connected through userSession, notify them about the change
 			for (UserSession userSession : userSessions) {
 
 				// here we list all kinds of notifications
 
 				if (args.length == 5 && args[1].equals("SWITCH")) {
-					String notification = "SWITCH;" + serialNumber + ";" + args[2] + ";" + args[3] + ";" + args[4]
-							+ "\n";
-					userSession.notifySession(notification);
+					String notification = "SWITCH;" + serialNumber + ";" + args[2] + ";" + args[3] + ";" + args[4];
+					userSession.notifyUserSession(notification);
 
 					logger.debug("USERID in Session: " + userSession.getUserId() + " Notification:" + notification);
 				}
-				/*
-				 * if (args.length == 3 && args[1].equals("CONNECTION")) {
-				 * String notification = "CONNECTION;" + serialNumber + ";" +
-				 * args[2] + "\n"; userSession.notifySession(notification);
-				 * logger.debug("USERID in Session: " + userSession.getUserId()
-				 * + " Notification:" + notification); } if (args.length == 2 &&
-				 * args[1].equals("REFRESH")) { String notification = "REFRESH;"
-				 * + serialNumber + "\n";
-				 * userSession.notifySession(notification);
-				 * logger.debug("USERID in Session: " + userSession.getUserId()
-				 * + " Notification:" + notification); }
-				 */
+				if (args[1].contains("MULTI-SWITCH")) {
+				  StringBuilder notification = new StringBuilder("MULTI-SWITCH?");
+          
+          String[] line = readLine.split("\\?");
+          for (int i=1; i<line.length; i++){
+            String[] args2 = line[i].split(";");
+            Integer moduleId = Integer.parseInt(args2[0]);
+            Integer relayId = Integer.parseInt(args2[1]);
+            Integer state = Integer.parseInt(args2[2]);
+            
+            notification.append(moduleId + ";" + relayId + ";" + state + ";?");
+          }
+          userSession.notifyUserSession(notification.toString());
+
+          logger.debug("USERID in Session: " + userSession.getUserId() + " Notification:" + notification);
+        }
 
 				break;
 			}
@@ -829,6 +852,40 @@ public class DeviceSession extends Thread implements Runnable {
 		write(toWrite);
 	}
 
+	/**
+	 * switchRelays function for switching multile relays
+	 * 
+	 * @param moduleId
+	 * @param relayId
+	 * @param state
+	 */
+	public void switchRelays(Integer userId, Integer componentId, Integer elementId, String action) {
+    logger.info("DeviceSession switchRelays");
+    List<Component> components = restUtils.getComponents(userId);
+    List<Relay> relays = new LinkedList<>();
+    
+    for (Component component : components) {
+      if (component.getComponentId().equals(componentId)) {
+        for (Element element : component.getElements()) {
+          if (element.getElementId().equals(elementId)) {
+            for (Relay relay : element.getRelays()) {
+              if (relay.getAction().equals(action) && relay.getSerialNumber().equals(this.serialNumber)) {
+                relays.add(relay);
+              }
+            }
+          }
+        }
+      }
+    }
+    StringBuilder toWrite = new StringBuilder("MULTI-SWITCH?");
+    for (Relay relay : relays) {
+      toWrite.append(relay.getModuleId() + ";" + relay.getRelayId() + ";" + (relay.getState().equals("ON") ? "1" : "0") + ";?");
+    }
+    toWrite.append("\n");
+    logger.info(toWrite.toString());
+    write(toWrite.toString());
+  }
+	
 	/**
 	 * refresh userProduct data
 	 */

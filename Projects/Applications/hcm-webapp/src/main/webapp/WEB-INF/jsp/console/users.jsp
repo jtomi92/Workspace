@@ -17,7 +17,7 @@
 						<!-- Default panel contents -->
 						<div class="dropdown panel-heading">
 							<div class="container-fluid">
-								<h4>${localization['add-new-user']}</h4>
+								<label>${localization['add-new-user']}</label>
 								<div class="input-group col-lg-6">
 									<input id="add-product-user-${count.index}" type="text"
 										class="form-control"
@@ -55,21 +55,21 @@
 							<h3>${localization['current-users']}</h3>
 						</div>
 
-						<div class="panel panel-default"
+						<div class="panel panel-default user-control-large"
 							style="padding-right: 10px; padding-left: 10px;">
 							<table class="table table-striped">
 								<thead>
 									<tr>
-										<td><h4>${localization['privilige']}</h4></td>
-										<td><h4>${localization['email-address']}</h4></td>
-										<td><h4>${localization['relay-access']}</h4></td>
-										<td><h4>${localization['call-access']}</h4></td>
-										<td><h4>${localization['action']}</h4></td>
+										<td><label>${localization['privilige']}</label></td>
+										<td><label>${localization['email-address']}</label></td>
+										<td><label>${localization['relay-access']}</label></td>
+										<td><label>${localization['call-access']}</label></td>
+										<td><label>${localization['action']}</label></td>
 									</tr>
 								</thead>
 								<tbody>
-									<c:forEach items="${userProduct.productUsers}" var="productUsers"
-										varStatus="count2">
+									<c:forEach items="${userProduct.productUsers}"
+										var="productUsers" varStatus="count2">
 
 										<tr>
 											<td><c:choose>
@@ -79,7 +79,7 @@
 													</c:when>
 													<c:otherwise>
 														<label><select
-															id="product-priv-picker-${count.index}-${count2.index}"
+															id="product-priv-picker-1-${count.index}-${count2.index}"
 															class="form-control" style="width: 100px;">
 																<c:if test="${productUsers.privilige eq 'ADMIN'}">
 																	<option value="priv-${count2.index}-${count3.index}"
@@ -98,10 +98,10 @@
 
 											<td><label>${productUsers.userName}</label></td>
 											<td><select
-												id="product-relay-priv-picker-${count.index}-${count2.index}"
+												id="product-relay-priv-picker-1-${count.index}-${count2.index}"
 												multiple="multiple">
-													<c:forEach items="${userProduct.relaySettings}" var="relaysetting"
-														varStatus="count3">
+													<c:forEach items="${userProduct.relaySettings}"
+														var="relaysetting" varStatus="count3">
 
 														<c:forEach items="${relaysetting.productControlSettings}"
 															var="productControlSetting" varStatus="count4">
@@ -120,10 +120,10 @@
 													</c:forEach>
 											</select></td>
 											<td><select
-												id="product-relay-call-picker-${count.index}-${count2.index}"
+												id="product-relay-call-picker-1-${count.index}-${count2.index}"
 												multiple="multiple">
-													<c:forEach items="${userProduct.relaySettings}" var="relaysetting"
-														varStatus="count3">
+													<c:forEach items="${userProduct.relaySettings}"
+														var="relaysetting" varStatus="count3">
 														<c:forEach items="${relaysetting.productControlSettings}"
 															var="productControlSetting" varStatus="count4">
 
@@ -146,11 +146,11 @@
 													<c:choose>
 														<c:when test="${privilige eq 'ADMIN'}">
 															<button type="button" class="btn btn-primary"
-																onClick="updateProductUser('${productUsers.userName}','${userProduct.serialNumber}','${count.index}-${count2.index}');">${localization['save']}</button>
+																onClick="updateProductUser('${productUsers.userName}',1,'${userProduct.serialNumber}','${count.index}-${count2.index}');">${localization['save']}</button>
 															<c:if
 																test="${not (productUsers.userName eq pageContext.request.userPrincipal.name)}">
 																<button type="button" class="btn btn-danger"
-																	onClick="removeProductUser('${productUsers.userName}','${userProduct.serialNumber}','${count.index}-${count2.index}');">${localization['remove']}</button>
+																	onClick="removeProductUser('${productUsers.userName}',1,'${userProduct.serialNumber}','${count.index}-${count2.index}');">${localization['remove']}</button>
 															</c:if>
 														</c:when>
 														<c:otherwise>
@@ -168,6 +168,128 @@
 								</tbody>
 							</table>
 						</div>
+
+
+						<div class="panel panel-default user-control-small"
+							style="padding-right: 10px; padding-left: 10px;">
+							<table class="table table-striped">
+
+								<tbody>
+									<c:forEach items="${userProduct.productUsers}"
+										var="productUsers" varStatus="count2">
+										<tr>
+											<td><label>${localization['email-address']}</label></td>
+											<td><label>${productUsers.userName}</label></td>
+										</tr>
+										<tr>
+											<td><label>${localization['privilige']}</label></td>
+											<td><c:choose>
+													<c:when
+														test="${productUsers.userName eq pageContext.request.userPrincipal.name || privilige eq 'USER'}">
+														<label>${productUsers.privilige}</label>
+													</c:when>
+													<c:otherwise>
+														<label><select
+															id="product-priv-picker-2-${count.index}-${count2.index}"
+															class="form-control" style="width: 100px;">
+																<c:if test="${productUsers.privilige eq 'ADMIN'}">
+																	<option value="priv-${count2.index}-${count3.index}"
+																		selected>ADMIN</option>
+																	<option value="priv-${count2.index}-${count3.index}">${localization['user']}</option>
+																</c:if>
+																<c:if test="${productUsers.privilige eq 'USER'}">
+																	<option value="priv-${count2.index}-${count3.index}">${localization['admin']}</option>
+																	<option selected
+																		value="priv-${count2.index}-${count3.index}">${localization['user']}</option>
+																</c:if>
+														</select></label>
+													</c:otherwise>
+												</c:choose></td>
+										</tr>
+
+										<tr>
+											<td><label>${localization['relay-access']}</label></td>
+											<td><select
+												id="product-relay-priv-picker-2-${count.index}-${count2.index}"
+												multiple="multiple">
+													<c:forEach items="${userProduct.relaySettings}"
+														var="relaysetting" varStatus="count3">
+
+														<c:forEach items="${relaysetting.productControlSettings}"
+															var="productControlSetting" varStatus="count4">
+
+															<c:if
+																test="${(productControlSetting.userId eq productUsers.userId) && productControlSetting.access}">
+																<option value="r-${count2.index}-${count3.index}"
+																	selected>${relaysetting.relayName}</option>
+															</c:if>
+															<c:if
+																test="${(productControlSetting.userId eq productUsers.userId) && (not productControlSetting.access)}">
+																<option value="r-${count2.index}-${count3.index}">${relaysetting.relayName}</option>
+															</c:if>
+
+														</c:forEach>
+													</c:forEach>
+											</select></td>
+										</tr>
+										<tr>
+											<td><label>${localization['call-access']}</label></td>
+											<td><select
+												id="product-relay-call-picker-2-${count.index}-${count2.index}"
+												multiple="multiple">
+													<c:forEach items="${userProduct.relaySettings}"
+														var="relaysetting" varStatus="count3">
+														<c:forEach items="${relaysetting.productControlSettings}"
+															var="productControlSetting" varStatus="count4">
+
+															<c:if
+																test="${(productControlSetting.userId eq productUsers.userId) && productControlSetting.callAccess}">
+																<option value="c-${count2.index}-${count3.index}"
+																	selected>${relaysetting.relayName}</option>
+															</c:if>
+															<c:if
+																test="${(productControlSetting.userId eq productUsers.userId) && (not productControlSetting.callAccess)}">
+																<option value="c-${count2.index}-${count3.index}">${relaysetting.relayName}</option>
+															</c:if>
+
+														</c:forEach>
+													</c:forEach>
+											</select></td>
+										</tr>
+										<tr>
+											<td><label>${localization['action']}</label>
+											<td>
+												<div class="btn-group">
+
+													<c:choose>
+														<c:when test="${privilige eq 'ADMIN'}">
+															<button type="button" class="btn btn-primary"
+																onClick="updateProductUser('${productUsers.userName}',2,'${userProduct.serialNumber}','${count.index}-${count2.index}');">${localization['save']}</button>
+															<c:if
+																test="${not (productUsers.userName eq pageContext.request.userPrincipal.name)}">
+																<button type="button" class="btn btn-danger"
+																	onClick="removeProductUser('${productUsers.userName}',2,'${userProduct.serialNumber}','${count.index}-${count2.index}');">${localization['remove']}</button>
+															</c:if>
+														</c:when>
+														<c:otherwise>
+															<button type="button" disabled class="btn btn-primary">${localization['save']}</button>
+															<button type="button" disabled class="btn btn-danger">${localization['remove']}</button>
+														</c:otherwise>
+													</c:choose>
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td colspan="2"><hr
+													style="height: 1px; border: none; color: #333; background-color: #333;"></td>
+										</tr>
+									</c:forEach>
+
+								</tbody>
+							</table>
+						</div>
+
+
 					</div>
 				</div>
 			</div>

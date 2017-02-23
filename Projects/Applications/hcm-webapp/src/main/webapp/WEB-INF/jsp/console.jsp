@@ -110,12 +110,14 @@
 
 					<c:choose>
 						<c:when test="${ups.isSelected()}">
-							<option selected id="${ups.serialNumber}" class="select-my-product-picker-option"
+							<option selected id="${ups.serialNumber}"
+								class="select-my-product-picker-option"
 								value="product-relay-control-${count.index}">${ups.name}
 								(${ups.serialNumber})</option>
 						</c:when>
 						<c:otherwise>
-							<option id="${ups.serialNumber}" class="select-my-product-picker-option"
+							<option id="${ups.serialNumber}"
+								class="select-my-product-picker-option"
 								value="product-relay-control-${count.index}">${ups.name}
 								(${ups.serialNumber})</option>
 						</c:otherwise>
@@ -125,7 +127,8 @@
 			</select>
 		</div>
 
-		<div id="tabs-container navigation-tab-container">
+		<div id="tabs-container navigation-tab-container"
+			style="text-align: center;">
 			<ul class="nav nav-tabs nav-justified navigation-tabs" id="myTabs">
 				<li class="active navigation-tab-list-element"><a href="#tab0">${localization['controls-title']}</a></li>
 				<li><a href="#tab1" class="navigation-tab-list-element">${localization['settings-title']}</a></li>
@@ -135,6 +138,24 @@
 			</ul>
 		</div>
 
+		<div class="container-fluid navigation-tab-container-dropdown"
+			style="padding-left: 12px;">
+			<div class="dropdown">
+				<button class="btn btn-default dropdown-toggle" type="button"
+					id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true"
+					aria-expanded="true">
+					<span class="glyphicon glyphicon-list"> NAVIGATION</span>
+				</button>
+				<ul
+					class="navigation-control-dropdown navigation-dropdown dropdown-menu"
+					aria-labelledby="dropdownMenu1">
+					<li><a href="#tab0">${localization['controls-title']}</a></li>
+					<li><a href="#tab1">${localization['settings-title']}</a></li>
+					<li><a href="#tab2">${localization['users-title']}</a></li>
+					<li><a href="#tab4">${localization['registration-title']}</a></li>
+				</ul>
+			</div>
+		</div>
 
 		<jsp:include page="console/controls.jsp"></jsp:include>
 		<jsp:include page="console/settings.jsp"></jsp:include>

@@ -53,6 +53,44 @@ $(document).ready(function() {
 		$(target_tab_selector).removeClass('hide');
 		$(target_tab_selector).addClass('active');
 	});
+	
+	
+	
+	$('.navigation-control-dropdown > li > a').click(function(event) {
+		event.preventDefault();// stop browser to take action for clicked
+		// anchor
+		console.log("asd");
+		// get displaying tab content jQuery selector
+		var active_tab_selector = $('.navigation-control-dropdown > li.active > a').attr('href');
+
+		// find actived navigation and remove 'active' css
+		var actived_nav = $('.navigation-control-dropdown > li.active');
+		actived_nav.removeClass('active');
+
+		// add 'active' css into clicked navigation
+		$(this).parents('li').addClass('active');
+
+		// hide displaying tab content
+		$("#tab0").removeClass('active');
+		$("#tab0").addClass('hide');
+		
+		$("#tab1").removeClass('active');
+		$("#tab1").addClass('hide');
+		
+		$("#tab2").removeClass('active');
+		$("#tab2").addClass('hide');
+		
+		$("#tab4").removeClass('active');
+		$("#tab4").addClass('hide');
+
+		// show target tab content
+		var target_tab_selector = $(this).attr('href');
+		localStorage.setItem("currenttab", target_tab_selector);
+		$(target_tab_selector).removeClass('hide');
+		$(target_tab_selector).addClass('active');
+		
+		console.log(target_tab_selector);
+	});
 });
 
 $(document)

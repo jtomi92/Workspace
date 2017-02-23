@@ -18,13 +18,11 @@ import com.jtech.apps.hcm.model.ProductCategory;
 import com.jtech.apps.hcm.model.RegisteredProduct;
 import com.jtech.apps.hcm.model.UserProduct;
 import com.jtech.apps.hcm.model.UserProfile;
+import com.jtech.apps.hcm.model.mobile.Component;
 
 public class RestUtils {
 
-	//private final String REST_URL = "http://localhost:8081";
-	//private final String REST_URL = "http://jtech-rest-service.camayp3acx.eu-west-1.elasticbeanstalk.com";
 	private final String REST_URL = getRestUrl();
-			
 	private final String REST_ADD_REGISTERED_PRODUCT = REST_URL + "/registeredproduct/add";
 	private final String REST_GET_REGISTERED_PRODUCT_BY_SERIAL_NUMBER = REST_URL + "/registeredproduct/get/{serial}";
 	private final String REST_GET_USER_PRODUCT_BY_SERIAL_NUMBER = REST_URL + "/product/get/serial/{serial}";
@@ -36,6 +34,7 @@ public class RestUtils {
 	private final String REST_UPDATE_RELAY_STATE = REST_URL + "/product/status/update/{serial}/{moduleid}/{relayid}/{state}";
 	private final String REST_ADD_PRODUCT_NOTIFICATION = REST_URL + "/notifications/add/{serial}";
 	private final String REST_GET_CONNECTIONS = REST_URL + "/connection/get";
+	private final String REST_GET_COMPONENTS = REST_URL + "/mobile/components/get/{userid}/";
 	
 	RestTemplate restTemplate = new RestTemplate();	
 	
@@ -52,14 +51,7 @@ public class RestUtils {
 		}
 		return "";
 	}
-	
-	public List<Connection> getConnections() {
-		ParameterizedTypeReference<List<Connection>> typeRef = new ParameterizedTypeReference<List<Connection>>() {
-		};
-		ResponseEntity<List<Connection>> responseEntity = restTemplate.exchange(REST_GET_CONNECTIONS,
-				HttpMethod.GET, getHttpEntity(), typeRef);
-		return responseEntity.getBody();
-	}
+
 	
 	private HttpEntity<?> getHttpEntity(){	 		
 		HttpHeaders requestHeaders = getRequestHeaders();	
@@ -73,6 +65,22 @@ public class RestUtils {
 		requestHeaders.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));	
 		return requestHeaders;
 	}
+	
+	public List<Component> getComponents(Integer userId){
+    ParameterizedTypeReference<List<Component>> typeRef = new ParameterizedTypeReference<List<Component>>() {
+    };
+    ResponseEntity<List<Component>> responseEntity = restTemplate.exchange(REST_GET_COMPONENTS,
+        HttpMethod.GET, getHttpEntity(), typeRef, userId);
+    return responseEntity.getBody();
+  }
+  
+  public List<Connection> getConnections() {
+    ParameterizedTypeReference<List<Connection>> typeRef = new ParameterizedTypeReference<List<Connection>>() {
+    };
+    ResponseEntity<List<Connection>> responseEntity = restTemplate.exchange(REST_GET_CONNECTIONS,
+        HttpMethod.GET, getHttpEntity(), typeRef);
+    return responseEntity.getBody();
+  }
 
 	public Integer updateConnection(Connection connection) {
 

@@ -1,8 +1,8 @@
 -- MySQL dump 10.13  Distrib 5.7.9, for Win64 (x86_64)
 --
--- Host: localhost    Database: jtech
+-- Host: jtech.cr2mzdew7yg9.eu-west-1.rds.amazonaws.com    Database: jtech
 -- ------------------------------------------------------
--- Server version	5.7.13-log
+-- Server version	5.6.27-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -37,7 +37,7 @@ CREATE TABLE `USER_PRODUCTS` (
   PRIMARY KEY (`group_id`,`serial_number`),
   KEY `user_product_settings1_fk_idx` (`serial_number`),
   KEY `test_idx` (`serial_number`)
-) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -46,7 +46,7 @@ CREATE TABLE `USER_PRODUCTS` (
 
 LOCK TABLES `USER_PRODUCTS` WRITE;
 /*!40000 ALTER TABLE `USER_PRODUCTS` DISABLE KEYS */;
-INSERT INTO `USER_PRODUCTS` VALUES (35,'QU5ZU41HME','asdasd','','192.168.0.27','2086','192.168.0.27','2086','N','2017/01/11 13:14:57','2017/01/11 21:49:22'),(36,'YBDNJ1EL32','test product 1','','192.168.0.27','2086','192.168.0.27','2086','N','2017/01/11 13:26:25','2017/01/17 16:47:44'),(37,'JQ5PXAR7CE','test product 1','','192.168.0.27','2086','192.168.0.27','2086','N','2017/01/11 23:09:57','2017/01/13 19:06:03');
+INSERT INTO `USER_PRODUCTS` VALUES (35,'QU5ZU41HME','Teszt 1','','jtech-session.eu-west-1.elasticbeanstalk.com','2086','jtech-session.eu-west-1.elasticbeanstalk.com','2086','N','2017/01/11 13:14:57','2017/02/15 21:56:38'),(36,'YBDNJ1EL32','test product 1','','jtech-session.eu-west-1.elasticbeanstalk.com','2086','jtech-session.eu-west-1.elasticbeanstalk.com','2086','N','2017/01/11 13:26:25','2017/02/16 15:14:23'),(37,'JQ5PXAR7CE','test product 1','','jtech-session.eu-west-1.elasticbeanstalk.com','2086','jtech-session.eu-west-1.elasticbeanstalk.com','2086','N','2017/01/11 23:09:57','2017/01/13 19:06:03'),(38,'ZC5RMI57L9','test product 1','','jtech-session.eu-west-1.elasticbeanstalk.com','2086','jtech-session.eu-west-1.elasticbeanstalk.com','2086','Y','2017/02/15 21:37:41','2017/02/15 21:37:41'),(39,'MHOAILZ7VI','Eszközöm','','jtech-session.eu-west-1.elasticbeanstalk.com','2086','jtech-session.eu-west-1.elasticbeanstalk.com','2086','N','2017/02/15 21:38:26','2017/02/16 17:13:20');
 /*!40000 ALTER TABLE `USER_PRODUCTS` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -59,4 +59,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-01-18 15:23:13
+-- Dump completed on 2017-02-17 14:25:58

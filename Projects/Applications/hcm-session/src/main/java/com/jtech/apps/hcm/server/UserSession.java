@@ -55,7 +55,7 @@ public class UserSession implements Runnable {
 		} catch (Exception e) {
 
 		} finally {
-			logger.error("Closing User Session for userid " + userId);
+			logger.info("Closing User Session for userid " + userId);
 			isAlive = false;
 			UserSessionProvider.getInstance().removeDeadSessions();
 
@@ -87,9 +87,17 @@ public class UserSession implements Runnable {
 	 * @param io
 	 */
 	private void processIO(String io) {
-
+	  
+	  List<DeviceSession> deviceSessions;
 		String arguments[] = io.split(";");
-
+		String serialNumber;
+		Integer moduleId;
+		Integer relayId;
+		Integer state;
+		Integer componentId;
+		Integer elementId;
+		String action;
+		
 		switch (arguments.length) {
 
 		case 1:
@@ -104,16 +112,16 @@ public class UserSession implements Runnable {
 				break;
 
 			case "UPDATE":
-				List<DeviceSession> ds1 = DeviceSessionProvider.getInstance().getDeviceSessionsBySerialNumber(arguments[1]);
-				for (DeviceSession deviceSession : ds1) {
+				deviceSessions = DeviceSessionProvider.getInstance().getDeviceSessionsBySerialNumber(arguments[1]);
+				for (DeviceSession deviceSession : deviceSessions) {
 					deviceSession.updateUserProduct();
 					logger.info("UPDATE SerialNumber=" + arguments[1]);
 				}
 				break;
 						
 			case "RESTART":
-				List<DeviceSession> ds2 = DeviceSessionProvider.getInstance().getDeviceSessionsBySerialNumber(arguments[1]);
-				for (DeviceSession deviceSession : ds2) {
+				deviceSessions = DeviceSessionProvider.getInstance().getDeviceSessionsBySerialNumber(arguments[1]);
+				for (DeviceSession deviceSession : deviceSessions) {
 					deviceSession.restartUserProduct();
 					logger.info("RESTART SerialNumber=" + arguments[1]);
 				}			
@@ -122,21 +130,39 @@ public class UserSession implements Runnable {
 			break;
 
 		case 5:
+		  
+		  
 			switch (arguments[0]) {
+	
 			case "SWITCH":
-				String serialNumber = arguments[1];
-				Integer moduleId = Integer.parseInt(arguments[2]);
-				Integer relayId = Integer.parseInt(arguments[3]);
-				Integer state = Integer.parseInt(arguments[4]);
+				serialNumber = arguments[1];
+				moduleId = Integer.parseInt(arguments[2]);
+				relayId = Integer.parseInt(arguments[3]);
+				state = Integer.parseInt(arguments[4]);
 				
-				List<DeviceSession> ds3 = DeviceSessionProvider.getInstance().getDeviceSessionsBySerialNumber(serialNumber);
+				deviceSessions = DeviceSessionProvider.getInstance().getDeviceSessionsBySerialNumber(serialNumber);
 
-				for (DeviceSession deviceSession : ds3) {
+				for (DeviceSession deviceSession : deviceSessions) {
 					deviceSession.switchRelay(moduleId,relayId, state);
 					logger.info("Switching..." + io);
 				}	
 				
 				break;
+				
+				// "MULTI-SWITCH;" + serialNumber + ";" + componentId + ";" + elementId + ";" + action + "\n";
+			case "MULTI-SWITCH":
+        serialNumber = arguments[1];
+        componentId = Integer.parseInt(arguments[2]);
+        elementId = Integer.parseInt(arguments[3]);
+        action = arguments[4];
+        
+        deviceSessions = DeviceSessionProvider.getInstance().getDeviceSessionsBySerialNumber(serialNumber);
+
+        for (DeviceSession deviceSession : deviceSessions) {
+          deviceSession.switchRelays(userId, componentId,elementId, action);
+        } 
+        
+        break;
 			}
 			break;
 		}
@@ -148,9 +174,9 @@ public class UserSession implements Runnable {
 	 * 
 	 * @param toWrite
 	 */
-	public void notifySession(String toWrite) {
+	public void notifyUserSession(String toWrite) {
 		logger.info("Notifying User with id=" + userId + " message:" + toWrite);
-		printWriter.write(toWrite);
+		printWriter.write(toWrite + "\n");
 		printWriter.flush();
 	}
 

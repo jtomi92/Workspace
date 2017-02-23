@@ -97,6 +97,13 @@ public class UserProductController {
 		return new ResponseEntity<String>(response, HttpStatus.OK);
 	}
 	
+	@RequestMapping(value = "/product/switch/{userid}/{componentid}/{elementid}/{action}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<String> switchRelays(@PathVariable("userid") Integer userId, @PathVariable("componentid") Integer componentId, @PathVariable("elementid") Integer elementId, @PathVariable("action") String action) {
+
+    String response = userProductService.switchRelays(userId,componentId,elementId,action);
+    return new ResponseEntity<String>(response, HttpStatus.OK);
+  }
+	
 	@RequestMapping(value = "/device/update/{userid}/{serial}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> updateUserProduct(@PathVariable("userid") Integer userId, @PathVariable("serial") String serialNumber) {
 		logger.info("updateUserProduct CONTROLLER");

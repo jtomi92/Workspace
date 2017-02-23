@@ -1,4 +1,3 @@
-@import "compass/css3";
 
 @import url(http://fonts.googleapis.com/css?family=Merriweather);
 $red: #e74c3c;
@@ -85,6 +84,20 @@ form {
 
 .cf:after {
     clear: both;
+}
+
+@media screen and (max-width: 768px) {
+	.masthead{
+		width:100%;
+	}
+	.message-box{
+		width:300px;
+	}
+}
+@media screen and (min-width: 768px) {
+	.message-box{
+		width:400px;;
+	}
 }
 
 

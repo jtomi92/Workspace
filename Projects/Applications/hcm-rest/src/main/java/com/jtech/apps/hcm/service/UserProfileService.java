@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
  
 import com.jtech.apps.hcm.dao.interfaces.UserProfileDAO;
@@ -66,6 +68,9 @@ public class UserProfileService {
 				return 0;
 			}
 		}
+		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		up.setPassword(passwordEncoder.encode(up.getPassword()));
+		
 		return userProfileDAO.addUserProfile(up);
 	}
 

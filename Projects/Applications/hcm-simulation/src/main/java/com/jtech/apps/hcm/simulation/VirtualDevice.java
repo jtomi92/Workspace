@@ -52,7 +52,7 @@ public class VirtualDevice implements Runnable {
 
 			// HEARTBEAT THREAD
 			Thread heartBeatThread = heartBeatThread();
-			//heartBeatThread.start();
+			heartBeatThread.start();
 			// USERINTERFACE THREAD
 			Thread userInterfaceThread = userInterfaceThread();
 			userInterfaceThread.start();
@@ -74,9 +74,38 @@ public class VirtualDevice implements Runnable {
 				}
 
 				if (readLine.contains("SWITCHRELAY")) {
+				  try {
+            Thread.sleep(2400);
+          } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+          }
 					String[] args = readLine.split(";");
 					send("#NOTIFICATION;SWITCH;" + args[1] + ";" + args[2]  + ";" + args[3] + ";\n");
 				}
+				
+				if (readLine.contains("MULTI-SWITCH")){
+				  try {
+            Thread.sleep(2400);
+          } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+          }
+				  StringBuilder response = new StringBuilder("#NOTIFICATION;MULTI-SWITCH?");
+				  
+				  String[] line = readLine.split("\\?");
+				  for (int i=1; i<line.length; i++){
+				    String[] args = line[i].split(";");
+				    Integer moduleId = Integer.parseInt(args[0]);
+				    Integer relayId = Integer.parseInt(args[1]);
+				    Integer state = Integer.parseInt(args[2]);
+				    
+				    response.append(moduleId + ";" + relayId + ";" + state + ";?");
+				  }
+				  response.append("\n");
+				  send(response.toString());
+				}
+				// MULTI-SWITCH?1;1;1;?2;2;1;?
 				 
 				if (readLine.contains("UPDATE")) {
 					try {

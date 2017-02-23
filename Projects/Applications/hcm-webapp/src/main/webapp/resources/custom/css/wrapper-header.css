@@ -14,6 +14,19 @@
 	float: right !important;
 }
 
-.header-container {
+.header-container-large {
 	height: 52px;
+}
+
+@media screen and (max-width: 768px) {
+	.header-container-large{
+		display:none;
+	}
+}
+
+
+@media screen and (min-width: 768px) {
+	.header-container-small{
+		display:none;
+	}
 }

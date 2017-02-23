@@ -130,6 +130,8 @@ function registerProduct() {
 	var serialNumber = $("#registrationSerialNumber").val();
 	data['userId'] = userid;
 	data['serialNumber'] = serialNumber;
+	
+	document.getElementById("loading-spinner").style.display = "block";
 
 	var result = '';
 	// console.log(data);
@@ -160,11 +162,14 @@ function registerProduct() {
 						//updateDevice(serialNumber);
 						location.reload();
 					}
+					
+					document.getElementById("loading-spinner").style.display = "none";
 
 				},
 				error : function(e) {
 					// console.log("error");
 					// console.log(e);
+					document.getElementById("loading-spinner").style.display = "none";
 				}
 
 			});
@@ -186,9 +191,10 @@ $(document)
 					}
 				});
 
-function saveProductName(serialNumber, index) {
+function saveProductName(serialNumber, field, index) {
 	var data = {};
-	var productName = document.getElementById("registred-product-field-"
+	
+	var productName = document.getElementById("registred-product-field-" + field + "-"
 			+ index).value;
 	var userid = document.getElementById("userid").value;
 
@@ -203,6 +209,8 @@ function saveProductName(serialNumber, index) {
 	data['productName'] = productName;
 
 	// console.log(data);
+	
+	document.getElementById("loading-spinner").style.display = "block";
 
 	$.ajax({
 		type : "POST",
@@ -224,12 +232,14 @@ function saveProductName(serialNumber, index) {
 			} else {
 
 			}
+			document.getElementById("loading-spinner").style.display = "none";
 			location.reload();
 
 		},
 		error : function(e) {
 			// console.log("error");
 			// console.log(e);
+			document.getElementById("loading-spinner").style.display = "none";
 		}
 
 	});
@@ -255,8 +265,9 @@ function addProductUser(serialNumber, index) {
 
 	var token = $("meta[name='_csrf']").attr("content");
 	var header = $("meta[name='_csrf_header']").attr("content");
-
 	var result = '';
+	
+	document.getElementById("loading-spinner").style.display = "block";
 
 	$
 			.ajax({
@@ -282,12 +293,14 @@ function addProductUser(serialNumber, index) {
 					} else if (res == '-1') {
 						// console.log('-1' + res);
 					}
+					document.getElementById("loading-spinner").style.display = "none";
 
 				},
 				error : function(e) {
 					// console.log("error");
 					// console.log(e);
-				}
+					document.getElementById("loading-spinner").style.display = "none";
+				}			
 
 			});
 
@@ -307,6 +320,8 @@ function removeProductUser(userToRemove, serialNumber, input) {
 	var userid = document.getElementById("userid").value;
 	
 	var result = '';
+	
+	document.getElementById("loading-spinner").style.display = "block";
 
 	$.ajax({
 		type : "POST",
@@ -329,28 +344,30 @@ function removeProductUser(userToRemove, serialNumber, input) {
 			} else if (res == '-1') {
 				// console.log('-1' + res);
 			}
+			document.getElementById("loading-spinner").style.display = "none";
 		},
 		error : function(e) {
 			// console.log("error");
 			// console.log(e);
+			document.getElementById("loading-spinner").style.display = "none";
 		}
 
 	});
 
 }
 
-function updateProductUser(userName, serialNumber, input) {
+function updateProductUser(userName, field, serialNumber, input) {
 	var data = {};
 	var selectedCallAccess = [];
-	$("#product-relay-call-picker-" + input + " :selected").each(function() {
+	$("#product-relay-call-picker-" + field + "-" + input + " :selected").each(function() {
 		selectedCallAccess.push($(this).text());
 	});
 
 	var selectedRelayAccess = [];
-	$("#product-relay-priv-picker-" + input + " :selected").each(function() {
+	$("#product-relay-priv-picker-" + field + "-" + input + " :selected").each(function() {
 		selectedRelayAccess.push($(this).text());
 	});
-	var privilige = $("#product-priv-picker-" + input + " :selected").text();
+	var privilige = $("#product-priv-picker-" + field + "-" + input + " :selected").text();
 
 	// console.log("PRIVILIGE=" + privilige);
 	// console.log("USER=" + userName);
@@ -367,6 +384,8 @@ function updateProductUser(userName, serialNumber, input) {
 	var token = $("meta[name='_csrf']").attr("content");
 	var header = $("meta[name='_csrf_header']").attr("content");
 	var userid = document.getElementById("userid").value;
+	
+	document.getElementById("loading-spinner").style.display = "block";
 	
 	$.ajax({
 		type : "PUT",
@@ -390,10 +409,12 @@ function updateProductUser(userName, serialNumber, input) {
 			} else if (res == '-1') {
 				// console.log('-1' + res);
 			}
+			document.getElementById("loading-spinner").style.display = "none";
 		},
 		error : function(e) {
 			// console.log("error");
 			// console.log(e);
+			document.getElementById("loading-spinner").style.display = "none";
 		}
 
 	});
@@ -413,9 +434,6 @@ function updateProductSettings(serialNumber, position) {
 	var startTimers = [];
 	var endTimers = [];
 	var timerEnabled = [];
-
-	$('#save-progressbar-' + serialNumber).show();
-	$('#save-switch-' + serialNumber).hide();
 
 	$('td[id^="' + serialNumber + '-moduleid-"]').each(function() {
 		moduleIds.push($(this).html());
@@ -483,6 +501,8 @@ function updateProductSettings(serialNumber, position) {
 	var token = $("meta[name='_csrf']").attr("content");
 	var header = $("meta[name='_csrf_header']").attr("content");
 
+	document.getElementById("loading-spinner").style.display = "block";
+	
 	$.ajax({
 		type : "PUT",
 		contentType : "application/json",
@@ -507,14 +527,12 @@ function updateProductSettings(serialNumber, position) {
 			} else if (res == '-1') {
 				// console.log('-1' + res);
 			}
-			$('#save-progressbar-' + serialNumber).hide();
-			$('#save-switch-' + serialNumber).show();
+			document.getElementById("loading-spinner").style.display = "none";
 		},
 		error : function(e) {
 			// console.log("error");
 			// console.log(e);
-			$('#save-progressbar-' + serialNumber).hide();
-			$('#save-switch-' + serialNumber).show();
+			document.getElementById("loading-spinner").style.display = "none";
 		}
 
 	});
@@ -534,29 +552,13 @@ function switchRelay(serialNumber, moduleId, relayId) {
 		relaystatus = 1;
 	}
 
-	var progressbars = $('div[id^="relay-progressbar-' + serialNumber + '"]')
-	var switches = $('button[id^="relay-switch-' + serialNumber + '"]')
-
-	$.each(progressbars, function(key, value) {
-		$(this).show();
-	});
-	$.each(switches, function(key, value) {
-		$(this).hide();
-	});
 
 	var timeout = setTimeout(function() {
-		var progressbars = $('div[id^="relay-progressbar-' + serialNumber
-				+ '"]')
-		var switches = $('button[id^="relay-switch-' + serialNumber + '"]')
-
-		$.each(progressbars, function(key, value) {
-			$(this).hide();
-		});
-		$.each(switches, function(key, value) {
-			$(this).show();
-		});
+		document.getElementById("loading-spinner").style.display = "none";
 	}, 6000);
 
+	document.getElementById("loading-spinner").style.display = "block";
+	
 	$.ajax({
 		type : "POST",
 		contentType : "application/json",
@@ -602,33 +604,17 @@ function switchRelay(serialNumber, moduleId, relayId) {
 						element.style.display = "inline";
 					}
 				}
-				var progressbars = $('div[id^="relay-progressbar-'
-						+ serialNumber + '"]')
-				var switches = $('button[id^="relay-switch-' + serialNumber
-						+ '"]')
+				
 				clearTimeout(timeout);		
-				$.each(progressbars, function(key, value) {
-					$(this).hide();
-				});
-				$.each(switches, function(key, value) {
-					$(this).show();
-				});
+				
 			}
-			
+			document.getElementById("loading-spinner").style.display = "none";
 
 		},
 		error : function(e) {
-			var progressbars = $('div[id^="relay-progressbar-' + serialNumber
-					+ '"]')
-			var switches = $('button[id^="relay-switch-' + serialNumber + '"]')
 
-			$.each(progressbars, function(key, value) {
-				$(this).hide();
-			});
-			$.each(switches, function(key, value) {
-				$(this).show();
-			});
 			clearTimeout(timeout);
+			document.getElementById("loading-spinner").style.display = "none";
 			location.reload();
 		}
 
@@ -706,11 +692,8 @@ function deleteTimerSetting(serialNumber, moduleId, relayId, timerId) {
 	var header = $("meta[name='_csrf_header']").attr("content");
 	var userid = document.getElementById("userid").value;
 
-	document.getElementById("remove-setting-progressbar-" + serialNumber + "-"
-			+ moduleId + "-" + relayId + "-" + timerId).style.display = "block";
-	document.getElementById("remove-setting-button-" + serialNumber + "-"
-			+ moduleId + "-" + relayId + "-" + timerId).style.display = "none";
-
+	document.getElementById("loading-spinner").style.display = "block";
+	
 	$.ajax({
 		type : "POST",
 		contentType : "application/json",
@@ -732,10 +715,12 @@ function deleteTimerSetting(serialNumber, moduleId, relayId, timerId) {
 			} else if (res == '-1') {
 				// console.log('-1' + res);
 			}
+			document.getElementById("loading-spinner").style.display = "none";
 		},
 		error : function(e) {
 			// console.log("error");
 			// console.log(e);
+			document.getElementById("loading-spinner").style.display = "none";
 		}
 
 	});
@@ -745,11 +730,7 @@ function addTimerSetting(serialNumber, moduleId, relayId) {
 	var token = $("meta[name='_csrf']").attr("content");
 	var header = $("meta[name='_csrf_header']").attr("content");
 
-	document.getElementById("add-setting-progressbar-" + serialNumber + "-"
-			+ moduleId + "-" + relayId).style.display = "block";
-	document.getElementById("add-setting-button-" + serialNumber + "-"
-			+ moduleId + "-" + relayId).style.display = "none";
-
+	document.getElementById("loading-spinner").style.display = "block";
 	$.ajax({
 		type : "POST",
 		contentType : "application/json",
@@ -771,10 +752,12 @@ function addTimerSetting(serialNumber, moduleId, relayId) {
 			} else if (res == '-1') {
 				// console.log('-1' + res);
 			}
+			document.getElementById("loading-spinner").style.display = "none";
 		},
 		error : function(e) {
 			// console.log("error");
 			// console.log(e);
+			document.getElementById("loading-spinner").style.display = "none";
 		}
 
 	});
@@ -787,6 +770,8 @@ function loadProduct(){
 	var token = $("meta[name='_csrf']").attr("content");
 	var header = $("meta[name='_csrf_header']").attr("content");
 
+	document.getElementById("loading-spinner").style.display = "block";
+	
 	$.ajax({
 		type : "GET",
 		contentType : "application/json",
@@ -807,10 +792,12 @@ function loadProduct(){
 			} else if (res == '-1') {
 				console.log('-1' + res);
 			}
+			document.getElementById("loading-spinner").style.display = "none";
 		},
 		error : function(e) {
 			// console.log("error");
 			// console.log(e);
+			document.getElementById("loading-spinner").style.display = "none";
 		}
 
 	});
