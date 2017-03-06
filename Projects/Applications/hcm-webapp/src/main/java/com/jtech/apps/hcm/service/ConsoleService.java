@@ -87,8 +87,6 @@ public class ConsoleService {
 			relaySettings.removeAll(relaySettingsToRemove);
 		}
 		
-		
-
 		// populate modelAndView
 		modelAndView.addObject("localization", localizationUtils.getLocalization("console",locale).getLocalizations());
 		modelAndView.addObject("firstname", userProfile.getFirstName());
@@ -121,6 +119,8 @@ public class ConsoleService {
 		};
 		Thread thread = new Thread(runnable);
 		thread.start();
+		
+		logger.info("User " + userId + " registered product:" + serialNumber + " res=" + err);
 
 		return err;
 	}
@@ -174,7 +174,7 @@ public class ConsoleService {
 		List<ProductUser> productUsers = userProduct.getProductUsers();
 		for (ProductUser pu : productUsers) {
 			if (pu.getUserName().equals(productUser.getUserName())) {
-				logger.info("ALREADY ADDED");
+				logger.info("Error: onInserProductUser - User " + userName + " already added.");
 				return -1;
 			}
 		}
@@ -222,11 +222,10 @@ public class ConsoleService {
 		/* GET USERPROFILE */
 		UserProfile userProfile = restUtils.getUserProfileByUserName(userName);
 		if (userProfile == null) {
-			logger.info("NO PROFILE");
+			logger.error("(" + userId + ") Unable to remove product user: " + userName + " does not exist.");
 			return 0;
 		}
 
-		logger.info("ID=" + userProfile.getUserId());
 		/* GET USERPRODUCT */
 		UserProduct userProduct = restUtils.getUserProductBySerialNumber(serialNumber);
 
@@ -253,8 +252,6 @@ public class ConsoleService {
 			}
 			relaySetting.getProductControlSettings().remove(productControlSetting);
 		}
-
-		logger.info("OK");
 		
 		Integer err = restUtils.updateUserProduct(userProduct);
 		
@@ -286,11 +283,10 @@ public class ConsoleService {
 		/* GET USERPROFILE */
 		UserProfile userProfile = restUtils.getUserProfileByUserName(userName);
 		if (userProfile == null) {
-			logger.error("Profile does not exist");
+			logger.error("Error: onUpdateProductUserProfile does not exist");
 			return 0;
 		}
 
-		logger.info("UserName=" + userProfile.getUserName() + " UserID=" + userProfile.getUserId());
 		/* GET USERPRODUCT */
 		UserProduct userProduct = restUtils.getUserProductBySerialNumber(serialNumber);
 
@@ -299,18 +295,15 @@ public class ConsoleService {
 			List<ProductControlSetting> pcs = relaySetting.getProductControlSettings();
 			for (ProductControlSetting productControlSetting : pcs) {
 				if (productControlSetting.getUserId().equals(userProfile.getUserId())) {
-					logger.info("Disabling access for " + relaySetting.getRelayName());
 					productControlSetting.setAccess(false);
 					productControlSetting.setCallAccess(false);
 					for (String ra : relayAccess) {
 						if (ra.equals(relaySetting.getRelayName())) {
-							logger.info("Enabling relay access for " + relaySetting.getRelayName());
 							productControlSetting.setAccess(true);
 						}
 					}
 					for (String ca : callAccess) {
 						if (ca.equals(relaySetting.getRelayName())) {
-							logger.info("Enabling call access for " + relaySetting.getRelayName());
 							productControlSetting.setCallAccess(true);
 						}
 					}
@@ -355,8 +348,6 @@ public class ConsoleService {
 
 		UserProduct userProduct = restUtils.getUserProductBySerialNumber(serialNumber);
 
-		logger.info("onUpdateProductSettings " + serialNumber);
-
 		int timerIndex = 0;
 
 		List<RelaySetting> relaySettings = userProduct.getRelaySettings();
@@ -366,9 +357,6 @@ public class ConsoleService {
 			for (int index = 0; index < psf.getRelayIds().size(); index++) {
 				if (relaySetting.getRelayId().equals(Integer.parseInt(psf.getRelayIds().get(index)))
 						&& relaySetting.getModuleId().equals(Integer.parseInt(psf.getModuleIds().get(index)))) {
-
-					// logger.info("RelaySetting=" + relaySetting.getRelayId() +
-					// " psf=" + psf.getRelayIds().get(index));
 
 					if (psf.getRelayNames().get(index) != null && psf.getRelayNames().get(index) != "") {
 						relaySetting.setRelayName(psf.getRelayNames().get(index));
@@ -522,19 +510,15 @@ public class ConsoleService {
 	 * @return
 	 */
 	public String onRelaySwitch(Integer userId, String serialNumber, String moduleId, String relayId, String status) {
-		logger.info("SWITCHING " + serialNumber + " RelayId=" + relayId);
 		String response = restUtils.onSwitchRelay(userId, serialNumber, moduleId, relayId, status);
-		logger.info("RESPONSE=" + response);
 		return response;
 	}
 
 	public String onUpdate(Integer userId, String serialNumber) {
-		logger.info("UPDATING DEVICE " + serialNumber);
 		return restUtils.onUpdate(userId, serialNumber);
 	}
 
 	public String onRestart(Integer userId, String serialNumber) {
-		logger.info("RESTARTING DEVICE " + serialNumber);
 		return restUtils.onRestart(userId, serialNumber);
 	}
 

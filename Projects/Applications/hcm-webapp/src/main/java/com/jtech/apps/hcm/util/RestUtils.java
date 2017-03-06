@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 import com.jtech.apps.hcm.model.Connection;
+import com.jtech.apps.hcm.model.Contact;
 import com.jtech.apps.hcm.model.Localization;
 import com.jtech.apps.hcm.model.Notification;
 import com.jtech.apps.hcm.model.UserProduct;
@@ -37,6 +38,7 @@ public class RestUtils {
 	private final String REST_NOTIFICATIONS_GET_BY_SERIAL = REST_URL + "/notifications/get/{userid}/";
 	private final String REST_LOCALIZATIONS_GET = REST_URL + "/localization/{page}/{locale}";
 	private final String REST_GET_PRODUCT_ITEM_SELECT = REST_URL + "/product/select/{serial}/{userid}/";
+	private final String REST_ADD_CONTACT_US_MESSAGE = REST_URL + "/contact/add/";
 	
 	private RestTemplate restTemplate = new RestTemplate();
 	private String plainClientCredentials="jtechWebappHAXX:Psmc??.asdl123EW//";
@@ -58,6 +60,13 @@ public class RestUtils {
 		requestHeaders.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));	
 		requestHeaders.setContentType(MediaType.APPLICATION_JSON);
 		return requestHeaders;
+	}
+	
+	public Integer addContactUsMessage(Contact contact){
+	  HttpEntity<Object> httpEntity = new HttpEntity<Object>(contact, getRequestHeaders());
+    ResponseEntity<Integer> response = restTemplate.exchange(REST_ADD_CONTACT_US_MESSAGE, HttpMethod.POST,
+        httpEntity, Integer.class);
+    return response.getBody();
 	}
 	
 	public Localization getLocalizationByPage(String page, String locale) {

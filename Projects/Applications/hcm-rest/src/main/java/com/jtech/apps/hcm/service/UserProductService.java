@@ -13,6 +13,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.jtech.apps.hcm.dao.interfaces.UserProductDAO;
 import com.jtech.apps.hcm.model.Connection;
@@ -23,13 +24,10 @@ import com.jtech.apps.hcm.model.UserProfile;
 import com.jtech.apps.hcm.model.mobile.Component;
 import com.jtech.apps.hcm.model.mobile.Element;
 import com.jtech.apps.hcm.model.mobile.Relay;
-import com.jtech.apps.hcm.model.setting.InputSetting;
 import com.jtech.apps.hcm.model.setting.ProductControlSetting;
-import com.jtech.apps.hcm.model.setting.ProductTriggerSetting;
 import com.jtech.apps.hcm.model.setting.ProductUser;
 import com.jtech.apps.hcm.model.setting.RelaySetting;
 import com.jtech.apps.hcm.model.setting.TimerSetting;
-import com.jtech.apps.hcm.util.TimeUtil;
 import com.mysql.jdbc.StringUtils;
 
 @Service
@@ -54,6 +52,7 @@ public class UserProductService {
    * 
    * @return List<UserProduct>
    */
+  @Transactional(readOnly=true)
   public List<UserProduct> getUserProducts() {
 
     logger.debug("Getting all UserProducts...");
@@ -87,6 +86,7 @@ public class UserProductService {
    * @param state
    * @return Integer
    */
+  
   public String switchRelay(Integer userId, String serialNumber, String moduleId, String relayId, String state) {
     String command = "SWITCH;" + serialNumber + ";" + moduleId + ";" + relayId + ";" + state + "\n";
     return sendToConsolePort(serialNumber, userId, command);
@@ -195,6 +195,7 @@ public class UserProductService {
    * @param userId
    * @return List<UserProduct>
    */
+  @Transactional(readOnly=true)
   public List<UserProduct> getUserProductByUserId(Integer userId) {
     logger.debug("getUserProductByUserId userid:" + userId);
 
@@ -219,6 +220,7 @@ public class UserProductService {
    * @param serialNumber
    * @return UserProduct
    */
+  @Transactional(readOnly=true)
   public UserProduct getUserProductBySerialNumber(String serialNumber) {
     logger.debug("getUserProductBySerialNumber serialNumber:" + serialNumber);
 
@@ -241,6 +243,7 @@ public class UserProductService {
    * @param userProduct
    * @return Integer
    */
+  @Transactional
   public Integer updateUserProduct(UserProduct userProduct) {
 
     String serialNumber = userProduct.getSerialNumber();
@@ -255,11 +258,11 @@ public class UserProductService {
 
     return userProductDAO.updateUserProduct(userProduct);
   }
-
+  @Transactional
   public Integer selectUserProduct(String serialNumber, Integer userId) {
     return userProductDAO.selectUserProduct(serialNumber, userId);
   }
-
+  @Transactional
   public Integer updateRelayStatus(String serialNumber, Integer moduleId, Integer relayId, Integer status) {
 
     return userProductDAO.updateRelayStatus(serialNumber, moduleId, relayId, status);
@@ -273,8 +276,8 @@ public class UserProductService {
    * @param settingId
    * @return
    */
+  @Transactional
   public Integer addRelaySetting(RelaySetting relaySetting, String serialNumber) {
-    logger.debug("addRelaySetting serialNumber:" + serialNumber);
     return userProductDAO.addUserProductRelaySetting(relaySetting, serialNumber);
   }
 
@@ -286,8 +289,8 @@ public class UserProductService {
    * @param settingId
    * @return
    */
+  @Transactional
   public Integer updateRelaySetting(RelaySetting relaySetting, String serialNumber) {
-    logger.debug("updateRelaySetting serialNumber:" + serialNumber);
     return userProductDAO.updateUserProductRelaySetting(relaySetting, serialNumber);
   }
 
@@ -297,6 +300,7 @@ public class UserProductService {
    * @param userProduct
    * @return
    */
+  @Transactional
   public Integer addUserProduct(UserProduct userProduct) {
 
     List<UserProduct> userProducts = getUserProducts();
@@ -318,6 +322,7 @@ public class UserProductService {
    * @param serialNumber
    * @return
    */
+  @Transactional
   public Integer registerProduct(Integer userId, String serialNumber) {
 
     boolean isValidUser = false;
@@ -403,46 +408,4 @@ public class UserProductService {
 
     return 0;
   }
-
-  public UserProduct getTestData() {
-    UserProduct userProduct = getUserProductBySerialNumber("NO7S0YJR2N");
-
-    List<ProductControlSetting> productControlSettings = new LinkedList<ProductControlSetting>();
-    List<ProductTriggerSetting> productTriggerSettings = new LinkedList<ProductTriggerSetting>();
-
-    ProductControlSetting pcs = new ProductControlSetting();
-    pcs.setUserId(1);
-
-    pcs.setCallAccess(true);
-    pcs.setAccess(true);
-    pcs.setCreationDate(TimeUtil.getTimeStamp());
-    pcs.setLastUpdateDate(TimeUtil.getTimeStamp());
-
-    productControlSettings.add(pcs);
-
-    ProductTriggerSetting pts = new ProductTriggerSetting();
-    pts.setTriggerId(1);
-    pts.setTriggerRelayId(1);
-    pts.setTriggerEnabled(true);
-    pts.setTriggerAction("test action");
-    pts.setTriggerState("ON");
-    pts.setTriggerValue("test value");
-    pts.setLastUpdateDate(TimeUtil.getTimeStamp());
-
-    productTriggerSettings.add(pts);
-
-    List<RelaySetting> relaySettings = userProduct.getRelaySettings();
-    for (RelaySetting relaySetting : relaySettings) {
-      relaySetting.setProductControlSettings(productControlSettings);
-    }
-    List<InputSetting> inputSettings = userProduct.getInputSettings();
-    for (InputSetting inputSetting : inputSettings) {
-      inputSetting.setProductTriggerSettings(productTriggerSettings);
-    }
-    userProduct.setRelaySettings(relaySettings);
-    userProduct.setInputSettings(inputSettings);
-
-    return userProduct;
-  }
-
 }

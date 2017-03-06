@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.jtech.apps.hcm.dao.interfaces.ConnectionsDAO;
 import com.jtech.apps.hcm.model.Connection;
@@ -14,11 +15,13 @@ public class ConnectionService {
 	@Autowired
 	ConnectionsDAO connectionDAO;
 
+	@Transactional
 	public int addConnection(Connection connection) {
 
 		return connectionDAO.addConnection(connection);
 	}
 
+	@Transactional
 	public int updateConnection(Connection connection) {
 
 		Connection conn = getConnection(connection.getSerialNumber());
@@ -28,11 +31,13 @@ public class ConnectionService {
 		return connectionDAO.updateConnection(connection);
 	}
 
+	@Transactional(readOnly=true)
 	public Connection getConnection(String serialNumber) {
 
 		return connectionDAO.getConnection(serialNumber);
 	}
 
+	@Transactional(readOnly=true)
 	public List<Connection> getConnections() {
 		
 		return connectionDAO.getConnections();

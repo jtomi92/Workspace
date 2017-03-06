@@ -3,7 +3,7 @@ package com.jtech.apps.hcm.model.mobile;
 import java.util.LinkedList;
 import java.util.List;
 
-public class ComponentBundle {
+public class ComponentWrapper {
   
   List<Component> components;
 

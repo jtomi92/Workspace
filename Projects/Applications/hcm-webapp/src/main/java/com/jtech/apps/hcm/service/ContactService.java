@@ -7,10 +7,10 @@ import org.apache.log4j.Logger;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.jtech.apps.hcm.form.ContactForm;
+import com.jtech.apps.hcm.model.Contact;
 import com.jtech.apps.hcm.model.UserProfile;
 import com.jtech.apps.hcm.util.LocalizationUtils;
 import com.jtech.apps.hcm.util.RestUtils;
@@ -67,6 +67,13 @@ public class ContactService {
 			modelAndViewError.addObject("localization",contactFormLocalizations);
 			return modelAndViewError;
 		}
+		
+		Contact contact = new Contact();
+		contact.setEmail(contactForm.getEmail());
+		contact.setName(contactForm.getName());
+		contact.setMessage(contactForm.getMessage());
+		
+		restUtils.addContactUsMessage(contact);
 
 		ModelAndView modelAndView = new ModelAndView("contact-success");
 		modelAndView.addObject("localization",contactFormLocalizations);

@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import com.jtech.apps.hcm.model.Connection;
-import com.jtech.apps.hcm.model.DevicePoolHost;
 import com.jtech.apps.hcm.service.ConnectionService;
 
  

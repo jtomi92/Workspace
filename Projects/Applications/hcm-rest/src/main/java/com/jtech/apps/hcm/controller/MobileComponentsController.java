@@ -2,6 +2,7 @@ package com.jtech.apps.hcm.controller;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -13,26 +14,32 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jtech.apps.hcm.model.mobile.Component;
-import com.jtech.apps.hcm.model.mobile.ComponentBundle;
+import com.jtech.apps.hcm.model.mobile.ComponentWrapper;
 import com.jtech.apps.hcm.model.mobile.Element;
 import com.jtech.apps.hcm.model.mobile.Relay;
 import com.jtech.apps.hcm.service.MobileComponentService;
+
 
 @RestController
 public class MobileComponentsController {
 
   @Autowired
   MobileComponentService mobileComponentService;
+  
+  private Logger logger = Logger.getLogger(MobileComponentsController.class);
 
   @RequestMapping(value = "/mobile/components/get/{userid}/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<List<Component>> getComponentsByUserId(@PathVariable("userid") Integer userId) {
-    List<Component> components = mobileComponentService.getComponents(userId);
-    return new ResponseEntity<List<Component>>(components, HttpStatus.OK);
+  public ResponseEntity<ComponentWrapper> getComponentsByUserId(@PathVariable("userid") Integer userId) {
+    List<Component> componentList = mobileComponentService.getComponents(userId);
+    ComponentWrapper componentWrapper = new ComponentWrapper();
+    componentWrapper.setComponents(componentList);
+    return new ResponseEntity<ComponentWrapper>(componentWrapper, HttpStatus.OK);
   }
   
   @RequestMapping(value = "/mobile/component/add/{userid}/", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<Integer> addComponent(@PathVariable("userid") Integer userId, @RequestBody Component component) {
     int err = mobileComponentService.addComponent(userId, component);
+    logger.info("Add component...");
     return new ResponseEntity<Integer>(err, HttpStatus.OK);
   }
   
@@ -43,12 +50,12 @@ public class MobileComponentsController {
   }
   
   @RequestMapping(value = "/mobile/components/update/{userid}/", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<Integer> updateComponents(@PathVariable("userid") Integer userId, @RequestBody ComponentBundle componentBundle) {
+  public ResponseEntity<Integer> updateComponents(@PathVariable("userid") Integer userId, @RequestBody ComponentWrapper componentBundle) {
     int err = mobileComponentService.updateComponents(userId, componentBundle);
     return new ResponseEntity<Integer>(err, HttpStatus.OK);
   }
   
-  @RequestMapping(value = "/mobile/component/delete/{userid}/{componentid}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+  @RequestMapping(value = "/mobile/component/delete/{userid}/{componentid}/", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<Integer> deleteComponent(@PathVariable("userid") Integer userId, @PathVariable("componentid") Integer componentId) {
     int err = mobileComponentService.deleteComponent(userId, componentId);
     return new ResponseEntity<Integer>(err, HttpStatus.OK);

@@ -4,7 +4,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -17,7 +16,6 @@ public class LocalizationDAOImpl {
 
 	@Autowired
 	JdbcTemplate jdbcTemplate;
-	private Logger logger = Logger.getLogger(NotificationDAOImpl.class);
 	
 	public Localization getLocalization(String page, String locale){
 		

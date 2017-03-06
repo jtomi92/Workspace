@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.jtech.apps.hcm.dao.interfaces.ProductRegistrationDAO;
 import com.jtech.apps.hcm.model.RegisteredProduct;
 import com.jtech.apps.hcm.util.TimeUtil;
@@ -14,10 +16,11 @@ public class ProductRegistrationService {
 	@Autowired
 	ProductRegistrationDAO productRegistrationDAO;
 
+	@Transactional
 	public int registerProduct(String serial) {
 		return productRegistrationDAO.registerProduct(serial);
 	}
-
+	@Transactional
 	public int addRegisteredProduct(RegisteredProduct registeredProduct) {
 		List<RegisteredProduct> registeredProducts = getRegisteredProducts();
 
@@ -30,19 +33,19 @@ public class ProductRegistrationService {
 		}
 		return productRegistrationDAO.addRegisteredProduct(registeredProduct);
 	}
-
+	@Transactional
 	public int updateRegisteredProduct(RegisteredProduct registeredProduct) {
 		return productRegistrationDAO.updateRegisteredProduct(registeredProduct);
 	}
-
+	@Transactional(readOnly=true)
 	public RegisteredProduct getRegisteredProductBySerialNumber(String serialNumber) {
 		return productRegistrationDAO.getRegisteredProductBySerialNumber(serialNumber);
 	}
-
+	@Transactional(readOnly=true)
 	public List<RegisteredProduct> getRegisteredProducts() {
 		return productRegistrationDAO.getRegisteredProducts();
 	}
-
+	@Transactional(readOnly=true)
 	public RegisteredProduct getTestData() {
 		RegisteredProduct registeredProduct = new RegisteredProduct();
 		registeredProduct.setSerialNumber("TEST_SERIAL");
@@ -53,5 +56,4 @@ public class ProductRegistrationService {
 		registeredProduct.setCreationDate(TimeUtil.getTimeStamp());
 		return registeredProduct;
 	}
-
 }

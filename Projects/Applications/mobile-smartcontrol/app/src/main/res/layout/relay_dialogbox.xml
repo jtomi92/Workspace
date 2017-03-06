@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:text="Pick your product"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView1"
+        android:gravity="center_vertical|center_horizontal"
+        android:padding="10dp" />
+
+    <Spinner
+        android:id="@+id/product_picker"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_margin="10dp" />
+
+    <TextView
+        android:text="Pick a relay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView2"
+        android:padding="10dp"
+        android:gravity="center_vertical|center_horizontal" />
+
+    <Spinner
+        android:id="@+id/relay_picker"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_margin="10dp" />
+
+    <TextView
+        android:text="Element Action"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView3"
+        android:padding="10dp"
+        android:gravity="center_vertical|center_horizontal" />
+
+    <Spinner
+        android:id="@+id/element_action_picker"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_margin="10dp" />
+
+    <TextView
+        android:text="Relay Action"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView4"
+        android:padding="10dp"
+        android:gravity="center_vertical|center_horizontal" />
+
+    <Spinner
+        android:id="@+id/relay_action_picker"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_margin="10dp" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical|center_horizontal">
+
+    </LinearLayout>
+
+</LinearLayout>

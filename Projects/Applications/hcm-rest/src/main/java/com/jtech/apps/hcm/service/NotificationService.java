@@ -4,18 +4,14 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Set;
-import java.util.stream.Collectors;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.jtech.apps.hcm.dao.NotificationDAOImpl;
 import com.jtech.apps.hcm.dao.interfaces.ConnectionsDAO;
@@ -23,7 +19,6 @@ import com.jtech.apps.hcm.model.Connection;
 import com.jtech.apps.hcm.model.Notification;
 import com.jtech.apps.hcm.model.RelayState;
 import com.jtech.apps.hcm.model.UserProduct;
-import com.jtech.apps.hcm.util.TimeUtil;
 
 @Service
 public class NotificationService {
@@ -35,8 +30,7 @@ public class NotificationService {
 	@Autowired
 	UserProductService userProductService;
 
-	private Logger logger = Logger.getLogger(NotificationService.class);
-
+	@Transactional
 	public List<Notification> getNotifications(Integer userId) {
 
 		List<UserProduct> userProducts = userProductService.getUserProductByUserId(userId);
@@ -91,13 +85,11 @@ public class NotificationService {
 				notificationDAOImpl.deleteNotifications(userProduct.getSerialNumber());
 			}	
 		}
-		//if (notificiations.isEmpty()){
-		//	return null;
-		//}	
 		
 		return notificiations;
 	}
 	
+	@Transactional
 	public Integer addNotification(String serialNumber, String notification){
 		return notificationDAOImpl.addNotification(serialNumber, notification);
 	}

@@ -5,7 +5,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -27,8 +26,6 @@ public class MobileComponentsDAOImpl implements MobileComponentsDAO {
   JdbcTemplate jdbcTemplate;
   ProductCategoryMapper mapper = new ProductCategoryMapper();
   private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
-
-  private Logger logger = Logger.getLogger(MobileComponentsDAOImpl.class);
 
   @Override
   public List<Component> getComponentsByUserId(Integer userId) {

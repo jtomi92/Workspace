@@ -2,7 +2,6 @@ package com.jtech.apps.hcm.util;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
 public class TimeUtil {
 	

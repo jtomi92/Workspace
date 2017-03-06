@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">SmartControl</string>
+    <string name="action_settings">Settings</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">OK</string>
+    <string name="component_name">New Component</string>
+
+</resources>

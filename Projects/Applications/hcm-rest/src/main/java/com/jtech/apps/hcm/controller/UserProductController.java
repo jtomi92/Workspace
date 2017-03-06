@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import com.jtech.apps.hcm.model.UserProduct;
+import com.jtech.apps.hcm.model.UserProductWrapper;
 import com.jtech.apps.hcm.service.UserProductService;
 
 
@@ -23,13 +24,6 @@ public class UserProductController {
 	UserProductService userProductService;
 	
 	private static final Logger logger = Logger.getLogger(UserProductController.class);
-	
-	@RequestMapping(value = "/product/test", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<UserProduct> getTestData() {
-		
-		UserProduct userProduct = userProductService.getTestData();
-		return new ResponseEntity<UserProduct>(userProduct, HttpStatus.OK);
-	}
 	
 	@RequestMapping(value = "/product/select/{serial}/{userid}/", method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Integer> selectUserProduct(@PathVariable("serial") String serialNumber, @PathVariable("userid") Integer userId) {
@@ -76,6 +70,21 @@ public class UserProductController {
 		return new ResponseEntity<List<UserProduct>>(userProducts, HttpStatus.OK);
 
 	}
+	
+	@RequestMapping(value = "/product/get/{userid}/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<UserProductWrapper> getProductByUserId2(@PathVariable("userid") Integer userId) {
+
+    List<UserProduct> userProducts = userProductService.getUserProductByUserId(userId);
+
+    if (userProducts == null) {
+      return new ResponseEntity<>(HttpStatus.OK);
+    }
+    UserProductWrapper userProductWrapper = new UserProductWrapper();
+    userProductWrapper.setUserProducts(userProducts);
+    
+    return new ResponseEntity<UserProductWrapper>(userProductWrapper, HttpStatus.OK);
+
+  }
 
 	@RequestMapping(value = "/product/get", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<UserProduct>> getProducts() {

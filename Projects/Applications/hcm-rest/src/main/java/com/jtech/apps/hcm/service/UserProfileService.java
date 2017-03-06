@@ -2,79 +2,119 @@ package com.jtech.apps.hcm.service;
 
 import java.util.List;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
- 
+import org.springframework.transaction.annotation.Transactional;
+
 import com.jtech.apps.hcm.dao.interfaces.UserProfileDAO;
 import com.jtech.apps.hcm.model.UserProfile;
 
 @Service
 public class UserProfileService {
-	@Autowired
-	UserProfileDAO userProfileDAO;
-	
-	private static final Logger logger = Logger.getLogger(UserProfileService.class);
+  @Autowired
+  UserProfileDAO userProfileDAO;
 
-	public UserProfile getUserProfileByUserId(Integer userId) {
+  /**
+   * Gets userProfile by userId
+   * 
+   * @param userId
+   * @return UserProfile or null if not exists
+   */
+  @Transactional(readOnly = true)
+  public UserProfile getUserProfileByUserId(Integer userId) {
 
-		List<UserProfile> userProfiles = userProfileDAO.getUserProfiles();
+    List<UserProfile> userProfiles = userProfileDAO.getUserProfiles();
 
-		for (UserProfile userProfile : userProfiles) {
-			if (userProfile.getUserId() == userId) {
-				return userProfile;
-			}
-		}
-		return null;
-	}
-	
-	public UserProfile getUserProfileByUserName(String userName) {
+    for (UserProfile userProfile : userProfiles) {
+      if (userProfile.getUserId() == userId) {
+        return userProfile;
+      }
+    }
+    return null;
+  }
 
-		List<UserProfile> userProfiles = userProfileDAO.getUserProfiles();
-		for (UserProfile userProfile : userProfiles) {
-			if (userProfile.getUserName().equals(userName)) {
-				return userProfile;
-			}
-		}
-		return null;
-	}
-	
-	public UserProfile getUserProfileByUserToken(String token){
-		List<UserProfile> userProfiles = userProfileDAO.getUserProfiles();
-		for (UserProfile userProfile : userProfiles) {
-			if (userProfile.getToken() != null && userProfile.getToken().equals(token)) {
-				return userProfile;
-			}
-		}
-		return null;
-	}
+  /**
+   * Gets userProfile by userName (email)
+   * 
+   * @param userName
+   * @return UserProfile or null if not exists
+   */
+  @Transactional(readOnly = true)
+  public UserProfile getUserProfileByUserName(String userName) {
 
-	public List<UserProfile> getUserProfiles() {
-		return userProfileDAO.getUserProfiles();
-	}
+    List<UserProfile> userProfiles = userProfileDAO.getUserProfiles();
+    for (UserProfile userProfile : userProfiles) {
+      if (userProfile.getUserName().equals(userName)) {
+        return userProfile;
+      }
+    }
+    return null;
+  }
 
-	public int updateUserProfile(UserProfile userProfile) {
-		return userProfileDAO.updateUserProfile(userProfile);
-	}
+  /**
+   * Gets userProfile by registration Token
+   * 
+   * @param token
+   * @return UserProfile or null if not exists
+   */
+  @Transactional(readOnly = true)
+  public UserProfile getUserProfileByUserToken(String token) {
+    List<UserProfile> userProfiles = userProfileDAO.getUserProfiles();
+    for (UserProfile userProfile : userProfiles) {
+      if (userProfile.getToken() != null && userProfile.getToken().equals(token)) {
+        return userProfile;
+      }
+    }
+    return null;
+  }
 
-	public int addUserProfile(UserProfile up) {
+  /**
+   * get all userProfiles
+   * 
+   * @return List<UserProfile>
+   */
+  @Transactional(readOnly = true)
+  public List<UserProfile> getUserProfiles() {
+    return userProfileDAO.getUserProfiles();
+  }
 
-		List<UserProfile> userProfiles = getUserProfiles();
+  /**
+   * update userProfile
+   * 
+   * @param userProfile
+   * @return
+   */
+  @Transactional
+  public int updateUserProfile(UserProfile userProfile) {
+    return userProfileDAO.updateUserProfile(userProfile);
+  }
 
-		for (UserProfile userProfile : userProfiles) {
-			if (userProfile.getUserName().equals(up.getUserName())) {
-				return 0;
-			}
-		}
-		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-		up.setPassword(passwordEncoder.encode(up.getPassword()));
-		
-		return userProfileDAO.addUserProfile(up);
-	}
+  /**
+   * add userProfile
+   * 
+   * @param up
+   * @return
+   */
+  @Transactional
+  public int addUserProfile(UserProfile up) {
 
-	public UserProfile getTestData() {
-		return userProfileDAO.getTestData();
-	}
+    List<UserProfile> userProfiles = getUserProfiles();
+
+    for (UserProfile userProfile : userProfiles) {
+      if (userProfile.getUserName().equals(up.getUserName())) {
+        return 0;
+      }
+    }
+    PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    up.setPassword(passwordEncoder.encode(up.getPassword()));
+
+    return userProfileDAO.addUserProfile(up);
+  }
+
+  @Transactional
+  public UserProfile getTestData() {
+    return userProfileDAO.getTestData();
+  }
 }
