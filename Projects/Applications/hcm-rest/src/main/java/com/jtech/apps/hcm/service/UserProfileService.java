@@ -8,13 +8,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.jtech.apps.hcm.dao.interfaces.UserProfileDAO;
+import com.jtech.apps.hcm.dao.UserProfileDAOImpl;
 import com.jtech.apps.hcm.model.UserProfile;
 
 @Service
 public class UserProfileService {
   @Autowired
-  UserProfileDAO userProfileDAO;
+  UserProfileDAOImpl userProfileDAO;
 
   /**
    * Gets userProfile by userId
@@ -111,10 +111,5 @@ public class UserProfileService {
     up.setPassword(passwordEncoder.encode(up.getPassword()));
 
     return userProfileDAO.addUserProfile(up);
-  }
-
-  @Transactional
-  public UserProfile getTestData() {
-    return userProfileDAO.getTestData();
   }
 }

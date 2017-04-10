@@ -16,7 +16,7 @@ void processIO(){
 		char previousSource = __system_var.interface_;
 		delay(100);
 
-		WebApp();
+		ConfigurationThread();
 		
 		RelayControl();
 		
@@ -32,6 +32,10 @@ void processIO(){
 	if (__network_data.is_sim_read_line == 1){
 		char previousSource = __system_var.interface_;
 		setSource(SIM);
+		
+		RelayControl();
+		
+		ReceiveSettings();
 		
 		IncomingCallHandler();
 		
@@ -65,7 +69,8 @@ int main (void)
 	/*for (i=0;i<1000;i++){
 		 USART0_SendByte(eeprom_read_byte((uint8_t*)i));
 	}*/
-	 
+	 //209000782
+	
 	while(1)
 	{
 		

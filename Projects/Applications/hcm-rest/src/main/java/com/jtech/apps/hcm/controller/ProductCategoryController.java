@@ -21,31 +21,6 @@ public class ProductCategoryController {
 
 	@Autowired
 	ProductCategoryService productCategoryService;
- 
- 
-	/*@RequestMapping(value = "/hello", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<String> health() { 
-		
-		try {
-			Socket socket = new Socket("localhost",86);
-		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		return new ResponseEntity<String>("hello", HttpStatus.OK);
-	}*/
-	
-	@RequestMapping(value = "/productcategory/test", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<ProductCategory> addTestData() {
-
-		ProductCategory pc = productCategoryService.getTestData();
-
-		return new ResponseEntity<ProductCategory>(pc, HttpStatus.OK);
-	}
 
 	@RequestMapping(value = "/productcategory/get", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<ProductCategory>> getProductCategories() {

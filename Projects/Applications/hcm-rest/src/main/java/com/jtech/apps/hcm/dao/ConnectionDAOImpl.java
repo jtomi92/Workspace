@@ -13,19 +13,17 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
-import com.jtech.apps.hcm.dao.interfaces.ConnectionsDAO;
 import com.jtech.apps.hcm.model.Connection;
 import com.jtech.apps.hcm.util.TimeUtil;
 
 @Repository
-public class ConnectionDAOImpl implements ConnectionsDAO {
+public class ConnectionDAOImpl{
 
 	@Autowired
 	JdbcTemplate jdbcTemplate;
 
 	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-	@Override
 	public int addConnection(Connection connection) {
 
 		String sql = "INSERT INTO CONNECTIONS (SERIAL_NUMBER, HOST, DEVICE_PORT, CONSOLE_PORT, STATUS, CREATION_DATE, LAST_UPDATE_DATE) VALUES (:SERIAL_NUMBER, :HOST, :DEVICE_PORT, :CONSOLE_PORT, :STATUS, :CREATION_DATE, :LAST_UPDATE_DATE)";
@@ -44,7 +42,6 @@ public class ConnectionDAOImpl implements ConnectionsDAO {
 		return namedParameterJdbcTemplate.update(sql, namedParameters);
 	}
 
-	@Override
 	public int updateConnection(Connection connection) {
 		String sql = "UPDATE CONNECTIONS SET HOST = :HOST, DEVICE_PORT = :DEVICE_PORT, CONSOLE_PORT = :CONSOLE_PORT, STATUS = :STATUS, LAST_UPDATE_DATE = :LAST_UPDATE_DATE WHERE SERIAL_NUMBER = :SERIAL_NUMBER";
 
@@ -61,7 +58,6 @@ public class ConnectionDAOImpl implements ConnectionsDAO {
 		return namedParameterJdbcTemplate.update(sql, namedParameters);
 	}
 
-	@Override
 	public Connection getConnection(String serialNumber) {
 
 		String sql = "SELECT * FROM CONNECTIONS WHERE SERIAL_NUMBER = ?";
@@ -84,7 +80,6 @@ public class ConnectionDAOImpl implements ConnectionsDAO {
 		return connection;
 	}
 
-	@Override
 	public List<Connection> getConnections() {
 
 		List<Connection> connections = new LinkedList<Connection>();

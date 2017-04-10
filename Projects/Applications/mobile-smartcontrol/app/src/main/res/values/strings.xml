@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SmartControl</string>
+    <string name="app_name">Smart Relay Control</string>
     <string name="action_settings">Settings</string>
     <string name="cancel">Cancel</string>
     <string name="ok">OK</string>

@@ -23,17 +23,6 @@ public class UserProfileController {
 	
 	private static final Logger logger = Logger.getLogger(UserProfileController.class);
 
-	@RequestMapping(value = "/userprofile/test/get", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<UserProfile> getTestData() {
-
-		UserProfile userProfile = userProfileService.getTestData();
-
-		if (userProfile == null) {
-			return new ResponseEntity<>(HttpStatus.OK);
-		}
-		return new ResponseEntity<UserProfile>(userProfile, HttpStatus.OK);
-	}
-
 	@RequestMapping(value = "/userprofile/get", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<UserProfile>> getUserProfiles() {
 

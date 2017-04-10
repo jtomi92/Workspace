@@ -12,7 +12,6 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
-import com.jtech.apps.hcm.dao.interfaces.MobileComponentsDAO;
 import com.jtech.apps.hcm.dao.mapper.ProductCategoryMapper;
 import com.jtech.apps.hcm.model.mobile.Component;
 import com.jtech.apps.hcm.model.mobile.Element;
@@ -20,14 +19,13 @@ import com.jtech.apps.hcm.model.mobile.Input;
 import com.jtech.apps.hcm.model.mobile.Relay;
 
 @Repository
-public class MobileComponentsDAOImpl implements MobileComponentsDAO {
+public class MobileComponentsDAOImpl {
 
   @Autowired
   JdbcTemplate jdbcTemplate;
   ProductCategoryMapper mapper = new ProductCategoryMapper();
   private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-  @Override
   public List<Component> getComponentsByUserId(Integer userId) {
 
     List<Component> components = new LinkedList<Component>();
@@ -111,7 +109,6 @@ public class MobileComponentsDAOImpl implements MobileComponentsDAO {
     return null;
   }
 
-  @Override
   public int updateComponent(Integer userId, Component component) {
 
     String sql = "UPDATE MOBILE_COMPONENTS SET COMPONENT_NAME = :COMPONENT_NAME, SEQUENCE = :SEQUENCE WHERE USER_ID = :USER_ID AND COMPONENT_ID = :COMPONENT_ID";
@@ -191,7 +188,6 @@ public class MobileComponentsDAOImpl implements MobileComponentsDAO {
     return namedParameterJdbcTemplate.update(sql, namedParameters);
   }
 
-  @Override
   public int deleteComponent(Integer userId, Integer componentId) {
 
     deleteElements(userId, componentId);
@@ -199,7 +195,6 @@ public class MobileComponentsDAOImpl implements MobileComponentsDAO {
     return jdbcTemplate.update(sql, userId, componentId);
   }
 
-  @Override
   public int addComponent(Integer userId, Component component) {
 
     String sql = "INSERT INTO MOBILE_COMPONENTS (USER_ID, COMPONENT_ID, COMPONENT_NAME, SEQUENCE) VALUES (:USER_ID, :COMPONENT_ID, :COMPONENT_NAME, :SEQUENCE)";

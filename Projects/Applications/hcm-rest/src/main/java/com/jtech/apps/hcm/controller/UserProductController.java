@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.jtech.apps.hcm.model.NotificationWrapper;
 import com.jtech.apps.hcm.model.UserProduct;
 import com.jtech.apps.hcm.model.UserProductWrapper;
 import com.jtech.apps.hcm.service.UserProductService;
@@ -106,11 +108,11 @@ public class UserProductController {
 		return new ResponseEntity<String>(response, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/product/switch/{userid}/{componentid}/{elementid}/{action}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<String> switchRelays(@PathVariable("userid") Integer userId, @PathVariable("componentid") Integer componentId, @PathVariable("elementid") Integer elementId, @PathVariable("action") String action) {
+	@RequestMapping(value = "/product/switch/{userid}/{componentid}/{elementid}/{action}/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<NotificationWrapper> switchRelays(@PathVariable("userid") Integer userId, @PathVariable("componentid") Integer componentId, @PathVariable("elementid") Integer elementId, @PathVariable("action") String action) {
 
-    String response = userProductService.switchRelays(userId,componentId,elementId,action);
-    return new ResponseEntity<String>(response, HttpStatus.OK);
+	  NotificationWrapper notificationWrapper = userProductService.switchRelays(userId,componentId,elementId,action);
+    return new ResponseEntity<NotificationWrapper>(notificationWrapper, HttpStatus.OK);
   }
 	
 	@RequestMapping(value = "/device/update/{userid}/{serial}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)

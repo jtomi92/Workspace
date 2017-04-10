@@ -1,8 +1,8 @@
 -- MySQL dump 10.13  Distrib 5.7.9, for Win64 (x86_64)
 --
--- Host: jtech.cr2mzdew7yg9.eu-west-1.rds.amazonaws.com    Database: jtech
+-- Host: localhost    Database: jtech
 -- ------------------------------------------------------
--- Server version	5.6.27-log
+-- Server version	5.7.13-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -40,6 +40,7 @@ CREATE TABLE `MOBILE_COMPONENT_ELEMENTS` (
 
 LOCK TABLES `MOBILE_COMPONENT_ELEMENTS` WRITE;
 /*!40000 ALTER TABLE `MOBILE_COMPONENT_ELEMENTS` DISABLE KEYS */;
+INSERT INTO `MOBILE_COMPONENT_ELEMENTS` VALUES (15,1,1,'Lámpa 1',NULL,NULL,1),(15,1,2,'Lámpa 2',NULL,NULL,2),(40,1,1,'asdd',NULL,NULL,1);
 /*!40000 ALTER TABLE `MOBILE_COMPONENT_ELEMENTS` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -52,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-02-17 14:26:03
+-- Dump completed on 2017-04-02 16:14:26

@@ -6,8 +6,9 @@
  */ 
 #include <HwProperties.h>
 #define TRUE 1
-#define UART0 0;
-#define UART1 1;
+#define FALSE 0
+#define UART0 0
+#define UART1 1
 
 const char PRODUCT_NAME[] = "test product 1";
 

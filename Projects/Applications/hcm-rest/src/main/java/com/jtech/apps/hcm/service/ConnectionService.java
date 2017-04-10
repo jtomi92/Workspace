@@ -6,14 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.jtech.apps.hcm.dao.interfaces.ConnectionsDAO;
+import com.jtech.apps.hcm.dao.ConnectionDAOImpl;
 import com.jtech.apps.hcm.model.Connection;
 
 @Service
 public class ConnectionService {
 
 	@Autowired
-	ConnectionsDAO connectionDAO;
+	ConnectionDAOImpl connectionDAO;
 
 	@Transactional
 	public int addConnection(Connection connection) {

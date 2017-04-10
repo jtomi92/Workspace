@@ -9,7 +9,6 @@ public class Relay {
   private String action;
   private String state;
   
-  
   public Integer getConnectionId() {
     return connectionId;
   }

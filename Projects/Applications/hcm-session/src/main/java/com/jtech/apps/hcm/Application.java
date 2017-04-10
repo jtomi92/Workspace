@@ -10,7 +10,7 @@ import com.jtech.apps.hcm.util.PropertiesUtil;
 public class Application {
 
 	// TODO: get these info from property file
-	public static void main(String[] args) {
+	public static void main(String[] args) { 
 
 		PropertiesUtil propertiesUtil = new PropertiesUtil();
 		try {

@@ -1,0 +1,43 @@
+<resources>
+    <string name="app_name">LedControl_v2</string>
+    <string name="title_activity_settings">Settings</string>
+
+    <string-array name="colors_array">
+        <item>Red</item>
+        <item>Green</item>
+        <item>Blue</item>
+        <item>Custom color</item>
+    </string-array>
+
+    <string-array name="effects_array">
+        <item>Fix (1 color)</item>
+        <item>Flash (1 color)</item>
+        <item>Flash (2 color)</item>
+        <item>Carousel (1 color)</item>
+        <item>Carousel (2 color)</item>
+    </string-array>
+
+
+    <string name="power_status">power_status</string>
+    <string name="prefered_file_key">odzo.app</string>
+    <string name="color1_value">color1_value</string>
+    <string name="color2_value">color2_value</string>
+    <string name="effect_value">effect_value</string>
+    <string name="effect_speed">effect_speed</string>
+    <string name="selected_device_name">selected_device_name</string>
+    <string name="connection_status">connection_status</string>
+    <string name="led_number">led_number</string>
+
+    <!-- Custom colors-->
+    <string name="c_color1_status">c_color1_status</string>
+    <string name="c_color1_red">c_color1_red</string>
+    <string name="c_color1_green">c_color1_green</string>
+    <string name="c_color1_blue">c_color1_blue</string>
+
+    <string name="c_color2_status">c_color2_status</string>
+    <string name="c_color2_red">c_color2_red</string>
+    <string name="c_color2_green">c_color2_green</string>
+    <string name="c_color2_blue">c_color2_blue</string>
+
+
+</resources>

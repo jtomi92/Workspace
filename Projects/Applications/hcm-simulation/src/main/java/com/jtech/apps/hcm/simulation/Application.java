@@ -4,8 +4,8 @@ package com.jtech.apps.hcm.simulation;
 public class Application 
 {
 	
-	//private static String targetHost = "jtech-session.eu-west-1.elasticbeanstalk.com";
-	private static String targetHost = "localhost";
+	private static String targetHost = "jtech-session.eu-west-1.elasticbeanstalk.com";
+	//private static String targetHost = "localhost";
 	private static Integer targetPort = 2086;
 	
     public static void main( String[] args )

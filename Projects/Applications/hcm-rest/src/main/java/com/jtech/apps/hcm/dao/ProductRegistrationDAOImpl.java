@@ -12,13 +12,12 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
-import com.jtech.apps.hcm.dao.interfaces.ProductRegistrationDAO;
 import com.jtech.apps.hcm.dao.mapper.ProductRegistrationMapper;
 import com.jtech.apps.hcm.model.RegisteredProduct;
 import com.jtech.apps.hcm.util.TimeUtil;
 
 @Repository
-public class ProductRegistrationDAOImpl implements ProductRegistrationDAO {
+public class ProductRegistrationDAOImpl {
 
 	@Autowired
 	JdbcTemplate jdbcTemplate;
@@ -26,7 +25,6 @@ public class ProductRegistrationDAOImpl implements ProductRegistrationDAO {
 	ProductRegistrationMapper mapper = new ProductRegistrationMapper();
 	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-	@Override
 	public int registerProduct(String serial) {
 
 		RegisteredProduct registeredProduct = getRegisteredProductBySerialNumber(serial);
@@ -35,7 +33,6 @@ public class ProductRegistrationDAOImpl implements ProductRegistrationDAO {
 		return updateRegisteredProduct(registeredProduct);
 	}
 
-	@Override
 	public int addRegisteredProduct(RegisteredProduct registeredProduct) {
 
 		List<RegisteredProduct> registeredProductList = getRegisteredProducts();
@@ -65,7 +62,6 @@ public class ProductRegistrationDAOImpl implements ProductRegistrationDAO {
 		return namedParameterJdbcTemplate.update(sql, namedParameters);
 	}
 
-	@Override
 	public int updateRegisteredProduct(RegisteredProduct registeredProduct) {
 
 		String sql = "UPDATE REGISTERED_PRODUCTS SET " + "PRODUCT_ID = :PRODUCT_ID, " + "IS_ACTIVATED = :IS_ACTIVATED, "
@@ -84,7 +80,6 @@ public class ProductRegistrationDAOImpl implements ProductRegistrationDAO {
 		return namedParameterJdbcTemplate.update(sql, namedParameters);
 	}
 
-	@Override
 	public RegisteredProduct getRegisteredProductBySerialNumber(String serialNumber) {
 
 		List<RegisteredProduct> registeredProductList = getRegisteredProducts();
@@ -98,15 +93,11 @@ public class ProductRegistrationDAOImpl implements ProductRegistrationDAO {
 		return null;
 	}
 
-	@Override
 	public List<RegisteredProduct> getRegisteredProducts() {
 
 		List<RegisteredProduct> registeredProducts = new LinkedList<RegisteredProduct>();
-
 		String sql = "SELECT * FROM REGISTERED_PRODUCTS";
-
 		List<Map<String, Object>> rows = new LinkedList<Map<String, Object>>();
-
 		rows = jdbcTemplate.queryForList(sql);
 
 		if (rows != null && !rows.isEmpty()) {
@@ -118,22 +109,6 @@ public class ProductRegistrationDAOImpl implements ProductRegistrationDAO {
 				registeredProducts.add(registeredProduct);
 			}
 		}
-
 		return registeredProducts;
 	}
-
-	@Override
-	public RegisteredProduct getTestData() {
-
-		RegisteredProduct registeredProduct = new RegisteredProduct();
-		registeredProduct.setSerialNumber("test serial number");
-		registeredProduct.setProductId(1);
-		registeredProduct.setActivated(false);
-		registeredProduct.setRegistered(true);
-		registeredProduct.setCreationDate(TimeUtil.getTimeStamp());
-		registeredProduct.setLastUpdateDate(TimeUtil.getTimeStamp());
-
-		return registeredProduct;
-	}
-
 }

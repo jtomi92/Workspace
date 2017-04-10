@@ -22,7 +22,6 @@
 
 typedef struct {                  //SYS
 	char serial_number[15];
-	char admin_user[15];
 	int  relay_modules[MAX_MODULE_COUNT];
 	int  module_connected[MAX_MODULE_COUNT];
 	int  module_flags[MAX_MODULE_COUNT];
@@ -34,6 +33,7 @@ typedef struct {                  //SYS
 	char enabled_flag;
 	
 	char sms_flag;
+	char admin[13];
 	char phone_buffer[13];
 } SYSTEM_VARIABLES;
 

@@ -16,7 +16,6 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
-import com.jtech.apps.hcm.dao.interfaces.UserProductDAO;
 import com.jtech.apps.hcm.dao.mapper.UserProductMapper;
 import com.jtech.apps.hcm.model.UserProduct;
 import com.jtech.apps.hcm.model.setting.InputSetting;
@@ -28,16 +27,15 @@ import com.jtech.apps.hcm.model.setting.TimerSetting;
 import com.jtech.apps.hcm.util.TimeUtil;
 
 @Repository
-public class UserProductDAOImpl implements UserProductDAO {
+public class UserProductDAOImpl {
 
 	@Autowired
 	JdbcTemplate jdbcTemplate;
 
 	UserProductMapper mapper = new UserProductMapper();
 
-	private final Logger logger = Logger.getLogger(UserProductDAO.class);
+	private final Logger logger = Logger.getLogger(UserProductDAOImpl.class);
 
-	@Override
 	public int addUserProduct(UserProduct userProduct) {
 
 		String sql = "INSERT INTO USER_PRODUCTS ( SERIAL_NUMBER, NAME, PHONE_NUMBER, HOST1, "
@@ -129,7 +127,6 @@ public class UserProductDAOImpl implements UserProductDAO {
 		return namedParameterJdbcTemplate.update(sql, namedParameters);
 	}
 
-	@Override
 	public int addUserProductRelaySetting(RelaySetting relaySetting, String serialNumber) {
 
 		String sql = "INSERT INTO USER_PRODUCT_RELAY_SETTINGS (" + "SERIAL_NUMBER," + "RELAY_ID, MODULE_ID,"
@@ -174,7 +171,6 @@ public class UserProductDAOImpl implements UserProductDAO {
 		return namedParameterJdbcTemplate.update(sql, namedParameters);
 	}
 
-	@Override
 	public int addUserProductInputSetting(InputSetting inputSetting, String serialNumber) {
 
 		String sql = "INSERT INTO USER_PRODUCT_INPUT_SETTINGS (" + "SERIAL_NUMBER," + "INPUT_ID," + "INPUT_NAME,"
@@ -201,7 +197,6 @@ public class UserProductDAOImpl implements UserProductDAO {
 		return namedParameterJdbcTemplate.update(sql, namedParameters);
 	}
 
-	@Override
 	public int addUserProductControlSetting(ProductControlSetting pcs, String serialNumber, Integer relayId,
 			Integer moduleId) {
 
@@ -252,7 +247,6 @@ public class UserProductDAOImpl implements UserProductDAO {
 		return namedParameterJdbcTemplate.update(sql, namedParameters);
 	}
 
-	@Override
 	public int addUserProductTriggerSetting(ProductTriggerSetting pts, String serialNumber, Integer inputId) {
 
 		String sql = "INSERT INTO USER_PRODUCT_TRIGGER_SETTINGS (" + "SERIAL_NUMBER," + "INPUT_ID," + "TRIGGER_ID,"
@@ -278,7 +272,6 @@ public class UserProductDAOImpl implements UserProductDAO {
 		return namedParameterJdbcTemplate.update(sql, namedParameters);
 	}
 
-	@Override
 	public List<UserProduct> getUserProducts() {
 
 		String sql = "SELECT * FROM USER_PRODUCTS";
@@ -304,7 +297,6 @@ public class UserProductDAOImpl implements UserProductDAO {
 		return userProducts;
 	}
 
-	@Override
 	public UserProduct getUserProductBySerialNumber(String serialNumber) {
 
 		String sql = "SELECT * FROM USER_PRODUCTS WHERE SERIAL_NUMBER = ?";
@@ -339,7 +331,6 @@ public class UserProductDAOImpl implements UserProductDAO {
 		return userProduct;
 	}
 
-	@Override
 	public List<UserProduct> getUserProductsByUserId(Integer userId) {
 
 		String sql = "SELECT * FROM USER_PRODUCTS WHERE GROUP_ID IN (SELECT GROUP_ID FROM USER_PRODUCT_GROUPS WHERE USER_ID = ?);";
@@ -393,7 +384,6 @@ public class UserProductDAOImpl implements UserProductDAO {
 		return productUsers;
 	}
 
-	@Override
 	public List<RelaySetting> getRelaySettings(String serialNumber) {
 
 		List<RelaySetting> relaySettings = new LinkedList<RelaySetting>();
@@ -412,7 +402,6 @@ public class UserProductDAOImpl implements UserProductDAO {
 		return relaySettings;
 	}
 
-	@Override
 	public List<InputSetting> getInputSettings(String serialNumber) {
 
 		List<InputSetting> inputSettings = new LinkedList<InputSetting>();
@@ -430,7 +419,6 @@ public class UserProductDAOImpl implements UserProductDAO {
 
 	}
 
-	@Override
 	public List<ProductControlSetting> getUserProductControlSettings(String serialNumber, Integer relayId,
 			Integer moduleId) {
 
@@ -462,7 +450,6 @@ public class UserProductDAOImpl implements UserProductDAO {
 		return timerSettings;
 	}
 
-	@Override
 	public List<ProductTriggerSetting> getProductTriggetSetting(String serialNumber, Integer inputId) {
 
 		List<ProductTriggerSetting> productTriggerSettings = new LinkedList<ProductTriggerSetting>();
@@ -477,7 +464,6 @@ public class UserProductDAOImpl implements UserProductDAO {
 		return productTriggerSettings;
 	}
 
-	@Override
 	public int updateUserProduct(UserProduct up) {
 
 		String sql = "UPDATE USER_PRODUCTS SET NAME = :NAME, PHONE_NUMBER = :PHONE_NUMBER," + "HOST1 = :HOST1, "
@@ -528,7 +514,6 @@ public class UserProductDAOImpl implements UserProductDAO {
 		return err;
 	}
 
-	@Override
 	public int updateUserProductRelaySetting(RelaySetting rs, String serialNumber) {
 
 		String sql = "UPDATE USER_PRODUCT_RELAY_SETTINGS SET "
@@ -565,7 +550,6 @@ public class UserProductDAOImpl implements UserProductDAO {
 
 	}
 
-	@Override
 	public int updateUserProductInputSetting(InputSetting is, String serialNumber) {
 
 		String sql = "UPDATE USER_PRODUCT_INPUT_SETTINGS SET " + "INPUT_NAME = :INPUT_NAME, "
@@ -598,7 +582,6 @@ public class UserProductDAOImpl implements UserProductDAO {
 		return namedParameterJdbcTemplate.update(sql, namedParameters);
 	}
 
-	@Override
 	public int deleteUserProductTriggerSettings(String serialNumber, Integer inputId) {
 
 		String sql = "DELETE FROM USER_PRODUCT_TRIGGER_SETTINGS WHERE SERIAL_NUMBER = :SERIAL_NUMBER AND INPUT_ID = :INPUT_ID";
@@ -613,7 +596,6 @@ public class UserProductDAOImpl implements UserProductDAO {
 		return namedParameterJdbcTemplate.update(sql, namedParameters);
 	}
 
-	@Override
 	public int deleteUserProductControlSettings(String serialNumber, Integer relayId, Integer moduleId) {
 
 		String sql = "DELETE FROM USER_PRODUCT_CONTROL_SETTINGS WHERE SERIAL_NUMBER = :SERIAL_NUMBER AND RELAY_ID = :RELAY_ID AND MODULE_ID = :MODULE_ID";
@@ -644,7 +626,6 @@ public class UserProductDAOImpl implements UserProductDAO {
 		return namedParameterJdbcTemplate.update(sql, namedParameters);
 	}
 
-	@Override
 	public int updateUserProductTriggerSetting(ProductTriggerSetting pts, String serialNumber, Integer inputId) {
 
 		String sql = "UPDATE USER_PRODUCT_TRIGGER_SETTINGS SET " + "TRIGGER_RELAY_ID = :TRIGGER_RELAY_ID,"
@@ -670,7 +651,6 @@ public class UserProductDAOImpl implements UserProductDAO {
 		return namedParameterJdbcTemplate.update(sql, namedParameters);
 	}
 
-	@Override
 	public int updateUserProductControlSetting(ProductControlSetting pcs, String serialNumber, Integer relayId) {
 
 		String sql = "UPDATE USER_PRODUCT_CONTROL_SETTINGS SET " + "HAS_ACCESS = :HAS_ACCESS,"

@@ -33,12 +33,20 @@ void restoreRelayStates(){
 }
 
 void switchRelay(const int relay, const int status){
-	digitalWrite(pins[relay],status);
-	while (!eeprom_is_ready());
-	if (status == 1){
-		eeprom_write_byte((uint8_t*)relay,1);
+	int state = 0;
+	if (status == 3){
+		state = !digitalRead(pins[relay]);
+		digitalWrite(pins[relay],state);
 	} else {
-		eeprom_write_byte((uint8_t*)relay,0);
+		digitalWrite(pins[relay],status);	
+	}
+	
+	
+	while (!eeprom_is_ready());
+	if (status != 3){
+		eeprom_write_byte((uint8_t*)relay,status);
+	} else {
+		eeprom_write_byte((uint8_t*)relay,state);
 	}
 }
 

@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.jtech.apps.hcm.dao.interfaces.ProductRegistrationDAO;
+import com.jtech.apps.hcm.dao.ProductRegistrationDAOImpl;
 import com.jtech.apps.hcm.model.RegisteredProduct;
 import com.jtech.apps.hcm.util.TimeUtil;
 
@@ -14,7 +14,7 @@ import com.jtech.apps.hcm.util.TimeUtil;
 public class ProductRegistrationService {
 
 	@Autowired
-	ProductRegistrationDAO productRegistrationDAO;
+	ProductRegistrationDAOImpl productRegistrationDAO;
 
 	@Transactional
 	public int registerProduct(String serial) {

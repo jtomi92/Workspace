@@ -13,8 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.jtech.apps.hcm.dao.ConnectionDAOImpl;
 import com.jtech.apps.hcm.dao.NotificationDAOImpl;
-import com.jtech.apps.hcm.dao.interfaces.ConnectionsDAO;
 import com.jtech.apps.hcm.model.Connection;
 import com.jtech.apps.hcm.model.Notification;
 import com.jtech.apps.hcm.model.RelayState;
@@ -26,7 +26,7 @@ public class NotificationService {
 	@Autowired
 	NotificationDAOImpl notificationDAOImpl;
 	@Autowired
-	ConnectionsDAO connectionsDAO;
+	ConnectionDAOImpl connectionDAO;
 	@Autowired
 	UserProductService userProductService;
 
@@ -55,7 +55,7 @@ public class NotificationService {
 			
 			notification.setRs(relayStates);
 
-			Connection connection = connectionsDAO.getConnection(userProduct.getSerialNumber());
+			Connection connection = connectionDAO.getConnection(userProduct.getSerialNumber());
 			if (connection != null) {
 				Date date = new Date();
 				try {

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:text="Led count"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:textSize="16sp"
+        android:gravity="center_vertical"
+        android:textColor="@android:color/darker_gray"
+        android:id="@+id/LedNumText"
+        android:layout_margin="5dp"/>
+
+    <SeekBar
+        android:id="@+id/LedNumBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/LedNumText"
+        android:layout_toEndOf="@+id/LedNumText"
+        android:layout_toLeftOf="@+id/LedNumValue"
+        android:layout_toStartOf="@+id/LedNumValue"
+        android:layout_marginTop="10dp"
+        android:max="40"/>
+
+    <TextView
+        android:id="@+id/LedNumValue"
+        android:layout_width="50dp"
+        android:layout_height="40dp"
+        android:textSize="16sp"
+        android:gravity="center_vertical"
+        android:textColor="@android:color/darker_gray"
+        android:layout_below="@+id/b_custom2"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="5dp"/>
+
+</RelativeLayout>

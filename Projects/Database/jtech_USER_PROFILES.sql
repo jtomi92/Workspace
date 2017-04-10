@@ -1,8 +1,8 @@
 -- MySQL dump 10.13  Distrib 5.7.9, for Win64 (x86_64)
 --
--- Host: jtech.cr2mzdew7yg9.eu-west-1.rds.amazonaws.com    Database: jtech
+-- Host: localhost    Database: jtech
 -- ------------------------------------------------------
--- Server version	5.6.27-log
+-- Server version	5.7.13-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -38,7 +38,7 @@ CREATE TABLE `USER_PROFILES` (
   `creation_date` varchar(45) DEFAULT NULL,
   `last_update_date` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -47,7 +47,7 @@ CREATE TABLE `USER_PROFILES` (
 
 LOCK TABLES `USER_PROFILES` WRITE;
 /*!40000 ALTER TABLE `USER_PROFILES` DISABLE KEYS */;
-INSERT INTO `USER_PROFILES` VALUES (15,'1',NULL,'admin','admin','Józsa','Tamás','+36309225421','Zsák 17','Debrecen','Y',NULL,'2016/12/01 15:35:51','2017/02/15 09:44:49'),(16,'1',NULL,'asd','admin','Test','Test',NULL,NULL,NULL,'Y',NULL,'2016/12/02 11:42:49','2016/12/02 11:42:49'),(40,'1',NULL,'jtomi92@hotmail.com','asdasdasd','asdasd','asdasd','',NULL,NULL,'Y','KEYYF9G0FA47A3BZJ268C0J1VYA37P','2017/01/06 15:46:46','2017/01/06 15:54:20');
+INSERT INTO `USER_PROFILES` VALUES (15,'1',NULL,'admin','$2a$10$Nj0K0aIv5pPRJbKjXWM66e.UZ0Eb55153s6si0EwnwiUwI0OdxYiG','Józsa','Tamás','+36309225421','Zsák 17','Debrecen','Y',NULL,'2016/12/01 15:35:51','2017/02/15 09:44:49'),(40,'1',NULL,'jtomi92@hotmail.com','$2a$10$Nj0K0aIv5pPRJbKjXWM66e.UZ0Eb55153s6si0EwnwiUwI0OdxYiG','asdasd','asdasd','',NULL,NULL,'Y','KEYYF9G0FA47A3BZJ268C0J1VYA37P','2017/01/06 15:46:46','2017/01/06 15:54:20'),(41,'1',NULL,'test@hotmail.com','$2a$10$Nj0K0aIv5pPRJbKjXWM66e.UZ0Eb55153s6si0EwnwiUwI0OdxYiG','Test','TEst','',NULL,NULL,'N','9Z8K9PIMX5APIVJ0VJ7A9RXMT4V6G3','2017/02/20 16:23:11','2017/02/20 16:23:11');
 /*!40000 ALTER TABLE `USER_PROFILES` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -60,4 +60,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-02-17 14:26:27
+-- Dump completed on 2017-04-02 16:14:27

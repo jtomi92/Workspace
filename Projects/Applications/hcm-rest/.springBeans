@@ -8,9 +8,9 @@
 	<enableImports><![CDATA[false]]></enableImports>
 	<configs>
 		<config>src/main/resources/META-INF/aws.xml</config>
+		<config>java:com.libs.jcaptcha.Application</config>
 	</configs>
 	<autoconfigs>
-		<config>java:com.jtech.apps.hcm.Application</config>
 	</autoconfigs>
 	<configSets>
 	</configSets>

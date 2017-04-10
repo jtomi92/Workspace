@@ -19,6 +19,7 @@ import com.jtech.apps.hcm.model.RegisteredProduct;
 import com.jtech.apps.hcm.model.UserProduct;
 import com.jtech.apps.hcm.model.UserProfile;
 import com.jtech.apps.hcm.model.mobile.Component;
+import com.jtech.apps.hcm.model.mobile.ComponentWrapper;
 
 public class RestUtils {
 
@@ -67,11 +68,9 @@ public class RestUtils {
 	}
 	
 	public List<Component> getComponents(Integer userId){
-    ParameterizedTypeReference<List<Component>> typeRef = new ParameterizedTypeReference<List<Component>>() {
-    };
-    ResponseEntity<List<Component>> responseEntity = restTemplate.exchange(REST_GET_COMPONENTS,
-        HttpMethod.GET, getHttpEntity(), typeRef, userId);
-    return responseEntity.getBody();
+    ResponseEntity<ComponentWrapper> responseEntity = restTemplate.exchange(REST_GET_COMPONENTS,
+        HttpMethod.GET, getHttpEntity(), ComponentWrapper.class, userId);
+    return responseEntity.getBody().getComponents();
   }
   
   public List<Connection> getConnections() {

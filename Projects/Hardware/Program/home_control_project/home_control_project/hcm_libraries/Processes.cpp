@@ -37,7 +37,7 @@ void postPage(char flag){
 		__network_data.ap_connection[0] = *(p+4);
 		__network_data.ap_connection[1] = '\0';
 	}
-	 
+	
 	
 	delay(500);
 	strcpy(content,"<html><head><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0\"></head><body>");
@@ -57,7 +57,7 @@ void postPage(char flag){
 	strcat(content,"\"></p>");
 	if (flag == 1){
 		strcat(content,"<br><p>SAVED</p>");
-	} else {
+		} else {
 		strcat(content,"<input type=\"submit\">");
 	}
 	strcat(content,"</form></span></div></body></html>");
@@ -80,8 +80,62 @@ void postPage(char flag){
 	__system_time.connection_timer = 180;
 }
 
-void WebApp(){
+void ConfigurationThread(){
 	
+	
+	if (strstr(__network_data.esp_buffer,"UPDATE_CONFIG") != 0){
+		char *p1,*p2,*svptr_1,*svptr_2;
+		p1 = strstr(__network_data.esp_buffer,"UPDATE_CONFIG");
+
+		p2 = strtok_r(p1,";",&svptr_1);
+		while (p2 != 0){
+			char *p3 = strtok_r(p2,":",&svptr_2);
+			if (strstr(p3,"SSID") != 0){
+				p3 = strtok_r(0,":",&svptr_2);
+				strcpy(__network_data.ssid,p3);
+				} else if (strstr(p3,"PASSWORD") != 0){
+				p3 = strtok_r(0,":",&svptr_2);
+				strcpy(__network_data.password,p3);
+				} else if (strstr(p3,"APN") != 0){
+				p3 = strtok_r(0,":",&svptr_2);
+				strcpy(__network_data.apn,p3);
+			}
+
+			p2 = strtok_r(0,";",&svptr_1);
+
+		}
+		saveUserData();
+		__system_time.connection_timer_buffer = 0;
+		__system_time.connection_timer = 0;
+		__network_data.is_server_connected = false;
+		__network_data.is_esp_connected = false;
+		clearReadLine();
+	}
+	
+	if (strstr(__network_data.esp_buffer, "REQUEST_CONFIG") != 0 ){
+		char configuration[300];
+		__network_data.ap_connection[0] = 9;
+		
+		if (strstr(__network_data.esp_buffer,"IPD,") != 0){
+			char *p = strstr(__network_data.esp_buffer,"IPD,");
+			__network_data.ap_connection[0] = *(p+4);
+			__network_data.ap_connection[1] = '\0';
+		}
+		strcpy(configuration,"SSID:");
+		strcat(configuration,__network_data.ssid);
+		strcat(configuration,";PASSWORD:");
+		strcat(configuration,__network_data.password);
+		strcat(configuration,";APN:");
+		strcat(configuration,__network_data.apn);
+		strcat(configuration,"\n\0");
+		
+		delay(300);
+		sendToAP(configuration, __network_data.ap_connection);
+		delay(300);
+		
+		
+		clearReadLine();
+	}
 
 	if (strstr(__network_data.esp_buffer, "GET / HTTP/") != 0){
 		postPage(0);
@@ -128,17 +182,17 @@ void WebApp(){
 		}
 		
 		/*if (strstr(__network_data.esp_buffer,"apn") != 0){
-			int pos=0;
-			char *p1 = strstr(__network_data.esp_buffer,"apn");
-			p1+=4;
-			memset(__network_data.apn,' ',sizeof(__network_data.apn)-1);
-			while (1){
-				if (pos == sizeof(__network_data.apn))break;
-				if (*p1=='&'||*p1=='\r'||*p1=='\n')break;
-				__network_data.apn[pos++] = *p1++;
-			}
-			__network_data.apn[pos] = '\0';
-			flag++;
+		int pos=0;
+		char *p1 = strstr(__network_data.esp_buffer,"apn");
+		p1+=4;
+		memset(__network_data.apn,' ',sizeof(__network_data.apn)-1);
+		while (1){
+		if (pos == sizeof(__network_data.apn))break;
+		if (*p1=='&'||*p1=='\r'||*p1=='\n')break;
+		__network_data.apn[pos++] = *p1++;
+		}
+		__network_data.apn[pos] = '\0';
+		flag++;
 		}*/
 		
 		if (strstr(__network_data.esp_buffer,"apn") != 0){
@@ -157,18 +211,18 @@ void WebApp(){
 		}
 		
 		/*if (strstr(__network_data.esp_buffer,"host") != 0){
-			int pos=0;
-			char *p1 = strstr(__network_data.esp_buffer,"host");
-			p1+=5;
-			memset(__network_data.host,' ',sizeof(__network_data.host)-1);
-			while (1){
-				if (pos == sizeof(__network_data.host))break;
-				if (*p1 == '\r' || *p1 == '\n') break;
-				if (!isalpha(*p1) && !isdigit(*p1) && *p1 != '.' && *p1 != '-') break;
-				__network_data.host[pos++] = *p1++;
-			}
-			__network_data.host[pos] = '\0';
-			flag++;
+		int pos=0;
+		char *p1 = strstr(__network_data.esp_buffer,"host");
+		p1+=5;
+		memset(__network_data.host,' ',sizeof(__network_data.host)-1);
+		while (1){
+		if (pos == sizeof(__network_data.host))break;
+		if (*p1 == '\r' || *p1 == '\n') break;
+		if (!isalpha(*p1) && !isdigit(*p1) && *p1 != '.' && *p1 != '-') break;
+		__network_data.host[pos++] = *p1++;
+		}
+		__network_data.host[pos] = '\0';
+		flag++;
 		}*/
 		
 		if (flag == 3 && __network_data.ap_connection[0] != 9){
@@ -188,14 +242,11 @@ void WebApp(){
 	
 }
 
-void switchRelay(char moduleId, char relayId, char state){
+int switchRelay(char notificationFlag, char moduleId, char relayId, char state){
 	
 	char r1,r2;
-	int i;
-	int impulse = 0;
-	int _delay = 0;
-	char conv[5];
-	char response[40];
+	int i, impulse = 0, _delay = 0;
+	char conv[5], success;
 	
 	if (getRelaySetting(moduleId,relayId) == 1){
 		impulse = __relay_setting.impulse;
@@ -214,6 +265,7 @@ void switchRelay(char moduleId, char relayId, char state){
 		chipSelect(moduleId,1);
 		
 		if (r1 + r2 == 14){
+			success = 1;
 			break;
 			} else {
 			delay(50);
@@ -236,7 +288,8 @@ void switchRelay(char moduleId, char relayId, char state){
 		}
 	}
 	
-	if (r1 + r2 == 14){
+	if (success && notificationFlag == 1){
+		char response[40];
 		strcpy(response,"NOTIFICATION;SWITCH;");
 		strcat(response,itoa(moduleId,conv,10));
 		strcat(response,";");
@@ -248,21 +301,33 @@ void switchRelay(char moduleId, char relayId, char state){
 		sendToServer(response,CONNECTION);
 	}
 	
+	return success;
+	
 }
 
 void RelayControl(){
 	//&& __system_var.enabled_flag == 1
-	if (strstr(__network_data.esp_buffer, "SWITCHRELAY") != 0){
+	char *received = 0;
+	if (__system_var.interface_ == ESP){
+		received = strstr(__network_data.esp_buffer, "SWITCHRELAY");
+	} else if (__system_var.interface_ == SIM) {
+		received = strstr(__network_data.sim_buffer, "SWITCHRELAY");
+	}
+	if (received != 0){
 		char *p1;
 		int relayId, moduleId, state, index, i;
-		
-		p1 = strstr(__network_data.esp_buffer, "SWITCHRELAY");
+			
+		if (__system_var.interface_ == ESP){
+			p1 = strstr(__network_data.esp_buffer, "SWITCHRELAY");
+		} else if (__system_var.interface_ == SIM) {
+			p1 = strstr(__network_data.sim_buffer, "SWITCHRELAY");
+		}
 		strtok(p1,";");
 		moduleId = atoi(strtok(0,";"));
 		relayId = atoi(strtok(0,";"));
 		state = atoi(strtok(0,";"));
 		
-		switchRelay(moduleId,relayId,state);
+		switchRelay(1, moduleId,relayId,state);
 		
 		if (moduleId < MAX_MODULE_COUNT && relayId < MAX_RELAY_COUNT){
 			char conv[5];
@@ -275,23 +340,105 @@ void RelayControl(){
 
 		clearReadLine();
 	}
+	received = 0;
+	
+	if (__system_var.interface_ == ESP){
+		received = strstr(__network_data.esp_buffer, "MULTI-SWITCH");
+	} else if (__system_var.interface_ == SIM) {
+		received = strstr(__network_data.sim_buffer, "MULTI-SWITCH");
+	}
+
+	//MULTI-SWITCH;1,3,1;1,1,1;
+	if (received != 0){
+		char *p1; char *save_ptr_1, *save_ptr_2, response[300], conv[5];
+		int relayId, moduleId, state, index, i = 0;
+
+		if (__system_var.interface_ == ESP){
+			p1 = strstr(__network_data.esp_buffer, "MULTI-SWITCH");
+		} else if (__system_var.interface_ == SIM) {
+			p1 = strstr(__network_data.sim_buffer, "MULTI-SWITCH");
+		}
+		char *relays = strtok_r(p1,";",&save_ptr_1);
+
+		strcpy(response,"NOTIFICATION;MULTI-SWITCH;");
+		while (relays != 0){
+			if (i > 0){
+				int i=0, moduleId, relayId, state, success;
+				char *args = strtok_r(relays,",",&save_ptr_2);
+				while (args != 0){
+					switch (i){
+						case 0: moduleId = atoi(args); break;
+						case 1: relayId = atoi(args); break;
+						case 2: state = atoi(args); break;
+					}
+					i++;
+					args = strtok_r(0,",",&save_ptr_2);
+				}
+
+				success = switchRelay(0,moduleId,relayId,state);
+				
+				if (success){
+					strcat(response,itoa(moduleId,conv,10));
+					strcat(response,",");
+					strcat(response,itoa(relayId,conv,10));
+					strcat(response,",");
+					strcat(response,itoa(state,conv,10));
+					strcat(response,";");
+				}
+
+				if (moduleId < MAX_MODULE_COUNT && relayId < MAX_RELAY_COUNT){
+					char conv[5];
+					if (state == 1){
+						__relay_states[moduleId].states[relayId] = 1;
+						} else {
+						__relay_states[moduleId].states[relayId] = 0;
+					}
+				}
+			}
+
+			i++;
+			relays = strtok_r(0,";",&save_ptr_1);
+		}
+		strcat(response,"\n");
+		sendToServer(response,CONNECTION);
+		clearReadLine();
+	}
 }
 
 void ReceiveSettings(){
 	
-	if (strstr(__network_data.esp_buffer, "CFG") != 0){
-		
+	char *received;
+	
+	if (__system_var.interface_ == ESP){
+		received = strstr(__network_data.esp_buffer, "CFG");
+	} else if (__system_var.interface_ == SIM) {
+		received = strstr(__network_data.sim_buffer, "CFG");
+	}
+	
+	if (received != 0){
 		__system_time.check_timer_buffer = 0;
 		
-		if (strstr(__network_data.esp_buffer, "[CLEAR_EEPROM]") != 0){
+		if (__system_var.interface_ == ESP){
+			received = strstr(__network_data.esp_buffer, "[CLEAR_EEPROM]");
+		} else if (__system_var.interface_ == SIM) {
+			received = strstr(__network_data.sim_buffer, "[CLEAR_EEPROM]");
+		}
+		
+		if (received != 0){
 			__system_var.enabled_flag = 0;
-			USART0_SendString("CLEARING...");
 			clearEEPROM(EEPROM_CFG_START,EEPROM_SIZE);
 			__system_var.eeprom_position = EEPROM_CFG_START;
 			sendToServer("OK\n",CONNECTION);
 			return;
 		}
-		if (strstr(__network_data.esp_buffer, "[END]") != 0){
+		
+		if (__system_var.interface_ == ESP){
+			received = strstr(__network_data.esp_buffer, "[END]");
+		} else if (__system_var.interface_ == SIM) {
+			received = strstr(__network_data.sim_buffer, "[END]");
+		}
+		
+		if (received != 0){
 			__system_var.eeprom_position = EEPROM_CFG_START;
 			__system_var.enabled_flag = 1;
 			sendToServer("OK\n",CONNECTION);
@@ -300,7 +447,11 @@ void ReceiveSettings(){
 			return;
 		}
 		char *p1;
-		p1 = strtok(__network_data.esp_buffer,"$");
+		if (__system_var.interface_ == ESP){
+			p1 = strtok(__network_data.esp_buffer,"$");
+		} else if (__system_var.interface_ == SIM) {
+			p1 = strtok(__network_data.sim_buffer,"$");
+		}
 		p1 = strtok(0,"$");
 		__system_var.eeprom_position = eepromSaveCfg(p1,__system_var.eeprom_position);
 		delay(10);
@@ -308,7 +459,13 @@ void ReceiveSettings(){
 		clearReadLine();
 	}
 	
-	if (strstr(__network_data.esp_buffer, "UPDATE") != 0){
+	if (__system_var.interface_ == ESP){
+		received = strstr(__network_data.esp_buffer, "UPDATE");
+	} else if (__system_var.interface_ == SIM) {
+		received = strstr(__network_data.sim_buffer, "UPDATE");
+	}
+	
+	if (received != 0){
 		sendToServer("REQUEST_UPDATE\n",CONNECTION);
 		clearReadLine();
 	}
@@ -399,7 +556,6 @@ void ProcessRelayTimers(){
 		// this should be initialized after receiving updates from server and after module startup
 		initializeTimerSettingIds();
 		
-		
 		for (module_index=0;module_index<MAX_MODULE_COUNT;module_index++){
 			int relay_index;
 
@@ -420,38 +576,20 @@ void ProcessRelayTimers(){
 						
 						if (module_index < MAX_MODULE_COUNT && relay_index < MAX_RELAY_COUNT){
 							if (__relay_states[module_index].states[__timer_records[module_index].relays[relay_index]] == 0){
-								switchRelay(module_index,__timer_records[module_index].relays[relay_index],1);
+								switchRelay(1, module_index,__timer_records[module_index].relays[relay_index],1);
 								__relay_states[module_index].states[__timer_records[module_index].relays[relay_index]] = 1;
 							}
 						}
-						
-						/*USART0_SendString("RElAY (");
-						itoa(module_index,conv,10);
-						USART0_SendString(conv);
-						USART0_SendString("/");
-						itoa(__timer_records[module_index].relays[relay_index],conv,10);
-						USART0_SendString(conv);
-						USART0_SendString(") ON\n");*/
-						
 						
 						} else {
 						char conv[5];
 						
 						if (module_index < MAX_MODULE_COUNT && relay_index < MAX_RELAY_COUNT){
 							if (__relay_states[module_index].states[__timer_records[module_index].relays[relay_index]] == 1){
-								switchRelay(module_index,__timer_records[module_index].relays[relay_index],0);
+								switchRelay(1, module_index,__timer_records[module_index].relays[relay_index],0);
 								__relay_states[module_index].states[__timer_records[module_index].relays[relay_index]] = 0;
 							}
 						}
-						
-						/*USART0_SendString("RElAY (");
-						itoa(module_index,conv,10);
-						USART0_SendString(conv);
-						USART0_SendString("/");
-						itoa(__timer_records[module_index].relays[relay_index],conv,10);
-						USART0_SendString(conv);
-						USART0_SendString(") OFF\n");*/
-						
 					}
 				}
 			}
@@ -477,7 +615,10 @@ void checkGsmNetwork(){
 					turnOnSim900();
 				}
 				turnOnSim900();
-			}
+				__network_data.is_server_connected = FALSE;
+				__network_data.is_esp_connected = FALSE;
+				__network_data.is_sim_connected = FALSE;
+			}		
 			__system_time.gsm_network_timer_buffer = 0;
 		}
 	}
@@ -486,7 +627,7 @@ void checkGsmNetwork(){
 
 
 
-void SendSms(char *phonenumber, char *uzenet, char *info)
+void SendSms(char *phonenumber, char *uzenet)
 {
 
 	GSM_Write_String("AT\r\n");
@@ -499,7 +640,6 @@ void SendSms(char *phonenumber, char *uzenet, char *info)
 	GSM_Write_Byte(0x0D);
 	readUntil("OK",2);
 	GSM_Write_String(uzenet);
-	GSM_Write_String(info);
 	GSM_Write_Byte(26);
 	GSM_Write_Byte(0x0D);
 	readUntil("OK",2);
@@ -542,6 +682,20 @@ void IncomingSMSHandler(){
 		message = getSmsMessage();
 		privilege = getPrivilege(__system_var.phone_buffer);
 		if (privilege != 0){
+			
+			if (strstr(message,"ADMIN") != 0 )
+			{
+				char msg[200];
+				int relayIndex,moduleIndex;
+				strcpy(msg,"New Admin:");
+				strcat(msg,__system_var.phone_buffer);
+				SendSms(__system_var.admin,msg);
+				strcpy(msg,"Admin privilige granted. Old:");
+				strcat(msg,__system_var.admin);
+				SendSms(__system_var.phone_buffer,message);
+				strcpy(__system_var.admin,__system_var.phone_buffer);
+				
+			}
 			
 			if (strstr(message,"INFO") != 0 )
 			{

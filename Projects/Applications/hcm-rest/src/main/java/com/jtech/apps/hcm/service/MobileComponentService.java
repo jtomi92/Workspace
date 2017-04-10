@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.jtech.apps.hcm.dao.interfaces.MobileComponentsDAO;
+import com.jtech.apps.hcm.dao.MobileComponentsDAOImpl;
 import com.jtech.apps.hcm.model.mobile.Component;
 import com.jtech.apps.hcm.model.mobile.ComponentWrapper;
 
@@ -14,7 +14,7 @@ import com.jtech.apps.hcm.model.mobile.ComponentWrapper;
 public class MobileComponentService {
   
   @Autowired
-  MobileComponentsDAO mobileComponentsDAO;
+  MobileComponentsDAOImpl mobileComponentsDAO;
   
   @Transactional(readOnly=true)
   public List<Component> getComponents(Integer userId){

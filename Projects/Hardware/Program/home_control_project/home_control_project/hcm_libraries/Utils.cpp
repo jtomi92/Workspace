@@ -233,7 +233,7 @@ void defaultSettings() {
 	
 
 	strcpy(__system_var.serial_number,"null");
-	memset(__system_var.admin_user, 0, sizeof(__system_var.admin_user));
+	memset(__system_var.admin, 0, sizeof(__system_var.admin));
 	
 	if (eepromReadAttribute(__system_var.serial_number,sizeof(__system_var.serial_number),"SERIAL",1) == 0){
 		strcpy(__system_var.serial_number,"null");	
@@ -302,7 +302,9 @@ void clearReadLine() {
 		__network_data.index_esp = 0;
 	}
 	if (__system_var.interface_ == SIM) {
-		
+		memset(__network_data.sim_buffer, 0, sizeof(__network_data.sim_buffer) - 1);
+		__network_data.is_sim_read_line = 0;
+		__network_data.index_sim = 0;
 	}
 }
 void clearWIFIBuffer(){
@@ -333,7 +335,7 @@ void powerUpModules(){
 		delay(500);
 		if (strstr(__network_data.sim_buffer,"OK") == 0){
 			turnOnSim900();
-			delay(5000);
+			delay(10000);
 		}
 		GSM_Write_String("AT+CMGF=1\r\n");
 		delay(500);

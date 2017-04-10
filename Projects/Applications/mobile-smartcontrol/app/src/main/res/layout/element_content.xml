@@ -10,11 +10,18 @@
 
 
     <LinearLayout
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/component_name_text_view"
+            android:textSize="15dp"
+            android:gravity="center_vertical|center_horizontal" />
 
         <ListView
             android:id="@+id/element_list_view"

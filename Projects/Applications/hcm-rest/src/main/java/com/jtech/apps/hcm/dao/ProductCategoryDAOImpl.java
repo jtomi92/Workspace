@@ -12,7 +12,6 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
-import com.jtech.apps.hcm.dao.interfaces.ProductCategoryDAO;
 import com.jtech.apps.hcm.dao.mapper.ProductCategoryMapper;
 import com.jtech.apps.hcm.model.ProductCategory;
 import com.jtech.apps.hcm.model.setting.InputSetting;
@@ -22,7 +21,7 @@ import com.jtech.apps.hcm.model.setting.RelaySetting;
 import com.jtech.apps.hcm.util.TimeUtil;
 
 @Repository
-public class ProductCategoryDAOImpl implements ProductCategoryDAO {
+public class ProductCategoryDAOImpl {
 
 	@Autowired
 	JdbcTemplate jdbcTemplate;
@@ -44,6 +43,7 @@ public class ProductCategoryDAOImpl implements ProductCategoryDAO {
 			case "PRODUCT_ID":
 				if (productCategories.get(index).getProductId() == Integer.parseInt(value))
 					return productCategories.get(index);
+				break;
 			default:
 				break;
 			}
@@ -275,110 +275,5 @@ public class ProductCategoryDAOImpl implements ProductCategoryDAO {
 		namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(jdbcTemplate.getDataSource());
 		SqlParameterSource namedParameters = new MapSqlParameterSource(parameters);
 		return namedParameterJdbcTemplate.update(sql, namedParameters);
-	}
-
-	public ProductCategory getTestData() {
-		// ProductCategory pc = new ProductCategory();
-		// pc.setProductId(1);
-		// pc.setProductName("test product 1");
-		// pc.setRelayCount(3);
-		// pc.setInputCount(2);
-		// pc.setPrimaryHost("jozsa-electronics.com");
-		// pc.setPrimaryPort("80");
-		// pc.setSecondaryHost("jozsa2-electronics.com");
-		// pc.setSecondaryPort("81");
-		// pc.setCreationDate(TimeUtil.getTimeStamp());
-		// pc.setLastUpdateDate(TimeUtil.getTimeStamp());
-		//
-		// Setting s1 = new Setting();
-		// s1.setSettingId(1);
-		// s1.setSettingName("test setting 1");
-		// s1.setSelected(true);
-		// s1.setCreationDate(TimeUtil.getTimeStamp());
-		// s1.setLastUpdateDate(TimeUtil.getTimeStamp());
-		//
-		// RelaySetting r1 = new RelaySetting();
-		// r1.setRelayId(1);
-		// r1.setRelayName("test relay 1");
-		// r1.setStartTimer("13:20");
-		// r1.setEndTimer("15:40");
-		// r1.setDelay("0");
-		// r1.setDelayEnabled(true);
-		// r1.setTimerEnabled(false);
-		// r1.setCreationDate(TimeUtil.getTimeStamp());
-		// r1.setLastUpdateDate(TimeUtil.getTimeStamp());
-		//
-		// RelaySetting r2 = new RelaySetting();
-		// r2.setRelayId(2);
-		// r2.setRelayName("test relay 2");
-		// r2.setStartTimer("13:20");
-		// r2.setEndTimer("15:40");
-		// r2.setDelay("0");
-		// r2.setDelayEnabled(true);
-		// r2.setTimerEnabled(false);
-		// r2.setCreationDate(TimeUtil.getTimeStamp());
-		// r2.setLastUpdateDate(TimeUtil.getTimeStamp());
-		//
-		// RelaySetting r3 = new RelaySetting();
-		// r3.setRelayId(3);
-		// r3.setRelayName("test relay 3");
-		// r3.setStartTimer("13:20");
-		// r3.setEndTimer("15:40");
-		// r3.setDelay("0");
-		// r3.setDelayEnabled(true);
-		// r3.setTimerEnabled(false);
-		// r3.setCreationDate(TimeUtil.getTimeStamp());
-		// r3.setLastUpdateDate(TimeUtil.getTimeStamp());
-		//
-		// InputSetting i1 = new InputSetting();
-		// i1.setInputId(1);
-		// i1.setInputName("test input 1");
-		// i1.setStartTimer("13:20");
-		// i1.setEndTimer("15:40");
-		// i1.setTimerEnabled(true);
-		// i1.setValuePostfix("Celsius");
-		// i1.setSampleRate("30");
-		// i1.setCreationDate(TimeUtil.getTimeStamp());
-		// i1.setLastUpdateDate(TimeUtil.getTimeStamp());
-		//
-		// InputSetting i2 = new InputSetting();
-		// i2.setInputId(2);
-		// i2.setInputName("test input 2");
-		// i2.setStartTimer("13:20");
-		// i2.setEndTimer("15:40");
-		// i2.setTimerEnabled(true);
-		// i2.setValuePostfix("Celsius");
-		// i2.setSampleRate("30");
-		// i2.setCreationDate(TimeUtil.getTimeStamp());
-		// i2.setLastUpdateDate(TimeUtil.getTimeStamp());
-		//
-		// List<RelaySetting> relaySettings = new LinkedList<RelaySetting>();
-		// relaySettings.add(r1);
-		// relaySettings.add(r2);
-		// relaySettings.add(r3);
-		//
-		// List<InputSetting> inputSettings = new LinkedList<InputSetting>();
-		// inputSettings.add(i1);
-		// inputSettings.add(i2);
-		//
-		// s1.setInputSettings(inputSettings);
-		// s1.setRelaySettings(relaySettings);
-		//
-		// Setting s2 = new Setting();
-		// s2.setSettingId(2);
-		// s2.setSettingName("test setting 2");
-		// s2.setSelected(false);
-		// s2.setCreationDate(TimeUtil.getTimeStamp());
-		// s2.setLastUpdateDate(TimeUtil.getTimeStamp());
-		//
-		// s2.setInputSettings(inputSettings);
-		// s2.setRelaySettings(relaySettings);
-		//
-		// List<Setting> settings = new LinkedList<Setting>();
-		// settings.add(s1);
-		// settings.add(s2);
-		//
-		// pc.setSettings(settings);
-		return null;
 	}
 }

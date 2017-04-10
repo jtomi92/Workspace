@@ -157,7 +157,6 @@ public class UserSession implements Runnable {
         action = arguments[4];
         
         deviceSessions = DeviceSessionProvider.getInstance().getDeviceSessionsBySerialNumber(serialNumber);
-
         for (DeviceSession deviceSession : deviceSessions) {
           deviceSession.switchRelays(userId, componentId,elementId, action);
         } 

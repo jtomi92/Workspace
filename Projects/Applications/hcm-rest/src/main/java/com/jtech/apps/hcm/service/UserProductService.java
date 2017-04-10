@@ -7,6 +7,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -15,10 +16,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.jtech.apps.hcm.dao.interfaces.UserProductDAO;
+import com.jtech.apps.hcm.dao.UserProductDAOImpl;
 import com.jtech.apps.hcm.model.Connection;
+import com.jtech.apps.hcm.model.Notification;
+import com.jtech.apps.hcm.model.NotificationWrapper;
 import com.jtech.apps.hcm.model.ProductCategory;
 import com.jtech.apps.hcm.model.RegisteredProduct;
+import com.jtech.apps.hcm.model.RelayState;
 import com.jtech.apps.hcm.model.UserProduct;
 import com.jtech.apps.hcm.model.UserProfile;
 import com.jtech.apps.hcm.model.mobile.Component;
@@ -33,7 +37,7 @@ import com.mysql.jdbc.StringUtils;
 @Service
 public class UserProductService {
   @Autowired
-  UserProductDAO userProductDAO;
+  UserProductDAOImpl userProductDAO;
   @Autowired
   ProductRegistrationService productregistrationService;
   @Autowired
@@ -52,7 +56,7 @@ public class UserProductService {
    * 
    * @return List<UserProduct>
    */
-  @Transactional(readOnly=true)
+  @Transactional(readOnly = true)
   public List<UserProduct> getUserProducts() {
 
     logger.debug("Getting all UserProducts...");
@@ -86,18 +90,18 @@ public class UserProductService {
    * @param state
    * @return Integer
    */
-  
+
   public String switchRelay(Integer userId, String serialNumber, String moduleId, String relayId, String state) {
     String command = "SWITCH;" + serialNumber + ";" + moduleId + ";" + relayId + ";" + state + "\n";
     return sendToConsolePort(serialNumber, userId, command);
   }
 
-  public String switchRelays(Integer userId, Integer componentId, Integer elementId, String action) {
+  public NotificationWrapper switchRelays(Integer userId, Integer componentId, Integer elementId, String action) {
 
     List<Component> components = mobileComponentService.getComponents(userId);
     List<Relay> relays = new LinkedList<>();
     String serialNumber = "";
-    
+
     for (Component component : components) {
       if (component.getComponentId().equals(componentId)) {
         for (Element element : component.getElements()) {
@@ -111,16 +115,55 @@ public class UserProductService {
         }
       }
     }
-    
-    StringBuilder response = new StringBuilder();
+
+    NotificationWrapper notificationWrapper = new NotificationWrapper();
     for (Relay relay : relays) {
-      if (!serialNumber.equals(relay.getSerialNumber())){
+      if (!serialNumber.equals(relay.getSerialNumber())) {
         serialNumber = relay.getSerialNumber();
         String command = "MULTI-SWITCH;" + serialNumber + ";" + componentId + ";" + elementId + ";" + action + "\n";
-        response.append(sendToConsolePort(serialNumber, userId, command));
+        Notification notification = processNotification(sendToConsolePort(serialNumber, userId, command));
+        if (notification != null) {
+          notificationWrapper.addNotification(notification);
+        }
       }
     }
-    return response.toString();
+
+    return notificationWrapper;
+  }
+
+  private Notification processNotification(String response) {
+    Notification notification = new Notification();
+
+    if (StringUtils.isNullOrEmpty(response)) {
+      return null;
+    }
+    logger.info("Response=" + response);
+    String[] args = response.split(";");
+    if (args.length >= 2) {
+      String serialNumber = args[0];
+      List<String> nf = new ArrayList<>();
+      List<RelayState> relayStates = new ArrayList<>();
+
+      nf.add(args[1]);
+
+      if (args.length > 2) {
+        for (int i = 2; i < args.length; i++) {
+          String[] rel = args[i].split(",");
+          RelayState relayState = new RelayState();
+          relayState.setMi(Integer.parseInt(rel[0]));
+          relayState.setRi(Integer.parseInt(rel[1]));
+          relayState.setSw(Integer.parseInt(rel[2]));
+          relayStates.add(relayState);
+        }
+      }
+
+      notification.setSn(serialNumber);
+      notification.setNs(nf);
+      notification.setRs(relayStates);
+    } else {
+      return null;
+    }
+    return notification;
   }
 
   public String update(Integer userId, String serialNumber) {
@@ -139,7 +182,7 @@ public class UserProductService {
 
     if (connection == null || connection.getStatus().equals("DISCONNECTED")) {
       logger.error("Module is offline... (" + serialNumber + ")");
-      return "device offline";
+      return serialNumber + ";OFFLINE";
     }
 
     Socket socket = null;
@@ -186,7 +229,7 @@ public class UserProductService {
       }
     }
 
-    return "no response";
+    return serialNumber + ";ERROR";
   }
 
   /**
@@ -195,7 +238,7 @@ public class UserProductService {
    * @param userId
    * @return List<UserProduct>
    */
-  @Transactional(readOnly=true)
+  @Transactional(readOnly = true)
   public List<UserProduct> getUserProductByUserId(Integer userId) {
     logger.debug("getUserProductByUserId userid:" + userId);
 
@@ -220,7 +263,7 @@ public class UserProductService {
    * @param serialNumber
    * @return UserProduct
    */
-  @Transactional(readOnly=true)
+  @Transactional(readOnly = true)
   public UserProduct getUserProductBySerialNumber(String serialNumber) {
     logger.debug("getUserProductBySerialNumber serialNumber:" + serialNumber);
 
@@ -258,10 +301,12 @@ public class UserProductService {
 
     return userProductDAO.updateUserProduct(userProduct);
   }
+
   @Transactional
   public Integer selectUserProduct(String serialNumber, Integer userId) {
     return userProductDAO.selectUserProduct(serialNumber, userId);
   }
+
   @Transactional
   public Integer updateRelayStatus(String serialNumber, Integer moduleId, Integer relayId, Integer status) {
 

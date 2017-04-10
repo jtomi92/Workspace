@@ -12,13 +12,12 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
-import com.jtech.apps.hcm.dao.interfaces.UserProfileDAO;
 import com.jtech.apps.hcm.dao.mapper.UserProfileMapper;
 import com.jtech.apps.hcm.model.UserProfile;
 import com.jtech.apps.hcm.util.TimeUtil;
 
 @Repository
-public class UserProfileDAOImpl implements UserProfileDAO {
+public class UserProfileDAOImpl {
 
 	@Autowired
 	JdbcTemplate jdbcTemplate;
@@ -26,7 +25,6 @@ public class UserProfileDAOImpl implements UserProfileDAO {
 	UserProfileMapper mapper = new UserProfileMapper();
 	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-	@Override
 	public List<UserProfile> getUserProfiles() {
 
 		List<UserProfile> userProfiles = new LinkedList<UserProfile>();
@@ -44,7 +42,6 @@ public class UserProfileDAOImpl implements UserProfileDAO {
 		return userProfiles;
 	}
 
-	@Override
 	public int updateUserProfile(UserProfile up) {
 
 		String sql = "UPDATE USER_PROFILES SET "
@@ -72,7 +69,6 @@ public class UserProfileDAOImpl implements UserProfileDAO {
 		return namedParameterJdbcTemplate.update(sql, namedParameters);
 	}
 
-	@Override
 	public int addUserProfile(UserProfile up) {
 
 		String sql = "INSERT INTO USER_PROFILES (" + "USER_NAME, FIRST_NAME, LAST_NAME, GROUP_ID, " + "USER_PASSWORD, "
@@ -100,22 +96,4 @@ public class UserProfileDAOImpl implements UserProfileDAO {
 		SqlParameterSource namedParameters = new MapSqlParameterSource(parameters);
 		return namedParameterJdbcTemplate.update(sql, namedParameters);
 	}
-
-	@Override
-	public UserProfile getTestData() {
-
-		UserProfile userProfile = new UserProfile();
-		userProfile.setUserId(1);
-		userProfile.setUserName("test user");
-		userProfile.setPassword("test password");
-		userProfile.setGroupName("USER");
-		userProfile.setPhoneNumber("test phone number");
-		userProfile.setCity("test city");
-		userProfile.setAddress("test address");
-		userProfile.setEnabled(true);
-		userProfile.setCreationDate(TimeUtil.getTimeStamp());
-		userProfile.setLastUpdateDate(TimeUtil.getTimeStamp());
-		return userProfile;
-	}
-
 }
